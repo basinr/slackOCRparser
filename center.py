@@ -1,6 +1,6 @@
 import os
 import OCRparse
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -9,10 +9,10 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/cakes')
+@app.route('/cakes/')
 def cakes():
 	# OCRparse.main("xoxp-13657523393-23584016902-23864788196-fed69d1b0a")
-	print request.args['path']
+	print request.args['code']
 	return render_template('index.html')
 
 
