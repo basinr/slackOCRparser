@@ -1,26 +1,48 @@
 import requests
 import json
-
-
-
-# # OCR logic
-# files = {'media': open('/Users/ronjon/Desktop/slackOCRparser/test1.png', 'rb')}
-
-# webhook_url= "http://www.ocrwebservice.com/restservices/processDocument?language=english&pagerange=1&gettext=true&outputformat=doc"
-
-
-# # r = requests.post(webhook_url, auth=('ronb','0354B8E7-BEB0-4904-8B62-3CBAD37E2251'), files = files)
-# text = r.json()
-
+import httplib2
 import sys
 import time
 import python_slackclient
 from python_slackclient.slackclient import SlackClient
 import shutil
 
-def main():
+
+def slackAPI_download_file(sc, url, token):
+
+	download_url = url
+	headers = {"Authorization" : "Bearer " + token}
+	r = requests.get(download_url, headers=headers)
+	path = 'test2.png'
+	if r.status_code == 200:
+	    with open('test2.png', 'wb') as f:
+			f.write(r._content)
+
+	result = OCRclientcall(path)
+	return result
+
+def OCRclientcall(download_file):
+
+	# OCR logic using the web client
+	files = {'media': open('/Users/ronjon/Desktop/slackOCRparser/' + download_file, 'rb')}
+
+	ocr_web_url= "http://www.ocrwebservice.com/restservices/processDocument?language=english&pagerange=1&gettext=true&outputformat=doc"
+
+	r = requests.post(ocr_web_url, auth=('ronb','0354B8E7-BEB0-4904-8B62-3CBAD37E2251'), files = files)
+	text = r.json()
+
+	return text
+
+
+def parseText(json_obj):
+	lst = []
+	for word in json_obj:
+		lst.append(word)
+	return lst
+
+def main(token):
 # Command line arguments
-	token = "xoxp-13657523393-23584016902-23864788196-fed69d1b0a"
+	# token = token
 	# user = sys.argv[2]
 
 	# found at https://api.slack.com/web#authentication
@@ -28,53 +50,44 @@ def main():
 
 	if sc.rtm_connect():
 
-		im_lists = sc.api_call(
-			"im.list"
-		)
-		# channel_lists = sc.api_call(
-	 #        "channels.list"
-	 #    )
+		# im_lists = sc.api_call(
+		# 	"im.list"
+		# )
+		# im_id = im_lists["ims"][counter]['id']
+		# im_lists = im_lists["ims"]
 
-		im_lists = im_lists["ims"]
-		# channel_lists = channel_lists["channels"]
+		channel_lists = sc.api_call(
+	        "channels.list"
+	    )
+		channel_lists = channel_lists["channels"]
 
-		# # im_lists = im_lists["ims"][counter]['id']
-		# # channel_lists = channel_lists["channels"]
-		# # [counter]['id']
-
-
-
-		# for key in channel_lists:
-		# 	file_lists =  sc.api_call("files.list", channel=key['id'])
-
-		webhook_url = "https://files.slack.com/files-pri/T0DKBFDBK-F0PQM2JFN/download/pasted_image_at_2016_03_01_06_44_pm.png"
-		headers = {"Authorization" : "bearer " +  token}
-		r = requests.get(webhook_url, headers=headers)
-		print r
 
 		# import pdb
 		# pdb.set_trace()
-		# if r.status_code == 200:
-		#     with open('test1.png', 'wb') as f:
-		#         for chunk in r:
-		#             f.write(chunk)
-		# if r.status_code == 200:
-		#     with open('test1.png', 'wb') as f:
-		#         r.raw.decode_content = True
-		#         shutil.copyfileobj(r.raw, f)
-
-		# channel_lists = sc.api_call(
-		#     "channels.list"
-		# )
 
 
-		# channel_convs = sc.api_call(
-		#     "channels.history", channel="C08516EL8")
+		# print sc.rtm_read()
+		# print sc.server.channels
 
-	# with open(path, 'wb') as f:
-	#         r.raw.decode_content = True
-	#         shutil.copyfileobj(r.raw, f)
+		# import pdb
+		# pdb.set_trace()
 
+		# might consider storing these links specific to each channel
+
+		for channel in channel_lists:
+			file_list = sc.api_call("files.list", channel=channel['id'])
+			for file_ in file_list["files"]:
+				
+				# file_download_links.append(file_["private_url_download"])
+				result = slackAPI_download_file(sc, file_["url_private_download"], token)
+
+				# parseText(result)
+				comment = str(result["OCRText"])
+				sc.api_call("files.comments.add", file=file_["id"], comment=comment)
+
+				# find text in result and store as comment in image
+				# parseText(result)
+		print "El Fin"
 
 
 	else:
@@ -86,10 +99,8 @@ def main():
 #      username='ronbot', icon_emoji=':robot_face:'
 # )
 
-
-if __name__ == "__main__":
-    main()
-
+# if __name__ == "__main__":
+#     main()
 
 
 

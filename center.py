@@ -1,11 +1,21 @@
 import os
-from flask import Flask
+import OCRparse
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
-@app.route("/")
-def hello():
-    return "Hello world!"
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route('/cakes')
+def cakes():
+	OCRparse.main("xoxp-13657523393-23584016902-23864788196-fed69d1b0a")
+
+	return render_template('index.html')
+
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
