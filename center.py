@@ -15,7 +15,10 @@ def cakes():
 	code = request.args['code']
 	return render_template('index.html')
 
-
+@app.route('/cakes/booty/')
+def cakes_booty():
+	# OCRparse.main("xoxp-13657523393-23584016902-23864788196-fed69d1b0a")
+	return render_template('index.html')
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

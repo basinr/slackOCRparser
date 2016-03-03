@@ -8,7 +8,6 @@ from python_slackclient.slackclient import SlackClient
 import shutil
 
 #GLOBAL VARIABLE#
-token = ''
 
 
 def slackAPI_download_file(sc, url, token):
@@ -36,22 +35,40 @@ def OCRclientcall(download_file):
 
 	return text
 
+# smarter way to parse text from image
+# def parseText(json_obj):
+# 	lst = []
+# 	for word in json_obj:
+# 		lst.append(word)
+# 	return lst
 
-def parseText(json_obj):
-	lst = []
-	for word in json_obj:
-		lst.append(word)
-	return lst
+def oauthSlack():
+	r = requests.get("https://slack.com/oauth/authorize", 
+		params={'client_id': '13657523393.23587667329', 
+		'scope': 'read write'
+		})
 
-def oauthSlack(code):
-	# client_id = '13657523393.23587667329'
+def get_access_token():
+
+	token = ''
 	r = requests.get("https://slack.com/api/oauth.access", 
-		data={'client_id': '13657523393.23587667329', 
+		params={'client_id': '13657523393.23587667329', 
 		'client_secret': 'daa51f4cbf84779d2c01f8eafe59cd1f',
 		'code': code,
-		'redirect_uri': 
+		'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/'
 		})
-	token = r.json()['access_token']
+
+	import pdb
+	pdb.set_trace()
+	if r.status_code == 200:
+		if (r.json()["ok"]):
+			token = r.json()['access_token']
+	else:
+		print "invalid code (don't reuse, expires in 10 minutes, etc.)"
+
+	return token
+
+
 
 def driver(sc):
 
@@ -77,26 +94,30 @@ def driver(sc):
 			comment = str(result["OCRText"])
 			sc.api_call("files.comments.add", file=file_["id"], comment=comment)
 
-def main(token):
+def main():
 # Command line arguments
 	# token = token
 	# user = sys.argv[2]
 
 	# found at https://api.slack.com/web#authentication
+	oauthSlack()
+
+		# driver(sc)
+	token = str(token)
+
+	if (token == ''):
+		print "error with token"
+		return
+
 	sc = SlackClient(token)
 
 	if sc.rtm_connect():
-
-
-		r = oauthSlack('13657523393.24216510419.e8a5670d4e')
-		# driver(sc)
-		import pdb
-		pdb_set_trace()
 				# parseText(result)
 		print "El Fin"
 
 
 	else:
+		print token
 		print "Connection Failed, invalid token?"
 
 # In case i want to start usings bots...
@@ -105,8 +126,8 @@ def main(token):
 #      username='ronbot', icon_emoji=':robot_face:'
 # )
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
 
 
 
