@@ -12,7 +12,7 @@ def index():
 @app.route('/cakes/')
 def cakes():
 	# OCRparse.main("xoxp-13657523393-23584016902-23864788196-fed69d1b0a")
-	print request.args['code']
+	code = request.args['code']
 	return render_template('index.html')
 
 

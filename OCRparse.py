@@ -7,6 +7,9 @@ import python_slackclient
 from python_slackclient.slackclient import SlackClient
 import shutil
 
+#GLOBAL VARIABLE#
+token = ''
+
 
 def slackAPI_download_file(sc, url, token):
 
@@ -40,6 +43,40 @@ def parseText(json_obj):
 		lst.append(word)
 	return lst
 
+def oauthSlack(code):
+	# client_id = '13657523393.23587667329'
+	r = requests.get("https://slack.com/api/oauth.access", 
+		data={'client_id': '13657523393.23587667329', 
+		'client_secret': 'daa51f4cbf84779d2c01f8eafe59cd1f',
+		'code': code,
+		'redirect_uri': 
+		})
+	token = r.json()['access_token']
+
+def driver(sc):
+
+	# im_lists = sc.api_call(
+	# 	"im.list"
+	# )
+	# im_id = im_lists["ims"][counter]['id']
+	# im_lists = im_lists["ims"]
+
+	channel_lists = sc.api_call(
+        "channels.list"
+    )
+	channel_lists = channel_lists["channels"]
+
+	for channel in channel_lists:
+		file_list = sc.api_call("files.list", channel=channel['id'])
+		for file_ in file_list["files"]:
+			
+			# file_download_links.append(file_["private_url_download"])
+			result = slackAPI_download_file(sc, file_["url_private_download"], token)
+
+			# parseText(result)
+			comment = str(result["OCRText"])
+			sc.api_call("files.comments.add", file=file_["id"], comment=comment)
+
 def main(token):
 # Command line arguments
 	# token = token
@@ -50,42 +87,11 @@ def main(token):
 
 	if sc.rtm_connect():
 
-		# im_lists = sc.api_call(
-		# 	"im.list"
-		# )
-		# im_id = im_lists["ims"][counter]['id']
-		# im_lists = im_lists["ims"]
 
-		channel_lists = sc.api_call(
-	        "channels.list"
-	    )
-		channel_lists = channel_lists["channels"]
-
-
-		# import pdb
-		# pdb.set_trace()
-
-
-		# print sc.rtm_read()
-		# print sc.server.channels
-
-		# import pdb
-		# pdb.set_trace()
-
-		# might consider storing these links specific to each channel
-
-		for channel in channel_lists:
-			file_list = sc.api_call("files.list", channel=channel['id'])
-			for file_ in file_list["files"]:
-				
-				# file_download_links.append(file_["private_url_download"])
-				result = slackAPI_download_file(sc, file_["url_private_download"], token)
-
-				# parseText(result)
-				comment = str(result["OCRText"])
-				sc.api_call("files.comments.add", file=file_["id"], comment=comment)
-
-				# find text in result and store as comment in image
+		r = oauthSlack('13657523393.24216510419.e8a5670d4e')
+		# driver(sc)
+		import pdb
+		pdb_set_trace()
 				# parseText(result)
 		print "El Fin"
 
