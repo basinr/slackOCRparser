@@ -15,8 +15,10 @@ def cakes():
 	# OCRparse.main("xoxp-13657523393-23584016902-23864788196-fed69d1b0a")
 	code = request.args['code']
 	token = OCRparse.get_access_token(code)
-	start(token)
-	print "bootyhole######&&&&&&&&&^^^^^"
+	if start(token):
+		return render_template('index.html')
+	else:
+		print "#######################################error"
 	# return render_template('index.html')
 
 @app.route('/cakes/booty/')

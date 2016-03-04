@@ -42,14 +42,14 @@ def OCRclientcall(download_file):
 # 		lst.append(word)
 # 	return lst
 
-def oauthSlack():
-	r = requests.get("https://slack.com/oauth/authorize", 
-		params={'client_id': '13657523393.23587667329', 
-		'scope': 'read',
-		'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/'
-		})
-	import pdb
-	pdb.set_trace()
+# def oauthSlack():
+# 	r = requests.get("https://slack.com/oauth/authorize", 
+# 		params={'client_id': '13657523393.23587667329', 
+# 		'scope': 'read',
+# 		'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/'
+# 		})
+# 	import pdb
+# 	pdb.set_trace()
 
 def get_access_token(code):
 
@@ -104,11 +104,14 @@ def start(token):
 
 	if sc.rtm_connect():
 				# parseText(result)
+		print "####################" + token + "#################"
 		print "El Fin"
+		return True
 
 	else:
-		print token
+		print "##################" + token + "$$$$$$$$$$$$$$$$$$"
 		print "Connection Failed, invalid token?"
+		return False
 
 
 def main():
@@ -123,12 +126,14 @@ def main():
 	# 	'scope': 'incoming-webhook',
 	# 	'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/'
 	# 	})
-	token = get_access_token('13657523393.24265218209.d664bcef0c')
-	import pdb
-	pdb.set_trace()
-	start(token)
-		# driver(sc)
-	print r
+
+
+	# token = get_access_token('13657523393.24268060881.bee654eb47')
+	# import pdb
+	# pdb.set_trace()
+	# start(token)
+	# 	# driver(sc)
+	# print r
 
 
 # In case i want to start usings bots...
@@ -137,8 +142,8 @@ def main():
 #      username='ronbot', icon_emoji=':robot_face:'
 # )
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 
 
 
