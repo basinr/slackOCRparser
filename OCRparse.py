@@ -103,8 +103,15 @@ def start(token):
 	sc = SlackClient(token)
 
 	if sc.rtm_connect():
+		time.sleep(200)
+		counter = 0
+		while True and counter < 2:
 				# parseText(result)
-		driver(sc, token)
+			driver(sc, token)
+			counter += 1
+			#evey 10 minutes
+			time.sleep(600)
+
 		return True
 
 	else:
