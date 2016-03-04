@@ -78,9 +78,11 @@ def driver(sc, token):
 			'token': token,
 			'channel': channel['id']})
 		file_list = file_list.json()
+		print file_list
 		for file_ in file_list["files"]:
 			
 			# file_download_links.append(file_["private_url_download"])
+			print file_["url_private_download"]
 			result = slackAPI_download_file(sc, file_["url_private_download"], token)
 
 			# # parseText(result)
@@ -112,8 +114,8 @@ def start(token):
 		return False
 
 
-def main():
-	start('xoxp-13657523393-23584016902-24270415890-381512abb5')
+# def main():
+# 	start('xoxp-13657523393-23584016902-24270415890-381512abb5')
 
 	# Command line arguments
 	# token = token
@@ -142,8 +144,8 @@ def main():
 #      username='ronbot', icon_emoji=':robot_face:'
 # )
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 
 
 
