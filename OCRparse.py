@@ -114,7 +114,7 @@ def start(token):
 		return False
 
 
-def main():
+
 	# Command line arguments
 	# token = token
 	# user = sys.argv[2]
