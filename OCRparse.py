@@ -88,9 +88,8 @@ def driver(sc, token):
 	return True
 
 def start(token):
-	token = str(token)
 
-	if (token == ''):
+	if (token == " "):
 		print "error with token"
 		return False
 
