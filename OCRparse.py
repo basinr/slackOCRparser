@@ -98,7 +98,7 @@ def start(token):
 
 	if (token == ''):
 		print "error with token"
-		return
+		return False
 
 	sc = SlackClient(token)
 

@@ -14,8 +14,11 @@ def index():
 def cakes():
 	# OCRparse.main("xoxp-13657523393-23584016902-23864788196-fed69d1b0a")
 	code = request.args['code']
+	print token
+	print " "
+	print " "
 	token = OCRparse.get_access_token(code)
-	if start(token):
+	if start(token) == True:
 		return render_template('index.html')
 	else:
 		print "#######################################error"
