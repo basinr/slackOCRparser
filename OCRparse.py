@@ -42,14 +42,6 @@ def OCRclientcall(download_file):
 # 		lst.append(word)
 # 	return lst
 
-# def oauthSlack():
-# 	r = requests.get("https://slack.com/oauth/authorize", 
-# 		params={'client_id': '13657523393.23587667329', 
-# 		'scope': 'read',
-# 		'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/'
-# 		})
-# 	import pdb
-# 	pdb.set_trace()
 
 def get_access_token(code):
 
@@ -60,7 +52,7 @@ def get_access_token(code):
 		'code': code,
 		'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/booty/'
 		})
-
+	
 	if r.status_code == 200:
 		if (r.json()["ok"]):
 			token = r.json()['access_token']
