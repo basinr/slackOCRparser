@@ -45,10 +45,13 @@ def OCRclientcall(download_file):
 def oauthSlack():
 	r = requests.get("https://slack.com/oauth/authorize", 
 		params={'client_id': '13657523393.23587667329', 
-		'scope': 'read write'
+		'scope': 'read',
+		'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/'
 		})
+	import pdb
+	pdb.set_trace()
 
-def get_access_token():
+def get_access_token(code):
 
 	token = ''
 	r = requests.get("https://slack.com/api/oauth.access", 
@@ -58,8 +61,6 @@ def get_access_token():
 		'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/'
 		})
 
-	import pdb
-	pdb.set_trace()
 	if r.status_code == 200:
 		if (r.json()["ok"]):
 			token = r.json()['access_token']
@@ -67,8 +68,6 @@ def get_access_token():
 		print "invalid code (don't reuse, expires in 10 minutes, etc.)"
 
 	return token
-
-
 
 def driver(sc):
 
@@ -94,15 +93,7 @@ def driver(sc):
 			comment = str(result["OCRText"])
 			sc.api_call("files.comments.add", file=file_["id"], comment=comment)
 
-def main():
-# Command line arguments
-	# token = token
-	# user = sys.argv[2]
-
-	# found at https://api.slack.com/web#authentication
-	oauthSlack()
-
-		# driver(sc)
+def start(token):
 	token = str(token)
 
 	if (token == ''):
@@ -115,10 +106,30 @@ def main():
 				# parseText(result)
 		print "El Fin"
 
-
 	else:
 		print token
 		print "Connection Failed, invalid token?"
+
+
+def main():
+	# Command line arguments
+	# token = token
+	# user = sys.argv[2]
+
+	# found at https://api.slack.com/web#authentication
+	# oauthSlack()
+	# r = requests.get("https://slack.com/oauth/authorize", 
+	# 	params={'client_id': '13657523393.23587667329', 
+	# 	'scope': 'incoming-webhook',
+	# 	'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/'
+	# 	})
+	token = get_access_token('13657523393.24265218209.d664bcef0c')
+	import pdb
+	pdb.set_trace()
+	start(token)
+		# driver(sc)
+	print r
+
 
 # In case i want to start usings bots...
 # print sc.api_call(

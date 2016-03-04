@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+
     return render_template('index.html')
 
 
@@ -13,7 +14,10 @@ def index():
 def cakes():
 	# OCRparse.main("xoxp-13657523393-23584016902-23864788196-fed69d1b0a")
 	code = request.args['code']
-	return render_template('index.html')
+	token = OCRparse.get_access_token(code)
+	start(token)
+	print "bootyhole######&&&&&&&&&^^^^^"
+	# return render_template('index.html')
 
 @app.route('/cakes/booty/')
 def cakes_booty():
