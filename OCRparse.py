@@ -68,15 +68,22 @@ def driver(sc, token):
 	# )
 	# im_id = im_lists["ims"][counter]['id']
 	# im_lists = im_lists["ims"]
-	channel_lists = sc.api_call(
-        "channels.list"
-    )
+	# channel_lists = sc.api_call(
+ #        "channels.list"
+ #    )
+	channel_lists = requests.get("https://slack.com/api/channels.list", 
+		params={'token': token})
+	channel_lists = channel_lists.json()
 	channel_lists = channel_lists["channels"]
 
 	import pdb
 
 	for channel in channel_lists:
-		file_list = sc.api_call("files.list", channel=channel['id'])
+		file_list = requests.get("https://slack.com/api/files.list", 
+			params={
+			'token': token,
+			'channel': channel['id']})
+		file_list = file_list.json()
 		for file_ in file_list["files"]:
 			
 			# file_download_links.append(file_["private_url_download"])
@@ -84,7 +91,11 @@ def driver(sc, token):
 
 			# parseText(result)
 			comment = str(result["OCRText"])
-			sc.api_call("files.comments.add", file=file_["id"], comment=comment)
+			
+			requests.get("https://slack.com/api/files.comments.add", params={
+				'token': token, 
+				'file': file_["id"], 
+				'comment': comment})
 	return True
 
 def start(token):
@@ -106,8 +117,8 @@ def start(token):
 		return False
 
 
-# def main():
-# 	start('xoxp-13657523393-23584016902-24270415890-381512abb5')
+def main():
+	start('xoxp-13657523393-23584016902-24270415890-381512abb5')
 
 	# Command line arguments
 	# token = token
@@ -136,8 +147,8 @@ def start(token):
 #      username='ronbot', icon_emoji=':robot_face:'
 # )
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
 
 
 
