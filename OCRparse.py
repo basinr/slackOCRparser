@@ -7,9 +7,6 @@ import python_slackclient
 from python_slackclient.slackclient import SlackClient
 import shutil
 
-#GLOBAL VARIABLE#
-
-
 def slackAPI_download_file(sc, url, token):
 
 	download_url = url
@@ -41,7 +38,6 @@ def OCRclientcall(download_file):
 # 	for word in json_obj:
 # 		lst.append(word)
 # 	return lst
-
 
 def get_access_token(code):
 
@@ -76,26 +72,25 @@ def driver(sc, token):
 	channel_lists = channel_lists.json()
 	channel_lists = channel_lists["channels"]
 
-	import pdb
-
 	for channel in channel_lists:
 		file_list = requests.get("https://slack.com/api/files.list", 
 			params={
 			'token': token,
 			'channel': channel['id']})
 		file_list = file_list.json()
-		for file_ in file_list["files"]:
+		# for file_ in file_list["files"]:
 			
 			# file_download_links.append(file_["private_url_download"])
-			result = slackAPI_download_file(sc, file_["url_private_download"], token)
+			# result = slackAPI_download_file(sc, file_["url_private_download"], token)
 
-			# parseText(result)
-			comment = str(result["OCRText"])
+			# # parseText(result)
+			# comment = str(result["OCRText"])
+
+			# requests.get("https://slack.com/api/files.comments.add", params={
+			# 	'token': token, 
+			# 	'file': file_["id"], 
+			# 	'comment': comment})
 			
-			requests.get("https://slack.com/api/files.comments.add", params={
-				'token': token, 
-				'file': file_["id"], 
-				'comment': comment})
 	return True
 
 def start(token):
