@@ -20,7 +20,7 @@ def cakes():
 	# else:
 	# 	print "#######################################error"
 	print OCRparse.start(token)
-	print token "####################################"
+	print token + "####################################"
 	return render_template('index.html')
 	# return render_template('index.html')
 
