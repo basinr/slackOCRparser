@@ -68,7 +68,6 @@ def driver(sc, token):
 	# )
 	# im_id = im_lists["ims"][counter]['id']
 	# im_lists = im_lists["ims"]
-
 	channel_lists = sc.api_call(
         "channels.list"
     )
@@ -96,7 +95,7 @@ def start(token):
 
 	if sc.rtm_connect():
 				# parseText(result)
-		driver(sc)
+		driver(sc, token)
 		return True
 
 	else:
