@@ -19,7 +19,7 @@ def cakes():
 	# 	return render_template('index.html')
 	# else:
 	# 	print "#######################################error"
-	print OCRparse.start('xoxp-13657523393-23584016902-24270415890-381512abb5')
+	OCRparse.start('xoxp-13657523393-23584016902-24270415890-381512abb5')
 	print 'xoxp-13657523393-23584016902-24270415890-381512abb5' + "####################################"
 	return render_template('index.html')
 	# return render_template('index.html')

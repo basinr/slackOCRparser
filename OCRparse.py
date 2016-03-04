@@ -73,6 +73,8 @@ def driver(sc, token):
     )
 	channel_lists = channel_lists["channels"]
 
+	import pdb
+
 	for channel in channel_lists:
 		file_list = sc.api_call("files.list", channel=channel['id'])
 		for file_ in file_list["files"]:
@@ -83,6 +85,7 @@ def driver(sc, token):
 			# parseText(result)
 			comment = str(result["OCRText"])
 			sc.api_call("files.comments.add", file=file_["id"], comment=comment)
+	return True
 
 def start(token):
 	token = str(token)
@@ -104,6 +107,8 @@ def start(token):
 		return False
 
 
+# def main():
+# 	start('xoxp-13657523393-23584016902-24270415890-381512abb5')
 
 	# Command line arguments
 	# token = token
