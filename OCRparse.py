@@ -96,7 +96,7 @@ def start(token):
 
 	if sc.rtm_connect():
 				# parseText(result)
-
+		driver(sc)
 		return True
 
 	else:
