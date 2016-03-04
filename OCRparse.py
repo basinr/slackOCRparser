@@ -23,7 +23,7 @@ def slackAPI_download_file(sc, url, token):
 def OCRclientcall(download_file):
 
 	# OCR logic using the web client
-	files = {'media': open('/Users/ronjon/Desktop/slackOCRparser/' + download_file, 'rb')}
+	files = {'media': open(download_file, 'rb')}
 
 	ocr_web_url= "http://www.ocrwebservice.com/restservices/processDocument?language=english&pagerange=1&gettext=true&outputformat=doc"
 
@@ -78,11 +78,9 @@ def driver(sc, token):
 			'token': token,
 			'channel': channel['id']})
 		file_list = file_list.json()
-		print file_list
 		for file_ in file_list["files"]:
 			
 			# file_download_links.append(file_["private_url_download"])
-			print file_["url_private_download"]
 			result = slackAPI_download_file(sc, file_["url_private_download"], token)
 
 			# # parseText(result)
