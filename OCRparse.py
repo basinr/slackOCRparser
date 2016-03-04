@@ -82,14 +82,15 @@ def driver(sc, token):
 			
 			# file_download_links.append(file_["private_url_download"])
 			result = slackAPI_download_file(sc, file_["url_private_download"], token)
+			
 
-			# # parseText(result)
-			# comment = str(result["OCRText"])
+			# parseText(result)
+			comment = str(result["OCRText"])
 
-			# requests.get("https://slack.com/api/files.comments.add", params={
-			# 	'token': token, 
-			# 	'file': file_["id"], 
-			# 	'comment': comment})
+			requests.get("https://slack.com/api/files.comments.add", params={
+				'token': token, 
+				'file': file_["id"], 
+				'comment': comment})
 			
 	return True
 
