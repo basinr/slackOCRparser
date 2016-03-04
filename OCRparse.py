@@ -53,7 +53,7 @@ def OCRclientcall(download_file):
 
 def get_access_token(code):
 
-	token = ''
+	token = '###################'
 	r = requests.get("https://slack.com/api/oauth.access", 
 		params={'client_id': '13657523393.23587667329', 
 		'client_secret': 'daa51f4cbf84779d2c01f8eafe59cd1f',
@@ -104,8 +104,7 @@ def start(token):
 
 	if sc.rtm_connect():
 				# parseText(result)
-		print "####################" + token + "#################"
-		print "El Fin"
+				
 		return True
 
 	else:
