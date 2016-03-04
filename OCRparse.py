@@ -58,7 +58,7 @@ def get_access_token(code):
 		params={'client_id': '13657523393.23587667329', 
 		'client_secret': 'daa51f4cbf84779d2c01f8eafe59cd1f',
 		'code': code,
-		'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/'
+		'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/booty/'
 		})
 
 	if r.status_code == 200:
@@ -104,7 +104,7 @@ def start(token):
 
 	if sc.rtm_connect():
 				# parseText(result)
-				
+
 		return True
 
 	else:
