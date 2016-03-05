@@ -40,9 +40,9 @@ def get_access_token(code):
 		params={'client_id': '13657523393.23587667329', 
 		'client_secret': 'daa51f4cbf84779d2c01f8eafe59cd1f',
 		'code': code,
-		'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/booty/'
+		'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/'
 		})
-	
+
 	if r.status_code == 200:
 		if (r.json()["ok"]):
 			token = r.json()['access_token']
@@ -137,10 +137,10 @@ def start(token):
 		return False
 
 
-def main():
-	start('xoxp-13657523393-23584016902-24270415890-381512abb5')
-
-	# Command line arguments
+# def main():
+# 	# start('xoxp-13657523393-23584016902-24270415890-381512abb5')
+# 	get_access_token('13657523393.24595681319.30da4d5d79')
+# 	# Command line arguments
 	# token = token
 	# user = sys.argv[2]
 
@@ -167,8 +167,8 @@ def main():
 #      username='ronbot', icon_emoji=':robot_face:'
 # )
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 
 
 
