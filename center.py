@@ -19,9 +19,9 @@ def cakes():
 	# 	return render_template('index.html')
 	# else:
 	# 	print "#######################################error"
+	return render_template('success.html')
 	OCRparse.start('xoxp-13657523393-23584016902-24270415890-381512abb5')
-	print 'xoxp-13657523393-23584016902-24270415890-381512abb5' + "####################################"
-	return render_template('index.html')
+	'xoxp-13657523393-23584016902-24270415890-381512abb5' + "####################################"
 	# return render_template('index.html')
 
 @app.route('/cakes/booty/')
