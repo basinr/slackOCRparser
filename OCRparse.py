@@ -6,6 +6,7 @@ import time
 import python_slackclient
 from python_slackclient.slackclient import SlackClient
 import shutil
+import re
 
 def slackAPI_download_file(sc, url, token):
 
@@ -31,13 +32,6 @@ def OCRclientcall(download_file):
 	text = r.json()
 
 	return text
-
-# smarter way to parse text from image
-# def parseText(json_obj):
-# 	lst = []
-# 	for word in json_obj:
-# 		lst.append(word)
-# 	return lst
 
 def get_access_token(code):
 
@@ -67,10 +61,15 @@ def driver(sc, token):
 	# channel_lists = sc.api_call(
  #        "channels.list"
  #    )
+	import datetime
+	yesterday = datetime.date.today() - datetime.timedelta(1)
+	unix_time= yesterday.strftime("%s")
 	channel_lists = requests.get("https://slack.com/api/channels.list", 
 		params={'token': token})
 	channel_lists = channel_lists.json()
 	channel_lists = channel_lists["channels"]
+
+	unix_time = int(unix_time)
 
 	for channel in channel_lists:
 		file_list = requests.get("https://slack.com/api/files.list", 
@@ -79,20 +78,38 @@ def driver(sc, token):
 			'channel': channel['id']})
 		file_list = file_list.json()
 		for file_ in file_list["files"]:
+
+
+			if file_["timestamp"] > unix_time:
 			
 			# file_download_links.append(file_["private_url_download"])
-			result = slackAPI_download_file(sc, file_["url_private_download"], token)
-			
+				result = slackAPI_download_file(sc, file_["url_private_download"], token)
 
-			# parseText(result)
-			comment = str(result["OCRText"])
+				# parseText(result)
+				comment = parseText(str(result["OCRText"]))
 
-			requests.get("https://slack.com/api/files.comments.add", params={
-				'token': token, 
-				'file': file_["id"], 
-				'comment': comment})
+				requests.get("https://slack.com/api/files.comments.add", params={
+					'token': token, 
+					'file': file_["id"], 
+					'comment': comment})
 			
 	return True
+
+
+
+# smarter way to parse text from image
+def parseText(line):
+	words = re.split(r"[^A-Za-z]", line.strip())
+	final = []
+	for word in words:
+		if word:
+			final.append(word)
+			
+	finale = ""
+	unique_words = set(final)
+	for worde in unique_words:
+	    finale = finale + ", " + str(worde)
+	return finale
 
 def start(token):
 
@@ -104,11 +121,10 @@ def start(token):
 
 	if sc.rtm_connect():
 		# time.sleep(200)
-		counter = 0
-		while True:
+		# counter = 0
 				# parseText(result)
-			driver(sc, token)
-			print "successful driver ent/ex"
+		driver(sc, token)
+		print "successful driver ent/ex"
 			# counter += 1
 			#evey 10 minutes
 			# time.sleep(600)
@@ -121,8 +137,8 @@ def start(token):
 		return False
 
 
-# def main():
-# 	start('xoxp-13657523393-23584016902-24270415890-381512abb5')
+def main():
+	start('xoxp-13657523393-23584016902-24270415890-381512abb5')
 
 	# Command line arguments
 	# token = token
@@ -151,8 +167,8 @@ def start(token):
 #      username='ronbot', icon_emoji=':robot_face:'
 # )
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
 
 
 
