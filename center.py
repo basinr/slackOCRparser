@@ -13,13 +13,15 @@ def index():
 @app.route('/cakes/')
 def cakes():
 	# OCRparse.main("xoxp-13657523393-23584016902-23864788196-fed69d1b0a")
-	# code = request.args['code']
-	# token = OCRparse.get_access_token(code)
-	# if OCRparse.start(token) == True:
-	# 	return render_template('index.html')
-	# else:
+	code = request.args['code']
+
+	print code
+	token = OCRparse.get_access_token(code)
+
 	# 	print "#######################################error"
-	OCRparse.start('xoxp-13657523393-23584016902-24270415890-381512abb5')
+	# token: 'xoxp-13657523393-23584016902-24270415890-381512abb5'
+	print token
+	print OCRparse.start(token)
 	return render_template('success.html')
 	# OCRparse.start('xoxp-13657523393-23584016902-24270415890-381512abb5')
 	# 'xoxp-13657523393-23584016902-24270415890-381512abb5' + "####################################"
