@@ -96,6 +96,27 @@ def driver(sc, token):
 	return True
 
 
+def new_driver(sc, file_, token):
+	import datetime
+	yesterday = datetime.date.today() - datetime.timedelta(1)
+	unix_time= yesterday.strftime("%s")
+	unix_time = int(unix_time)
+
+	if file_["timestamp"] > unix_time:
+	
+	# file_download_links.append(file_["private_url_download"])
+		result = slackAPI_download_file(sc, file_["url_private_download"], token)
+
+		# parseText(result)
+		comment = parseText(str(result["OCRText"]))
+
+		requests.get("https://slack.com/api/files.comments.add", params={
+			'token': token, 
+			'file': file_["id"], 
+			'comment': comment})
+			
+	return True
+
 
 # smarter way to parse text from image
 def parseText(line):
@@ -123,13 +144,19 @@ def start(token):
 		# time.sleep(200)
 		# counter = 0
 				# parseText(result)
-		driver(sc, token)
-		print "successful driver ent/ex"
+			# driver(sc, token)
+		while True:
+			r = sc.rtm_read()
+
+			if len(r) > 0:
+				if r[0]["type"] == "file_created":
+					print "let's go file..."
+					new_driver(sc,r[0]["file"],token)
+			# time.sleep(5)
 			# counter += 1
 			#evey 10 minutes
 			# time.sleep(600)
 
-		return True
 
 	else:
 		print "##################" + token + "$$$$$$$$$$$$$$$$$$"
@@ -137,8 +164,8 @@ def start(token):
 		return False
 
 
-# def main():
-# 	# start('xoxp-13657523393-23584016902-24270415890-381512abb5')
+def main():
+	start('xoxp-13657523393-23584016902-23864788196-fed69d1b0a')
 # 	get_access_token('13657523393.24595681319.30da4d5d79')
 # 	# Command line arguments
 	# token = token
@@ -167,8 +194,8 @@ def start(token):
 #      username='ronbot', icon_emoji=':robot_face:'
 # )
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
 
 
 
