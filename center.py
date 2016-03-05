@@ -17,12 +17,12 @@ def cakes():
 	if len(request.args) == 2:
 		code = request.args['code']
 
-		print code
+		# print code
 		token = OCRparse.get_access_token(code)
 
 	# 	print "#######################################error"
 	# token: 'xoxp-13657523393-23584016902-24270415890-381512abb5'
-		print token
+		# print token
 		print OCRparse.start(token)
 	return render_template('success.html')
 	# OCRparse.start('xoxp-13657523393-23584016902-24270415890-381512abb5')
