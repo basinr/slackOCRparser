@@ -14,7 +14,7 @@ def index():
 def cakes():
 	# OCRparse.main("xoxp-13657523393-23584016902-23864788196-fed69d1b0a")
 
-	if len(request.args) == 1:
+	if len(request.args) == 2:
 		code = request.args['code']
 
 		print code
