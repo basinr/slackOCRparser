@@ -35,7 +35,7 @@ def OCRclientcall(download_file):
 
 def get_access_token(code):
 
-	token = '###################'
+	token = 'error'
 	r = requests.get("https://slack.com/api/oauth.access", 
 		params={'client_id': '13657523393.23587667329', 
 		'client_secret': 'daa51f4cbf84779d2c01f8eafe59cd1f',
@@ -140,11 +140,15 @@ def start(token):
 
 	sc = SlackClient(token)
 
+	sc_list = []
+	sc_list.append(SlackClient(token))
+
 	if sc.rtm_connect():
 		# time.sleep(200)
 		# counter = 0
 				# parseText(result)
 			# driver(sc, token)
+
 		while True:
 			r = sc.rtm_read()
 
@@ -152,10 +156,10 @@ def start(token):
 				if r[0]["type"] == "file_created":
 					print "let's go file..."
 					new_driver(sc,r[0]["file"],token)
-			# time.sleep(5)
-			# counter += 1
-			#evey 10 minutes
-			# time.sleep(600)
+		# 	# time.sleep(5)
+		# 	# counter += 1
+		# 	#evey 10 minutes
+		# 	# time.sleep(600)
 
 
 	else:
@@ -163,9 +167,48 @@ def start(token):
 		print "Connection Failed, invalid token?"
 		return False
 
+def alt_start(token_list):
+	counter = 0
+	sc_list = []
+	for token in token_list:
+		if token == 'error':
+			print token
+			print "error with token" + counter
+
+
+		sc_list.append(SlackClient(token))
+
+		# establish rtm connections with all tokens
+		if not sc_list[counter].rtm_connect():
+			print "error with rtm connection: " + "token: " + counter
+		counter = counter + 1
+
+	while True:
+		counter = 0
+		for connection in sc_list:
+			r = connection.rtm_read()
+			if len(r) > 0:
+				if r[0]["type"] == "file_created":
+					print "let's go file..."
+					new_driver(connection,r[0]["file"],token_list[counter])
+			counter += 1
+		time.sleep(10)
+
 
 def main():
-	start('xoxp-13657523393-23584016902-23864788196-fed69d1b0a')
+	ronbasin = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'
+	garybasin = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a'
+	# start('xoxp-13657523393-23584016902-23864788196-fed69d1b0a')
+
+	token_list = []
+	token_list.append(ronbasin)
+	token_list.append(garybasin)
+
+	alt_start(token_list)
+
+
+
+
 # 	get_access_token('13657523393.24595681319.30da4d5d79')
 # 	# Command line arguments
 	# token = token
