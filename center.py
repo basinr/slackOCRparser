@@ -35,8 +35,6 @@ def prereg():
         # Check that email does not already exist (not a great query, but works)
         if not db.session.query(User).filter(User.email == email).count():
             reg = User(email)
-            import pdb
-            pdb.set_trace()
             db.session.add(reg)
             db.session.commit()
             return render_template('success.html')
@@ -56,7 +54,6 @@ def cakes():
 
 		# access_token that needs to be stored for each user
 		token = OCRparse.get_access_token(code)
-
 
 		# print OCRparse.start(token)
 	return render_template('success.html')
