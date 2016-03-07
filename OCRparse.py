@@ -167,8 +167,13 @@ def start(token):
 		print "Connection Failed, invalid token?"
 		return False
 
+# Takes in a list of all user tokens, and cycles through printing OCR outputs
 def alt_start(token_list):
+	
+	# keeps track of token indexes for error output (see below)
 	counter = 0
+
+	# A lit of "SC" objects, using the python-slackclient library (github)
 	sc_list = []
 	for token in token_list:
 		if token == 'error':
@@ -178,7 +183,9 @@ def alt_start(token_list):
 
 		sc_list.append(SlackClient(token))
 
-		# establish rtm connections with all tokens
+		# establish rtm connections with all tokens. This is a websocket that will always be open
+		# error checking to make sure this is open is optimal!
+		# Potential solution: have 2 websockets open for each access_token
 		if not sc_list[counter].rtm_connect():
 			print "error with rtm connection: " + "token: " + counter
 		counter = counter + 1
@@ -186,8 +193,12 @@ def alt_start(token_list):
 	while True:
 		counter = 0
 		for connection in sc_list:
+
 			r = connection.rtm_read()
+			# if r has content inside of it
 			if len(r) > 0:
+
+				# if the event is a "file created" 
 				if r[0]["type"] == "file_created":
 					print "let's go file..."
 					new_driver(connection,r[0]["file"],token_list[counter])
@@ -195,16 +206,17 @@ def alt_start(token_list):
 		time.sleep(10)
 
 
-def main():
-	ronbasin = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'
-	garybasin = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a'
-	# start('xoxp-13657523393-23584016902-23864788196-fed69d1b0a')
+# Use main for testing individual functions in this file
+# def main():
+# 	ronbasin = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'
+# 	garybasin = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a'
+# 	# start('xoxp-13657523393-23584016902-23864788196-fed69d1b0a')
 
-	token_list = []
-	token_list.append(ronbasin)
-	token_list.append(garybasin)
+# 	token_list = []
+# 	token_list.append(ronbasin)
+# 	token_list.append(garybasin)
 
-	alt_start(token_list)
+# 	alt_start(token_list)
 
 
 

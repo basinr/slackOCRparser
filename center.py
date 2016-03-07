@@ -6,11 +6,15 @@ from flask.ext.heroku import Heroku
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ronjon'
+# Use only when deploying locally, i think
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ronjon'
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+heroku = Heroku(app)
 db = SQLAlchemy(app)
 
 
 # Create our database model
+# Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -22,7 +26,7 @@ class User(db.Model):
     def __repr__(self):
         return '<E-mail %r>' % self.email
 
-
+# Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
 @app.route('/prereg', methods=['POST'])
 def prereg():
     email = None
@@ -31,6 +35,8 @@ def prereg():
         # Check that email does not already exist (not a great query, but works)
         if not db.session.query(User).filter(User.email == email).count():
             reg = User(email)
+            import pdb
+            pdb.set_trace()
             db.session.add(reg)
             db.session.commit()
             return render_template('success.html')
@@ -41,26 +47,20 @@ def index():
     return render_template('index.html')
 
 
+# The 
 @app.route('/cakes/')
 def cakes():
-	# OCRparse.main("xoxp-13657523393-23584016902-23864788196-fed69d1b0a")
-
 	if len(request.args) == 2:
+		# Obtains code from initial oauth request. Only need to do this once per user
 		code = request.args['code']
 
-		# print code
+		# access_token that needs to be stored for each user
 		token = OCRparse.get_access_token(code)
-		print token
-		print "#########################"
 
-	# 	print "#######################################error"
-	# token: 'xoxp-13657523393-23584016902-24270415890-381512abb5'
-		# print token
+
 		# print OCRparse.start(token)
 	return render_template('success.html')
-	# OCRparse.start('xoxp-13657523393-23584016902-24270415890-381512abb5')
-	# 'xoxp-13657523393-23584016902-24270415890-381512abb5' + "####################################"
-	# return render_template('index.html')
+
 
 # @app.route('/cakes/booty/')
 # def cakes_booty():
