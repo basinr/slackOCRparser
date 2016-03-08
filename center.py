@@ -29,21 +29,27 @@ class User(db.Model):
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
 @app.route('/prereg', methods=['POST'])
 def prereg():
-    email = None
-    if request.method == 'POST':
-        email = request.form['email']
-        # Check that email does not already exist (not a great query, but works)
-        if not db.session.query(User).filter(User.email == email).count():
-            reg = User(email)
-            db.session.add(reg)
-            db.session.commit()
-            return render_template('success.html')
+    # email = None
+    # if request.method == 'POST':
+    #     email = request.form['email']
+    #     # Check that email does not already exist (not a great query, but works)
+    #     if not db.session.query(User).filter(User.email == email).count():
+    #         reg = User(email)
+    #         db.session.add(reg)
+    #         db.session.commit()
+    #         return render_template('success.html')
+    print_db()
     return render_template('index.html')
+
+def print_db():
+	rows = db.session.query(User.email.endswith('.com')).all()
+	for row in rows:
+		print row.email 
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 # The 
 @app.route('/cakes/')
