@@ -49,8 +49,11 @@ def db_to_list():
 
 @app.route('/')
 def index():
-	print OCRparse.alt_start(db_to_list())
 	return render_template('index.html')
+
+@app.route('/davay')
+def index():
+	return OCRparse.alt_start(db_to_list())
 
 @app.route('/cakes/')
 def cakes():
