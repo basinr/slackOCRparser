@@ -43,7 +43,7 @@ def prereg():
     return render_template('index.html')
 
 def print_db():
-	rows = db.session.query(User.email.endswith('.com')).all()
+	rows = db.session.query(User).all()
 	for row in rows:
 		print row.email 
 
