@@ -53,7 +53,8 @@ def index():
 
 @app.route('/davay')
 def begin():
-	return OCRparse.alt_start(db_to_list())
+	print OCRparse.alt_start(db_to_list())
+	return render_template('index.html')
 
 @app.route('/cakes/')
 def cakes():
