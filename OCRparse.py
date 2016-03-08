@@ -209,7 +209,9 @@ def alt_start(token_list):
 
 
 # Use main for testing individual functions in this file
-# def main():
+def main():
+	import pdb
+	pdb.set_trace()
 # 	ronbasin = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'
 # 	garybasin = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a'
 # 	# start('xoxp-13657523393-23584016902-23864788196-fed69d1b0a')
