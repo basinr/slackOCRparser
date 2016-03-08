@@ -27,7 +27,8 @@ class User(db.Model):
         return '<E-mail %r>' % self.email
 
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
-@app.route('/prereg', methods=['POST'])
+# @app.route('/prereg', methods=['POST'])
+@app.route('/prereg')
 def prereg():
     # email = None
     # if request.method == 'POST':
