@@ -40,6 +40,7 @@ class User(db.Model):
 #             return render_template('success.html')
 #     return render_template('index.html')
 
+# takes the access_tokens from the database, and inserts them into a list that is then returned
 def db_to_list():
 	lst = []
 	rows = db.session.query(User).all()
@@ -51,11 +52,12 @@ def db_to_list():
 def index():
 	return render_template('index.html')
 
-@app.route('/davay')
-def begin():
-	print OCRparse.alt_start(db_to_list())
-	return render_template('index.html')
+# @app.route('/davay')
+# def begin():
+# 	print OCRparse.alt_start(db_to_list())
+# 	return render_template('index.html')
 
+# For new users, use this route. This does oauth, and saves the access_token to the DB
 @app.route('/cakes/')
 def cakes():
 	if len(request.args) == 2:
@@ -66,13 +68,14 @@ def cakes():
 		token = OCRparse.get_access_token(code)
 
 		# add token to db if does not exist
-		if not db.session.query(User).filter(User.access_token == token).count():
-			reg = User(access_token)
-			db.session.add(reg)
-			db.session.commit()
+		# if not db.session.query(User).filter(User.access_token == token).count():
+		# 	reg = User(access_token)
+		# 	db.session.add(reg)
+		# 	db.session.commit()
 
 
-		# print OCRparse.start(token)
+		print OCRparse.start(token)
+	print OCRparse.start('xoxp-24674298112-24672378661-24674834576-80d28c0be8')
 	return render_template('success.html')
 
 
