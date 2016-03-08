@@ -50,7 +50,7 @@ def db_to_list():
 @app.route('/')
 def index():
 	OCRparse.alt_start(db_to_list())
-    return render_template('index.html')
+	return render_template('index.html')
 
 @app.route('/cakes/')
 def cakes():
