@@ -16,43 +16,41 @@ db = SQLAlchemy(app)
 # Create our database model
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
 class User(db.Model):
-    __tablename__ = "users"
+    __tablename__ = "tokens"
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True)
+    access_token = db.Column(db.String(120), unique=True)
 
-    def __init__(self, email):
-        self.email = email
+    def __init__(self, access_token):
+        self.access_token = access_token
 
     def __repr__(self):
-        return '<E-mail %r>' % self.email
+        return '<access_token %r>' % self.access_token
 
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
-# @app.route('/prereg', methods=['POST'])
-@app.route('/prereg')
+@app.route('/prereg', methods=['POST'])
 def prereg():
-    # email = None
-    # if request.method == 'POST':
-    #     email = request.form['email']
-    #     # Check that email does not already exist (not a great query, but works)
-    #     if not db.session.query(User).filter(User.email == email).count():
-    #         reg = User(email)
-    #         db.session.add(reg)
-    #         db.session.commit()
-    #         return render_template('success.html')
-    print_db()
+    token = None
+    if request.method == 'POST':
+        token = request.form['token']
+        # Check that email does not already exist (not a great query, but works)
+        if not db.session.query(User).filter(User.access_token == token).count():
+            reg = User(token)
+            db.session.add(reg)
+            db.session.commit()
+            return render_template('success.html')
     return render_template('index.html')
 
-def print_db():
+def db_to_list():
+	lst = []
 	rows = db.session.query(User).all()
 	for row in rows:
-		print row.email 
-
+		lst.append(row.access_token)
+	return lst
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# The 
 @app.route('/cakes/')
 def cakes():
 	if len(request.args) == 2:
@@ -61,6 +59,13 @@ def cakes():
 
 		# access_token that needs to be stored for each user
 		token = OCRparse.get_access_token(code)
+
+		# add token to db if does not exist
+		if not db.session.query(User).filter(User.access_token == token).count():
+			reg = User(access_token)
+			db.session.add(reg)
+			db.session.commit()
+
 
 		# print OCRparse.start(token)
 	return render_template('success.html')
