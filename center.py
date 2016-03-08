@@ -27,18 +27,18 @@ class User(db.Model):
         return '<access_token %r>' % self.access_token
 
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
-@app.route('/prereg', methods=['POST'])
-def prereg():
-    token = None
-    if request.method == 'POST':
-        token = request.form['token']
-        # Check that email does not already exist (not a great query, but works)
-        if not db.session.query(User).filter(User.access_token == token).count():
-            reg = User(token)
-            db.session.add(reg)
-            db.session.commit()
-            return render_template('success.html')
-    return render_template('index.html')
+# @app.route('/prereg', methods=['POST'])
+# def prereg():
+#     token = None
+#     if request.method == 'POST':
+#         token = request.form['token']
+#         # Check that email does not already exist (not a great query, but works)
+#         if not db.session.query(User).filter(User.access_token == token).count():
+#             reg = User(token)
+#             db.session.add(reg)
+#             db.session.commit()
+#             return render_template('success.html')
+#     return render_template('index.html')
 
 def db_to_list():
 	lst = []
@@ -49,6 +49,7 @@ def db_to_list():
 
 @app.route('/')
 def index():
+	OCRparse.alt_start(db_to_list())
     return render_template('index.html')
 
 @app.route('/cakes/')
