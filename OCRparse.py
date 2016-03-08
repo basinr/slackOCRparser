@@ -179,6 +179,7 @@ def alt_start(token_list):
 		if token == 'error':
 			print token
 			print "error with token" + counter
+			return False
 
 
 		sc_list.append(SlackClient(token))
@@ -204,6 +205,7 @@ def alt_start(token_list):
 					new_driver(connection,r[0]["file"],token_list[counter])
 			counter += 1
 		time.sleep(10)
+	return False
 
 
 # Use main for testing individual functions in this file
