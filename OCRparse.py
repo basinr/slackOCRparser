@@ -140,9 +140,6 @@ def start(token):
 
 	sc = SlackClient(token)
 
-	sc_list = []
-	sc_list.append(SlackClient(token))
-
 	if sc.rtm_connect():
 		# time.sleep(200)
 		# counter = 0
@@ -151,6 +148,7 @@ def start(token):
 
 		while True:
 			r = sc.rtm_read()
+
 
 			if len(r) > 0:
 				if r[0]["type"] == "file_created":
@@ -201,8 +199,9 @@ def alt_start(token_list):
 
 				# if the event is a "file created" 
 				if r[0]["type"] == "file_created":
-					print "let's go file..."
+					print "start process"
 					new_driver(connection,r[0]["file"],token_list[counter])
+					print "finished process"
 			counter += 1
 		time.sleep(10)
 	return False
@@ -210,11 +209,12 @@ def alt_start(token_list):
 
 # Use main for testing individual functions in this file
 def main():
-	import pdb
-	pdb.set_trace()
+
 # 	ronbasin = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'
-# 	garybasin = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a'
-# 	# start('xoxp-13657523393-23584016902-23864788196-fed69d1b0a')
+	garybasin = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a'
+	lst = []
+	lst.append(garybasin)
+	alt_start(lst)
 
 # 	token_list = []
 # 	token_list.append(ronbasin)

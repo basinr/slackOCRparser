@@ -50,6 +50,8 @@ def db_to_list():
 
 @app.route('/')
 def index():
+
+
 	return render_template('index.html')
 
 # @app.route('/davay')
@@ -60,6 +62,9 @@ def index():
 # For new users, use this route. This does oauth, and saves the access_token to the DB
 @app.route('/cakes/')
 def cakes():
+
+	# print request.args
+##
 	if len(request.args) == 2:
 		# Obtains code from initial oauth request. Only need to do this once per user
 		code = request.args['code']
@@ -72,10 +77,17 @@ def cakes():
 		# 	reg = User(access_token)
 		# 	db.session.add(reg)
 		# 	db.session.commit()
+		print OCRparse.start('xoxp-24674298112-24672378661-24674834576-80d28c0be8')
+##
+	lst = []
+	rows = db.session.query(User).all()
+	print rows
+	# print rows
+	for row in rows:
+		print row
+		lst.append(row.access_token)
+		print OCRparse.alt_start(lst)
 
-
-		print OCRparse.start(token)
-	print OCRparse.start('xoxp-24674298112-24672378661-24674834576-80d28c0be8')
 	return render_template('success.html')
 
 
