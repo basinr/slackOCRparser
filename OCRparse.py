@@ -189,7 +189,8 @@ def alt_start(token_list):
 			print "error with rtm connection: " + "token: " + counter
 		counter = counter + 1
 
-	while True:
+	counter = 100
+	while counter:
 		counter = 0
 		for connection in sc_list:
 
@@ -203,7 +204,8 @@ def alt_start(token_list):
 					new_driver(connection,r[0]["file"],token_list[counter])
 					print "finished process"
 			counter += 1
-		time.sleep(10)
+		time.sleep(1)
+		counter -= 1
 	return False
 
 
