@@ -51,7 +51,6 @@ def db_to_list():
 @app.route('/')
 def index():
 
-
 	return render_template('index.html')
 
 # @app.route('/davay')
@@ -73,12 +72,14 @@ def cakes():
 		token = OCRparse.get_access_token(code)
 
 		# add token to db if does not exist
-		# if not db.session.query(User).filter(User.access_token == token).count():
-		# 	reg = User(access_token)
-		# 	db.session.add(reg)
-		# 	db.session.commit()
+		if not db.session.query(User).filter(User.access_token == token).count():
+			reg = User(access_token)
+			db.session.add(reg)
+			db.session.commit()
+			print "token added to database"
 		# print OCRparse.start('xoxp-24674298112-24672378661-24674834576-80d28c0be8')
 ##
+	# start server listening on websockets (OCRparse.alt_start)
 	lst = []
 	rows = db.session.query(User).all()
 	print rows
