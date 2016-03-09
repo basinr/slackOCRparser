@@ -210,13 +210,13 @@ def alt_start(token_list):
 
 
 # Use main for testing individual functions in this file
-def main():
+# def main():
 
-# 	ronbasin = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'
-	garybasin = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a'
-	lst = []
-	lst.append(garybasin)
-	alt_start(lst)
+# # 	ronbasin = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'
+# 	garybasin = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a'
+# 	lst = []
+# 	lst.append(garybasin)
+# 	alt_start(lst)
 
 # 	token_list = []
 # 	token_list.append(ronbasin)
@@ -255,8 +255,8 @@ def main():
 #      username='ronbot', icon_emoji=':robot_face:'
 # )
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 
 
 
