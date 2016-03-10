@@ -136,7 +136,7 @@ def alt_start(token_list):
 		counter += 1
 		time.sleep(1)
 		counterance -= 1
-
+	return 
 # def driver(sc, token):
 
 # 	# im_lists = sc.api_call(
