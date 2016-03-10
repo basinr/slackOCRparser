@@ -85,7 +85,7 @@ def parseText(line):
 			final.append(word)
 			
 	finale = ""
-	unique_words = set(final)
+	unique_words = final
 	for worde in unique_words:
 	    finale = finale + ", " + str(worde)
 	return finale
