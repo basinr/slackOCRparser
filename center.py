@@ -52,7 +52,6 @@ def db_to_list():
 
 @app.route('/')
 def index():
-<<<<<<< HEAD
 
 	lst = []
 
@@ -66,15 +65,6 @@ def index():
 	t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
 	t1.start()
 	
-=======
-	lst = []
-	token = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a'
-	lst.append(token)
-	# for token in lst:
-	# 	print token
-	t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
-	t1.start()
->>>>>>> de62ee22c3686e75c2e85eb2a02710f07ac2689c
 	return render_template('index.html')
 
 
