@@ -137,85 +137,6 @@ def alt_start(token_list):
 		time.sleep(1)
 		counterance -= 1
 	return
-# def driver(sc, token):
-
-# 	# im_lists = sc.api_call(
-# 	# 	"im.list"
-# 	# )
-# 	# im_id = im_lists["ims"][counter]['id']
-# 	# im_lists = im_lists["ims"]
-# 	# channel_lists = sc.api_call(
-#  #        "channels.list"
-#  #    )
-# 	import datetime
-# 	yesterday = datetime.date.today() - datetime.timedelta(1)
-# 	unix_time= yesterday.strftime("%s")
-# 	channel_lists = requests.get("https://slack.com/api/channels.list", 
-# 		params={'token': token})
-# 	channel_lists = channel_lists.json()
-# 	channel_lists = channel_lists["channels"]
-
-# 	unix_time = int(unix_time)
-
-# 	for channel in channel_lists:
-# 		file_list = requests.get("https://slack.com/api/files.list", 
-# 			params={
-# 			'token': token,
-# 			'channel': channel['id']})
-# 		file_list = file_list.json()
-# 		for file_ in file_list["files"]:
-
-
-# 			if file_["timestamp"] > unix_time:
-			
-# 			# file_download_links.append(file_["private_url_download"])
-# 				result = slackAPI_download_file(sc, file_["url_private_download"], token)
-
-# 				# parseText(result)
-# 				comment = parseText(str(result["OCRText"]))
-
-# 				requests.get("https://slack.com/api/files.comments.add", params={
-# 					'token': token, 
-# 					'file': file_["id"], 
-# 					'comment': comment})
-			
-# 	return True
-
-
-
-# def start(token):
-
-# 	if (token == " "):
-# 		print "error with token"
-# 		return False
-
-# 	sc = SlackClient(token)
-
-# 	if sc.rtm_connect():
-# 		# time.sleep(200)
-# 		# counter = 0
-# 				# parseText(result)
-# 			# driver(sc, token)
-
-# 		while True:
-# 			r = sc.rtm_read()
-
-
-# 			if len(r) > 0:
-# 				if r[0]["type"] == "file_created":
-# 					print "let's go file..."
-# 					new_driver(sc,r[0]["file"],token)
-# 		# 	# time.sleep(5)
-# 		# 	# counter += 1
-# 		# 	#evey 10 minutes
-# 		# 	# time.sleep(600)
-
-
-# 	else:
-# 		print "##################" + token + "$$$$$$$$$$$$$$$$$$"
-# 		print "Connection Failed, invalid token?"
-# 		return False
-
 
 
 # Use main for testing individual functions in this file
@@ -223,46 +144,7 @@ def alt_start(token_list):
 
 # # ronbasin = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'
 # 	garybasin = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a'
-# 	lst = []
-# 	lst.append(garybasin)
-# 	alt_start(lst)
 
-# 	token_list = []
-# 	token_list.append(ronbasin)
-# 	token_list.append(garybasin)
-
-# 	alt_start(token_list)
-
-
-
-
-# 	get_access_token('13657523393.24595681319.30da4d5d79')
-# 	# Command line arguments
-	# token = token
-	# user = sys.argv[2]
-
-	# found at https://api.slack.com/web#authentication
-	# oauthSlack()
-	# r = requests.get("https://slack.com/oauth/authorize", 
-	# 	params={'client_id': '13657523393.23587667329', 
-	# 	'scope': 'incoming-webhook',
-	# 	'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/'
-	# 	})
-
-
-	# token = get_access_token('13657523393.24268060881.bee654eb47')
-	# import pdb
-	# pdb.set_trace()
-	# start(token)
-	# 	# driver(sc)
-	# print r
-
-
-# In case i want to start usings bots...
-# print sc.api_call(
-# 	"chat.postMessage", channel="#general", text="How are you feeling today, sir?",
-#      username='ronbot', icon_emoji=':robot_face:'
-# )
 
 # if __name__ == "__main__":
 #     main()
