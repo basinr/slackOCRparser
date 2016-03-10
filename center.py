@@ -3,6 +3,8 @@ import OCRparse
 from flask import Flask, render_template, request
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
+import threading
+
 
 app = Flask(__name__)
 
@@ -50,13 +52,15 @@ def db_to_list():
 
 @app.route('/')
 def index():
-
+	lst = []
+	token = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a'
+	lst.append(token)
+	# for token in lst:
+	# 	print token
+	t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
+	t1.start()
 	return render_template('index.html')
 
-# @app.route('/davay')
-# def begin():
-# 	print OCRparse.alt_start(db_to_list())
-# 	return render_template('index.html')
 
 # For new users, use this route. This does oauth, and saves the access_token to the DB
 @app.route('/cakes/')
@@ -79,16 +83,6 @@ def cakes():
 			print "token added to database"
 		# print OCRparse.start('xoxp-24674298112-24672378661-24674834576-80d28c0be8')
 ##
-	# start server listening on websockets (OCRparse.alt_start)
-	lst = []
-	rows = db.session.query(User).all()
-	print rows
-	# print rows
-	for row in rows:
-		print row
-		lst.append(row.access_token)
-	
-	OCRparse.alt_start(lst)
 
 	return render_template('success.html')
 
@@ -100,4 +94,4 @@ def cakes():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, threaded=True)
