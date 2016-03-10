@@ -87,7 +87,7 @@ def parseText(line):
 	finale = ""
 	unique_words = final
 	for worde in unique_words:
-	    finale = finale + ", " + str(worde)
+	    finale = finale + " " + str(worde)
 	return finale
 
 
@@ -123,8 +123,6 @@ def alt_start(token_list):
 		counter = 0
 		for connection in sc_list:
 			r = connection.rtm_read()
-			print r
-
 			# if r has content inside of it
 			if len(r) > 0:
 

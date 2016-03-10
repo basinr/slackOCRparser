@@ -87,6 +87,7 @@ def cakes():
 			db.session.add(reg)
 			db.session.commit()
 			print "token added to database"
+			
 		# print OCRparse.start('xoxp-24674298112-24672378661-24674834576-80d28c0be8')
 ##
 
