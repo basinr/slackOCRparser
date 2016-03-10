@@ -8,6 +8,9 @@ from python_slackclient.slackclient import SlackClient
 import shutil
 import re
 
+
+# Downloads file from slack channel into test2.png
+# RETURNS: the OCR text of the downloaded file
 def slackAPI_download_file(sc, url, token):
 
 	download_url = url
@@ -21,6 +24,9 @@ def slackAPI_download_file(sc, url, token):
 	result = OCRclientcall(path)
 	return result
 
+
+#Calls the OCR web api
+# RETURNS: the text of the OCR'd image
 def OCRclientcall(download_file):
 
 	# OCR logic using the web client
@@ -33,6 +39,10 @@ def OCRclientcall(download_file):
 
 	return text
 
+# Used with "Add to Slack" Button
+# Does the second step of the oauth process, found here: https://api.slack.com/docs/oauth
+# code comes from center.py's cake() function
+# RETURNS: access_token to be added to db in cakes()
 def get_access_token(code):
 
 	token = 'error'
@@ -51,74 +61,22 @@ def get_access_token(code):
 
 	return token
 
-def driver(sc, token):
-
-	# im_lists = sc.api_call(
-	# 	"im.list"
-	# )
-	# im_id = im_lists["ims"][counter]['id']
-	# im_lists = im_lists["ims"]
-	# channel_lists = sc.api_call(
- #        "channels.list"
- #    )
-	import datetime
-	yesterday = datetime.date.today() - datetime.timedelta(1)
-	unix_time= yesterday.strftime("%s")
-	channel_lists = requests.get("https://slack.com/api/channels.list", 
-		params={'token': token})
-	channel_lists = channel_lists.json()
-	channel_lists = channel_lists["channels"]
-
-	unix_time = int(unix_time)
-
-	for channel in channel_lists:
-		file_list = requests.get("https://slack.com/api/files.list", 
-			params={
-			'token': token,
-			'channel': channel['id']})
-		file_list = file_list.json()
-		for file_ in file_list["files"]:
-
-
-			if file_["timestamp"] > unix_time:
-			
-			# file_download_links.append(file_["private_url_download"])
-				result = slackAPI_download_file(sc, file_["url_private_download"], token)
-
-				# parseText(result)
-				comment = parseText(str(result["OCRText"]))
-
-				requests.get("https://slack.com/api/files.comments.add", params={
-					'token': token, 
-					'file': file_["id"], 
-					'comment': comment})
-			
-	return True
-
-
+# Downloads file, OCRs content, posts file comment
 def new_driver(sc, file_, token):
-	import datetime
-	yesterday = datetime.date.today() - datetime.timedelta(1)
-	unix_time= yesterday.strftime("%s")
-	unix_time = int(unix_time)
-
-	if file_["timestamp"] > unix_time:
 	
-	# file_download_links.append(file_["private_url_download"])
-		result = slackAPI_download_file(sc, file_["url_private_download"], token)
+	# passes in the private url download link
+	result = slackAPI_download_file(sc, file_["url_private_download"], token)
 
-		# parseText(result)
-		comment = parseText(str(result["OCRText"]))
+	# cleans up the text using parseText
+	comment = parseText(str(result["OCRText"]))
 
-		requests.get("https://slack.com/api/files.comments.add", params={
-			'token': token, 
-			'file': file_["id"], 
-			'comment': comment})
+	# posts the comment in the channel
+	requests.get("https://slack.com/api/files.comments.add", params={
+		'token': token, 
+		'file': file_["id"], 
+		'comment': comment})
 			
-	return True
-
-
-# smarter way to parse text from image
+# RETURNS: cleaned up OCR Text
 def parseText(line):
 	words = re.split(r"[^A-Za-z]", line.strip())
 	final = []
@@ -132,42 +90,12 @@ def parseText(line):
 	    finale = finale + ", " + str(worde)
 	return finale
 
-def start(token):
-
-	if (token == " "):
-		print "error with token"
-		return False
-
-	sc = SlackClient(token)
-
-	if sc.rtm_connect():
-		# time.sleep(200)
-		# counter = 0
-				# parseText(result)
-			# driver(sc, token)
-
-		while True:
-			r = sc.rtm_read()
-
-
-			if len(r) > 0:
-				if r[0]["type"] == "file_created":
-					print "let's go file..."
-					new_driver(sc,r[0]["file"],token)
-		# 	# time.sleep(5)
-		# 	# counter += 1
-		# 	#evey 10 minutes
-		# 	# time.sleep(600)
-
-
-	else:
-		print "##################" + token + "$$$$$$$$$$$$$$$$$$"
-		print "Connection Failed, invalid token?"
-		return False
 
 # Takes in a list of all user tokens, and cycles through printing OCR outputs
+# SHOULD ALWAYS BE RUNNING, IDEALLY
 def alt_start(token_list):
 	
+	print token_list[0]
 	# keeps track of token indexes for error output (see below)
 	counter = 0
 
@@ -181,20 +109,22 @@ def alt_start(token_list):
 
 
 		sc_list.append(SlackClient(token))
-
+		print "this is the token: " + token_list[counter]
+ 
 		# establish rtm connections with all tokens. This is a websocket that will always be open
 		# error checking to make sure this is open is optimal!
 		# Potential solution: have 2 websockets open for each access_token
 		if not sc_list[counter].rtm_connect():
-			print "error with rtm connection: " + "token: " + counter
+			print "error with rtm connection: " + "token: " + token_list[0]
 		counter = counter + 1
 
-	counter = 100
-	while counter:
+	counterance = 100
+	while counterance:
 		counter = 0
 		for connection in sc_list:
-
 			r = connection.rtm_read()
+			print r
+
 			# if r has content inside of it
 			if len(r) > 0:
 
@@ -203,16 +133,95 @@ def alt_start(token_list):
 					print "start process"
 					new_driver(connection,r[0]["file"],token_list[counter])
 					print "finished process"
-			counter += 1
+		counter += 1
 		time.sleep(1)
-		counter -= 1
-	return False
+		counterance -= 1
+
+# def driver(sc, token):
+
+# 	# im_lists = sc.api_call(
+# 	# 	"im.list"
+# 	# )
+# 	# im_id = im_lists["ims"][counter]['id']
+# 	# im_lists = im_lists["ims"]
+# 	# channel_lists = sc.api_call(
+#  #        "channels.list"
+#  #    )
+# 	import datetime
+# 	yesterday = datetime.date.today() - datetime.timedelta(1)
+# 	unix_time= yesterday.strftime("%s")
+# 	channel_lists = requests.get("https://slack.com/api/channels.list", 
+# 		params={'token': token})
+# 	channel_lists = channel_lists.json()
+# 	channel_lists = channel_lists["channels"]
+
+# 	unix_time = int(unix_time)
+
+# 	for channel in channel_lists:
+# 		file_list = requests.get("https://slack.com/api/files.list", 
+# 			params={
+# 			'token': token,
+# 			'channel': channel['id']})
+# 		file_list = file_list.json()
+# 		for file_ in file_list["files"]:
+
+
+# 			if file_["timestamp"] > unix_time:
+			
+# 			# file_download_links.append(file_["private_url_download"])
+# 				result = slackAPI_download_file(sc, file_["url_private_download"], token)
+
+# 				# parseText(result)
+# 				comment = parseText(str(result["OCRText"]))
+
+# 				requests.get("https://slack.com/api/files.comments.add", params={
+# 					'token': token, 
+# 					'file': file_["id"], 
+# 					'comment': comment})
+			
+# 	return True
+
+
+
+# def start(token):
+
+# 	if (token == " "):
+# 		print "error with token"
+# 		return False
+
+# 	sc = SlackClient(token)
+
+# 	if sc.rtm_connect():
+# 		# time.sleep(200)
+# 		# counter = 0
+# 				# parseText(result)
+# 			# driver(sc, token)
+
+# 		while True:
+# 			r = sc.rtm_read()
+
+
+# 			if len(r) > 0:
+# 				if r[0]["type"] == "file_created":
+# 					print "let's go file..."
+# 					new_driver(sc,r[0]["file"],token)
+# 		# 	# time.sleep(5)
+# 		# 	# counter += 1
+# 		# 	#evey 10 minutes
+# 		# 	# time.sleep(600)
+
+
+# 	else:
+# 		print "##################" + token + "$$$$$$$$$$$$$$$$$$"
+# 		print "Connection Failed, invalid token?"
+# 		return False
+
 
 
 # Use main for testing individual functions in this file
 # def main():
 
-# # 	ronbasin = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'
+# # ronbasin = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'
 # 	garybasin = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a'
 # 	lst = []
 # 	lst.append(garybasin)
