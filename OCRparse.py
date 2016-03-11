@@ -99,7 +99,7 @@ def alt_start(token_list):
 	# keeps track of token indexes for error output (see below)
 	counter = 0
 
-	# A lit of "SC" objects, using the python-slackclient library (github)
+	# A list of "SC" objects, using the python-slackclient library (github)
 	sc_list = []
 	for token in token_list:
 		if token == 'error':
@@ -118,7 +118,8 @@ def alt_start(token_list):
 			print "error with rtm connection: " + "token: " + token_list[0]
 		counter = counter + 1
 
-	counterance = 100  # temp hack to end thread after 100 loops
+	counterance = 200  # temp hack to end thread after 100 loops
+	counter = 0
 	while counterance:
 		counter = 0
 		for connection in sc_list:
@@ -131,7 +132,7 @@ def alt_start(token_list):
 					print "start process"
 					new_driver(connection,r[0]["file"],token_list[counter])
 					print "finished process"
-		counter += 1
+			counter += 1
 		time.sleep(1)
 		counterance -= 1
 	return

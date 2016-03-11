@@ -57,9 +57,13 @@ def index():
 
 	# testing purposes only
 
-	token = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a'
+	# token = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a' (garybasin)
+
+	# ronbasin token
+	token = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8' 
 	lst.append(token)
 
+	# grabs tokens from db
 	# lst = db_to_list()
 
 	t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
