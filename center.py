@@ -7,10 +7,6 @@ import threading
 
 
 app = Flask(__name__)
-
-# Use only when deploying locally, i think
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ronjon'
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 
@@ -28,20 +24,6 @@ class User(db.Model):
     def __repr__(self):
         return '<access_token %r>' % self.access_token
 
-# Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
-# @app.route('/prereg', methods=['POST'])
-# def prereg():
-#     token = None
-#     if request.method == 'POST':
-#         token = request.form['token']
-#         # Check that email does not already exist (not a great query, but works)
-#         if not db.session.query(User).filter(User.access_token == token).count():
-#             reg = User(token)
-#             db.session.add(reg)
-#             db.session.commit()
-#             return render_template('success.html')
-#     return render_template('index.html')
-
 # takes the access_tokens from the database, and inserts them into a list that is then returned
 def db_to_list():
 	lst = []
@@ -55,13 +37,15 @@ def index():
 
 	lst = []
 
-	# testing purposes only
+	# start testing purposes only #
 
-	# token = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a' (garybasin)
-
-	# ronbasin token
-	# token = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8' 
+	# token1 = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a' #(garybasin) 
+	# token2 = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'  #(ronbasin) 
+	
 	# lst.append(token)
+	# lst.append(token2)
+
+	# end testing purposes only #
 
 	# grabs tokens from db (only in heroku server)
 	lst = db_to_list()
@@ -73,11 +57,11 @@ def index():
 
 
 # For new users, use this route. This does oauth, and saves the access_token to the DB
-@app.route('/cakes/')
-def cakes():
+@app.route('/signup/')
+def signup():
 
-	# print request.args
 	if len(request.args) == 2:
+
 		# Obtains code from initial oauth request. Only need to do this once per user
 		code = request.args['code']
 
@@ -91,7 +75,6 @@ def cakes():
 			db.session.commit()
 			print "token added to database"
 			
-		# print OCRparse.start('xoxp-24674298112-24672378661-24674834576-80d28c0be8')
 	return render_template('success.html')
 
 
