@@ -63,7 +63,7 @@ def index():
 	# token = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8' 
 	# lst.append(token)
 
-	# grabs tokens from db
+	# grabs tokens from db (only in heroku server)
 	lst = db_to_list()
 
 	t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
