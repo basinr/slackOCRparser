@@ -25,7 +25,7 @@ def slackAPI_download_file(sc, url, token):
 	return result
 
 
-#Calls the OCR web api
+# Calls the OCR web api
 # RETURNS: the text of the OCR'd image
 def OCRclientcall(download_file):
 
@@ -118,7 +118,7 @@ def alt_start(token_list):
 			print "error with rtm connection: " + "token: " + token_list[0]
 		counter = counter + 1
 
-	counterance = 100
+	counterance = 100  # temp hack to end thread after 100 loops
 	while counterance:
 		counter = 0
 		for connection in sc_list:

@@ -73,7 +73,6 @@ def index():
 def cakes():
 
 	# print request.args
-##
 	if len(request.args) == 2:
 		# Obtains code from initial oauth request. Only need to do this once per user
 		code = request.args['code']
@@ -83,14 +82,12 @@ def cakes():
 
 		# add token to db if does not exist
 		if not db.session.query(User).filter(User.access_token == token).count():
-			reg = User(access_token)
+			reg = User(token)
 			db.session.add(reg)
 			db.session.commit()
 			print "token added to database"
 			
 		# print OCRparse.start('xoxp-24674298112-24672378661-24674834576-80d28c0be8')
-##
-
 	return render_template('success.html')
 
 
