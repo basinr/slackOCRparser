@@ -86,12 +86,10 @@ def signup():
 def cpanel():
 	pw = request.args.get('pw')
 
-	print '1'
 	if pw != 'growingballer89!':
 		return index()
-	print '2'
 	users = get_users()
-	print '3'
+	print users
 	print json.dumps(users)
 	return render_template('cpanel.html', users=get_users())
 
