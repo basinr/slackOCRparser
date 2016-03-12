@@ -5,6 +5,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
 import threading
 import json
+import sys
 
 app = Flask(__name__)
 heroku = Heroku(app)
@@ -84,14 +85,18 @@ def signup():
 # Simple admin panel, create get request with pw=growingballer89!
 @app.route('/admin/')
 def cpanel():
-	pw = request.args.get('pw')
+	try:
+		pw = request.args.get('pw')
 
-	if pw != 'growingballer89!':
-		return index()
-	users = get_users()
-	print users
-	print json.dumps(users)
-	return render_template('cpanel.html', users=get_users())
+		if pw != 'growingballer89!':
+			return index()
+		users = get_users()
+		print users
+		json.dumps(users)
+		return render_template('cpanel.html', users=users)
+	except:
+		print "Unexpected error:", sys.exc_info()[0]
+		raise
 
 # @app.route('/cakes/booty/')
 # def cakes_booty():
