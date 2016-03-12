@@ -92,7 +92,6 @@ def cpanel():
 			return index()
 		users = get_users()
 		print users
-		json.dumps(users)
 		return render_template('cpanel.html', users=users)
 	except:
 		print "Unexpected error:", sys.exc_info()[0]
