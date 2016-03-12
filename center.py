@@ -77,6 +77,17 @@ def signup():
 			
 	return render_template('success.html')
 
+# Simple admin panel, create get request with pw=growingballer89!
+@app.route('/admin/')
+def cpanel():
+	pw = request.args.get('pw')
+
+	if pw != 'growingballer89!':
+		return index()
+
+	return render_template('cpanel.html')
+
+
 
 # @app.route('/cakes/booty/')
 # def cakes_booty():
