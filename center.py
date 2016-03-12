@@ -24,8 +24,12 @@ class User(db.Model):
     def __repr__(self):
         return '<access_token %r>' % self.access_token
 
+
+def get_users():
+	return db.session.query(User).all()
+
 # takes the access_tokens from the database, and inserts them into a list that is then returned
-def db_to_list():
+def get_access_tokens():
 	lst = []
 	rows = db.session.query(User).all()
 	for row in rows:
@@ -48,7 +52,7 @@ def index():
 	# end testing purposes only #
 
 	# grabs tokens from db (only in heroku server)
-	lst = db_to_list()
+	lst = get_access_tokens()
 
 	t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
 	t1.start()
@@ -85,9 +89,7 @@ def cpanel():
 	if pw != 'growingballer89!':
 		return index()
 
-	return render_template('cpanel.html')
-
-
+	return render_template('cpanel.html', users=get_users())
 
 # @app.route('/cakes/booty/')
 # def cakes_booty():
