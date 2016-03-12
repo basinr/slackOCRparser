@@ -11,7 +11,6 @@ app = Flask(__name__)
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 
-
 # Create our database model
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
 class User(db.Model):
@@ -25,9 +24,15 @@ class User(db.Model):
     def __repr__(self):
         return '<access_token %r>' % self.access_token
 
+# add to global context for Jinja
+app.add_template_global(User, 'User')
 
 def get_users():
-	return db.session.query(User).all()
+	list = []
+	rows = db.session.query(User).all()
+	for row in rows:
+		list.append(row)
+	return list
 
 # takes the access_tokens from the database, and inserts them into a list that is then returned
 def get_access_tokens():
@@ -90,8 +95,11 @@ def cpanel():
 
 		if pw != 'growingballer89!':
 			return index()
+
 		users = get_users()
 		print users
+		print json.dumps(users)
+		print 'wtf'
 		return render_template('cpanel.html', users=users)
 	except:
 		print "Unexpected error:", sys.exc_info()[0]
