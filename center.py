@@ -45,6 +45,10 @@ def get_access_tokens():
 @app.route('/')
 def index():
 
+	return render_template('index.html')
+
+@app.route('/go/')
+def start_scripts():
 	lst = []
 
 	# start testing purposes only #
@@ -62,14 +66,12 @@ def index():
 
 	t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
 	t1.start()
-	
-	return render_template('index.html')
 
 
 # For new users, use this route. This does oauth, and saves the access_token to the DB
-@app.route('/signup/')
+@app.route('/signup')
 def signup():
-
+	print len(request.args)
 	if len(request.args) == 2:
 
 		# Obtains code from initial oauth request. Only need to do this once per user
@@ -84,14 +86,20 @@ def signup():
 			db.session.add(reg)
 			db.session.commit()
 			print "token added to database"
+		return render_template('success.html')
 			
-	return render_template('success.html')
+	return render_template('index.html')
 
 # Simple admin panel, create get request with pw=growingballer89!
 @app.route('/admin/')
 def cpanel():
 	try:
+		print request.args['pw']
 		pw = request.args.get('pw')
+		print pw
+
+		# local testing 
+		# pw = request.args.getlist('pw')[0]
 
 		if pw != 'growingballer89!':
 			return index()
@@ -104,11 +112,6 @@ def cpanel():
 	except:
 		print "Unexpected error:", sys.exc_info()[0]
 		raise
-
-# @app.route('/cakes/booty/')
-# def cakes_booty():
-# 	# OCRparse.main("xoxp-13657523393-23584016902-23864788196-fed69d1b0a")
-# 	return render_template('index.html')
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
