@@ -28,19 +28,20 @@ class User(db.Model):
 app.add_template_global(User, 'User')
 
 def get_users():
-	list_ = []
+	list = {}
 	rows = db.session.query(User).all()
 	for row in rows:
-		list_.append(row)
-	return list_
+		# ID is an integer; it's the row number in the database (0,1,2,3 etc.)
+		list[row.id] = row.access_token
+	return list
 
 # takes the access_tokens from the database, and inserts them into a list that is then returned
 def get_access_tokens():
-	lst = []
+	list = []
 	rows = db.session.query(User).all()
 	for row in rows:
-		lst.append(row.access_token)
-	return lst
+		list.append(row.access_token)
+	return list
 
 @app.route('/')
 def index():
