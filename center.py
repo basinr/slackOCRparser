@@ -28,11 +28,11 @@ class User(db.Model):
 app.add_template_global(User, 'User')
 
 def get_users():
-	list = []
+	list_ = []
 	rows = db.session.query(User).all()
 	for row in rows:
-		list.append(row)
-	return list
+		list_.append(row)
+	return list_
 
 # takes the access_tokens from the database, and inserts them into a list that is then returned
 def get_access_tokens():
@@ -106,7 +106,7 @@ def cpanel():
 		print users
 		print json.dumps(users)
 		print 'wtf'
-		return render_template('cpanel.html')
+		return render_template('cpanel.html', users=users)
 	except:
 		print "Unexpected error:", sys.exc_info()[0]
 		raise
