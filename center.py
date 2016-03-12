@@ -94,9 +94,7 @@ def signup():
 @app.route('/admin/')
 def cpanel():
 	try:
-		print request.args['pw']
 		pw = request.args.get('pw')
-		print pw
 
 		# local testing 
 		# pw = request.args.getlist('pw')[0]
@@ -108,7 +106,7 @@ def cpanel():
 		print users
 		print json.dumps(users)
 		print 'wtf'
-		return render_template('cpanel.html', users=users)
+		return render_template('cpanel.html')
 	except:
 		print "Unexpected error:", sys.exc_info()[0]
 		raise
