@@ -4,7 +4,7 @@ from flask import Flask, render_template, request
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
 import threading
-
+import json
 
 app = Flask(__name__)
 heroku = Heroku(app)
@@ -89,6 +89,8 @@ def cpanel():
 	if pw != 'growingballer89!':
 		return index()
 
+	users = get_users()
+	print json.dumps(users)
 	return render_template('cpanel.html', users=get_users())
 
 # @app.route('/cakes/booty/')
