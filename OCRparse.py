@@ -41,8 +41,8 @@ def OCRclientcall(download_file):
 
 # Used with "Add to Slack" Button
 # Does the second step of the oauth process, found here: https://api.slack.com/docs/oauth
-# code comes from center.py's cake() function
-# RETURNS: access_token to be added to db in cakes()
+# code comes from center.py's signup() function
+# RETURNS: access_token to be added to db in signup()
 def get_access_token(code):
 
 	token = 'error'
@@ -50,7 +50,7 @@ def get_access_token(code):
 		params={'client_id': '13657523393.23587667329', 
 		'client_secret': 'daa51f4cbf84779d2c01f8eafe59cd1f',
 		'code': code,
-		'redirect_uri': 'https://slackocrparse.herokuapp.com/cakes/'
+		'redirect_uri': 'https://slackocrparse.herokuapp.com/signup/'
 		})
 
 	if r.status_code == 200:
