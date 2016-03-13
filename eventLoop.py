@@ -16,7 +16,7 @@ def start_event_loop():
 		stop_event_loop()
 
 	eventLoopStopFlag = threading.Event()
-	eventLoopThread = threading.Thread(target=OCRparse.event_loop, args=(eventLoopStopFlag,))
+	eventLoopThread = threading.Thread(target=event_loop, args=(eventLoopStopFlag,))
 	eventLoopThread.start()
 	print "Event loop thread started!"
 
