@@ -81,7 +81,7 @@
                     {% for key, value in users.iteritems() %}
                        <tr>
                             <th> {{ key }} </th>
-                            <td> {{ value }} </td>
+                            <td> {{ value|tojson }} </td>
                        </tr>
                     {% endfor %}
                     </table>
