@@ -74,15 +74,21 @@ def start_scripts():
 eventLoopStopFlag = threading.Event
 eventLoopThread = threading.Thread
 def start_event_loop():
-	if eventLoopThread.is_alive():
+	global eventLoopThread
+	global eventLoopStopFlag
+
+	if eventLoopThread and not (eventLoopThread is None) and eventLoopThread.is_alive():
 		print "Event loop running"
 		stop_event_loop()
 
-	t = threading.Thread(target=OCRparse.event_loop, args=eventLoopStopFlag)
-	t.start()
+	eventLoopThread = threading.Thread(target=OCRparse.event_loop, args=eventLoopStopFlag)
+	eventLoopThread.start()
 	print "Event loop thread started!"
 
 def stop_event_loop():
+	global eventLoopThread
+	global eventLoopStopFlag
+
 	print "Terminating event loop..."
 	eventLoopStopFlag.set()
 	eventLoopThread.join()
