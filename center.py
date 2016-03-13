@@ -72,7 +72,8 @@ def start_scripts():
 	return render_template('index.html')
 
 eventLoopStopFlag = threading.Event
-eventLoopThread = threading.Thread
+eventLoopThread = None
+
 def start_event_loop():
 	global eventLoopThread
 	global eventLoopStopFlag
