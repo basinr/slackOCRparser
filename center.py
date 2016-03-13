@@ -23,14 +23,14 @@ class User(db.Model):
     def __init__(self, access_token):
         self.access_token = access_token
 
-    def __repr__(self):
-        return self.to_JSON()
-
 	def to_JSON(self):
 		print "to_json"
 		print self
 		return json.dumps(self, default=lambda o: o.__dict__,
             sort_keys=True, indent=4)
+
+    def __repr__(self):
+        return self.to_JSON()
 
 # add to global context for Jinja
 app.add_template_global(User, 'User')
