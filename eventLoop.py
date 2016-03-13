@@ -37,5 +37,8 @@ def event_loop(stop_flag):
 		users_dict = center.get_users()
 
 		# check for updates
+		for user in users_dict.itervalues()
+			print user.access_token
+
 		# sleep
 		time.sleep(1)
