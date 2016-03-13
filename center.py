@@ -24,10 +24,10 @@ class User(db.Model):
         self.access_token = access_token
 
     def __repr__(self):
-		print self
         return self.to_JSON()
 
 	def to_JSON(self):
+		print "to_json"
 		print self
 		return json.dumps(self, default=lambda o: o.__dict__,
             sort_keys=True, indent=4)
