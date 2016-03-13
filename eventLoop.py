@@ -1,7 +1,7 @@
 import threading
 import time
 import center
-
+import sys
 
 EventLoopStopFlag = None
 EventLoopThread = None
@@ -33,14 +33,17 @@ def stop_event_loop():
 
 def event_loop(stop_flag):
 	while not stop_flag.is_set():
-		# get Users dict
-		users_dict = center.get_users()
+		try:
+			# get Users dict
+			users_dict = center.get_users()
 
-		# check for updates
-		for key, user in users_dict.iteritems():
-			print key
-			print user
-			print user.access_token
+			# check for updates
+			for key, user in users_dict.iteritems():
+				print key
+				print user
 
-		# sleep
-		time.sleep(1)
+			# sleep
+			time.sleep(1)
+		except:
+			print "Unexpected error in event_loop:", sys.exc_info()[0]
+			raise

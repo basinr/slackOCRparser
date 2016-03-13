@@ -36,7 +36,7 @@ def get_users():
 	rows = db.session.query(User).all()
 	for row in rows:
 		# ID is an integer; it's the row number in the database (0,1,2,3 etc.)
-		usersDict[row.id] = row.access_token
+		usersDict[row.id] = row
 	return usersDict
 
 
@@ -123,7 +123,7 @@ def cpanel():
 		print json.dumps(users)
 		return render_template('cpanel.html', users=users)
 	except:
-		print "Unexpected error:", sys.exc_info()[0]
+		print "Unexpected error in cpanel():", sys.exc_info()[0]
 		raise
 
 if __name__ == "__main__":
