@@ -120,7 +120,7 @@ def cpanel():
 			eventLoop.stop_event_loop()
 
 		users = get_users()
-		print json.dumps(users)
+		print json.dumps(users.__dict__)
 		return render_template('cpanel.html', users=users)
 	except:
 		print "Unexpected error in cpanel():", sys.exc_info()[0]

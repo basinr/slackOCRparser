@@ -39,8 +39,7 @@ def event_loop(stop_flag):
 
 			# check for updates
 			for key, user in users_dict.iteritems():
-				print key
-				print user
+				print key + ' ' + user
 
 			# sleep
 			time.sleep(1)
