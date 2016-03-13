@@ -167,12 +167,8 @@ def alt_start(token_list):
 	return
 
 def event_loop(stop_flag):
-	if stop_flag.is_set():
-		return
-
-	# get Users dict
-
-	# check for updates
-
-	# sleep
-	time.sleep(1)
+	while not stop_flag.is_set():
+		# get Users dict
+		# check for updates
+		# sleep
+		time.sleep(1)
