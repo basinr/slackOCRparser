@@ -27,13 +27,14 @@ class User(db.Model):
 # add to global context for Jinja
 app.add_template_global(User, 'User')
 
+# get dictionary of Users table (keys are row IDs)
 def get_users():
-	list = {}
+	usersDict = {}
 	rows = db.session.query(User).all()
 	for row in rows:
 		# ID is an integer; it's the row number in the database (0,1,2,3 etc.)
-		list[row.id] = row.access_token
-	return list
+		usersDict[row.id] = row.access_token
+	return usersDict
 
 # takes the access_tokens from the database, and inserts them into a list that is then returned
 def get_access_tokens():
@@ -105,9 +106,7 @@ def cpanel():
 			return index()
 
 		users = get_users()
-		print users
 		print json.dumps(users)
-		print 'wtf'
 		return render_template('cpanel.html', users=users)
 	except:
 		print "Unexpected error:", sys.exc_info()[0]
