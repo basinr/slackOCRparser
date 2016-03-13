@@ -166,7 +166,9 @@ def alt_start(token_list):
 		time.sleep(.1) # sleeps after all tokens have been checked, then loop restarts
 	return
 
-def event_loop(stopFlag):
+def event_loop(args):
+	print args
+	stopFlag = args[0];
 	if stopFlag.is_set():
 		return
 
