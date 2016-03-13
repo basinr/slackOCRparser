@@ -12,6 +12,7 @@ app = Flask(__name__)
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 
+
 # Create our database model
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
 class User(db.Model):
@@ -28,6 +29,7 @@ class User(db.Model):
 # add to global context for Jinja
 app.add_template_global(User, 'User')
 
+
 # get dictionary of Users table (keys are row IDs)
 def get_users():
 	usersDict = {}
@@ -37,6 +39,7 @@ def get_users():
 		usersDict[row.id] = row.access_token
 	return usersDict
 
+
 # takes the access_tokens from the database, and inserts them into a list that is then returned
 def get_access_tokens():
 	list = []
@@ -45,9 +48,11 @@ def get_access_tokens():
 		list.append(row.access_token)
 	return list
 
+
 @app.route('/')
 def index():
 	return render_template('index.html')
+
 
 @app.route('/go/')
 def start_scripts():
@@ -71,6 +76,7 @@ def start_scripts():
 
 	return render_template('index.html')
 
+
 # For new users, use this route. This does oauth, and saves the access_token to the DB
 @app.route('/signup')
 def signup():
@@ -92,6 +98,7 @@ def signup():
 		return render_template('success.html')
 			
 	return render_template('index.html')
+
 
 # Simple admin panel, create get request with pw=growingballer89!
 @app.route('/admin/')

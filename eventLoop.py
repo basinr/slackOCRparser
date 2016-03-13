@@ -2,8 +2,10 @@ import OCRparse
 import threading
 import time
 
+
 eventLoopStopFlag = None
 eventLoopThread = None
+
 
 def start_event_loop():
 	global eventLoopThread
@@ -18,6 +20,7 @@ def start_event_loop():
 	eventLoopThread.start()
 	print "Event loop thread started!"
 
+
 def stop_event_loop():
 	global eventLoopThread
 	global eventLoopStopFlag
@@ -26,6 +29,7 @@ def stop_event_loop():
 	eventLoopStopFlag.set()
 	eventLoopThread.join()
 	print "Terminated!"
+
 
 def event_loop(stop_flag):
 	while not stop_flag.is_set():
