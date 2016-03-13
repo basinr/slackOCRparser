@@ -24,7 +24,7 @@ class User(db.Model):
         self.access_token = access_token
 
     def __repr__(self):
-        '<access_token %r>' % self.access_token
+        return self.to_JSON()
 
 	def to_JSON(self):
 		return json.dumps(self, default=lambda o: o.__dict__,
