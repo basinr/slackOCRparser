@@ -71,6 +71,23 @@ def start_scripts():
 
 	return render_template('index.html')
 
+eventLoopStopFlag = threading.Event
+eventLoopThread = threading.Thread
+def start_event_loop():
+	if eventLoopThread.is_alive():
+		print "Event loop running"
+		stop_event_loop()
+
+	t = threading.Thread(target=OCRparse.event_loop, args=eventLoopStopFlag)
+	t.start()
+	print "Event loop thread started!"
+
+def stop_event_loop():
+	print "Terminating event loop..."
+	eventLoopStopFlag.set()
+	eventLoopThread.join()
+	print "Terminated!"
+
 # For new users, use this route. This does oauth, and saves the access_token to the DB
 @app.route('/signup')
 def signup():

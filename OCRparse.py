@@ -134,7 +134,6 @@ def alt_start(token_list):
  
 		# establish rtm connections with all tokens. This is a websocket that will always be open
 		# error checking to make sure this is open is optimal!
-		# Potential solution: have 2 websockets open for each access_token
 
 		if not sc_list[counter].rtm_connect():
 			print "error with rtm connection: " + "token: " + token_list[0]
@@ -167,6 +166,13 @@ def alt_start(token_list):
 		time.sleep(.1) # sleeps after all tokens have been checked, then loop restarts
 	return
 
+def event_loop(stopFlag)
+	if stopFlag.is_set()
+		return
 
+	# get Users dict
 
+	# check for updates
 
+	# sleep
+	sleep(1)
