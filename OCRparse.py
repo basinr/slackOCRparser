@@ -175,4 +175,4 @@ def event_loop(stopFlag)
 	# check for updates
 
 	# sleep
-	sleep(1)
+	time.sleep(1)

@@ -122,6 +122,13 @@ def cpanel():
 		if pw != 'growingballer89!':
 			return index()
 
+		cmd = request.args.get('cmd')
+
+		if cmd == "start_loop":
+			start_event_loop()
+		elif cmd == "stop_loop:":
+			stop_event_loop()
+
 		users = get_users()
 		print json.dumps(users)
 		return render_template('cpanel.html', users=users)
