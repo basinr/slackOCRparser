@@ -24,7 +24,7 @@ class User(db.Model):
         self.access_token = access_token
 
     def __repr__(self):
-        return '<access_token %r>' % self.access_token
+        return json.dumps(self.__dict__)
 
 # add to global context for Jinja
 app.add_template_global(User, 'User')
@@ -120,7 +120,7 @@ def cpanel():
 			eventLoop.stop_event_loop()
 
 		users = get_users()
-		print json.dumps(users.__dict__)
+		print json.dumps(users)
 		return render_template('cpanel.html', users=users)
 	except:
 		print "Unexpected error in cpanel():", sys.exc_info()[0]
