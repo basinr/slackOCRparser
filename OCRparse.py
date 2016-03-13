@@ -166,10 +166,8 @@ def alt_start(token_list):
 		time.sleep(.1) # sleeps after all tokens have been checked, then loop restarts
 	return
 
-def event_loop(args):
-	print args
-	stopFlag = args[0];
-	if stopFlag.is_set():
+def event_loop(stop_flag):
+	if stop_flag.is_set():
 		return
 
 	# get Users dict

@@ -71,7 +71,7 @@ def start_scripts():
 
 	return render_template('index.html')
 
-eventLoopStopFlag = threading.Event
+eventLoopStopFlag = None
 eventLoopThread = None
 
 def start_event_loop():
@@ -82,6 +82,7 @@ def start_event_loop():
 		print "Event loop running"
 		stop_event_loop()
 
+	eventLoopStopFlag = threading.Event()
 	eventLoopThread = threading.Thread(target=OCRparse.event_loop, args=(eventLoopStopFlag,))
 	eventLoopThread.start()
 	print "Event loop thread started!"
