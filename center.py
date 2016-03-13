@@ -1,5 +1,6 @@
 import os
 import OCRparse
+import eventLoop
 from flask import Flask, render_template, request
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
@@ -46,7 +47,6 @@ def get_access_tokens():
 
 @app.route('/')
 def index():
-
 	return render_template('index.html')
 
 @app.route('/go/')
@@ -70,33 +70,6 @@ def start_scripts():
 	t1.start()
 
 	return render_template('index.html')
-
-eventLoopStopFlag = None
-eventLoopThread = None
-
-def start_event_loop():
-	global eventLoopThread
-	global eventLoopStopFlag
-
-	print eventLoopThread
-
-	if eventLoopThread and not (eventLoopThread is None) and eventLoopThread.is_alive():
-		print "Event loop already running"
-		stop_event_loop()
-
-	eventLoopStopFlag = threading.Event()
-	eventLoopThread = threading.Thread(target=OCRparse.event_loop, args=(eventLoopStopFlag,))
-	eventLoopThread.start()
-	print "Event loop thread started!"
-
-def stop_event_loop():
-	global eventLoopThread
-	global eventLoopStopFlag
-
-	print "Terminating event loop..."
-	eventLoopStopFlag.set()
-	eventLoopThread.join()
-	print "Terminated!"
 
 # For new users, use this route. This does oauth, and saves the access_token to the DB
 @app.route('/signup')
@@ -135,9 +108,9 @@ def cpanel():
 		cmd = request.args.get('cmd')
 
 		if cmd == "start_loop":
-			start_event_loop()
+			eventLoop.start_event_loop()
 		elif cmd == "stop_loop":
-			stop_event_loop()
+			eventLoop.stop_event_loop()
 
 		users = get_users()
 		print json.dumps(users)

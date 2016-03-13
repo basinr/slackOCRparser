@@ -166,9 +166,4 @@ def alt_start(token_list):
 		time.sleep(.1) # sleeps after all tokens have been checked, then loop restarts
 	return
 
-def event_loop(stop_flag):
-	while not stop_flag.is_set():
-		# get Users dict
-		# check for updates
-		# sleep
-		time.sleep(1)
+
