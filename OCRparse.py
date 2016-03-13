@@ -91,6 +91,20 @@ def parseText(line):
 	return finale
 
 
+# send "ping" messages to server to check for connectivity
+def autoping(token, sc_obj):
+	try:
+		r = sc_list[0].server.send_to_websocket({
+			'id': 1,
+			'type': 'ping',
+			'time': int(time.time())
+		})
+		print "clean"
+		return sc_obj
+	except:
+		print "websocket broken. reconnecting..."
+		return SlackClient(token)
+
 # Takes in a list of all user tokens, and cycles through printing OCR outputs
 # SHOULD ALWAYS BE RUNNING, IDEALLY
 def alt_start(token_list):
@@ -126,9 +140,17 @@ def alt_start(token_list):
 			print "error with rtm connection: " + "token: " + token_list[0]
 		counter += 1
 
+	# used for websocket ping pong (autoping())
+	last_ping = 0
 
 	for num in range(200): # temp hack to exit the program after 200 loops
 		for connection in sc_list:
+			# now = int(time.time())
+
+			# if now > last_ping + 3:
+			# 	autoping(token_dict[connection], connection)
+			# 	last_ping = int(time.time())
+
 			r = connection.rtm_read()
 			# if r has content inside of it
 			if len(r) > 0:
@@ -142,7 +164,7 @@ def alt_start(token_list):
 					new_driver(connection,r[0]["file"],token_dict[connection])
 					
 					print "finished process"
-		time.sleep(1) # sleeps after all tokens have been checked, then loop restarts
+		time.sleep(.1) # sleeps after all tokens have been checked, then loop restarts
 	return
 
 

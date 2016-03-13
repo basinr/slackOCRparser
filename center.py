@@ -54,20 +54,21 @@ def start_scripts():
 
 	# start testing purposes only #
 
-	# token1 = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a' #(garybasin) 
-	# token2 = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'  #(ronbasin) 
+	token1 = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a' #(garybasin) 
+	token2 = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'  #(ronbasin) 
 	
-	# lst.append(token)
-	# lst.append(token2)
+	lst.append(token1)
+	lst.append(token2)
 
 	# end testing purposes only #
 
 	# grabs tokens from db (only in heroku server)
-	lst = get_access_tokens()
+	# lst = get_access_tokens()
 
 	t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
 	t1.start()
 
+	return render_template('index.html')
 
 # For new users, use this route. This does oauth, and saves the access_token to the DB
 @app.route('/signup')
