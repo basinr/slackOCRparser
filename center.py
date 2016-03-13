@@ -78,8 +78,10 @@ def start_event_loop():
 	global eventLoopThread
 	global eventLoopStopFlag
 
+	print eventLoopThread
+
 	if eventLoopThread and not (eventLoopThread is None) and eventLoopThread.is_alive():
-		print "Event loop running"
+		print "Event loop already running"
 		stop_event_loop()
 
 	eventLoopStopFlag = threading.Event()
@@ -134,7 +136,7 @@ def cpanel():
 
 		if cmd == "start_loop":
 			start_event_loop()
-		elif cmd == "stop_loop:":
+		elif cmd == "stop_loop":
 			stop_event_loop()
 
 		users = get_users()
