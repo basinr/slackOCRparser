@@ -39,10 +39,9 @@ def event_loop(stop_flag):
 
 			# check for updates
 			for key, user in users_dict.iteritems():
-				print str(key) + ' ' + user
+				print str(key) + ' ' + user.to_JSON()
 
 			# sleep
 			time.sleep(1)
 		except:
 			print "Unexpected error in event_loop:", sys.exc_info()[0]
-			raise
