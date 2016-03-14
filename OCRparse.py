@@ -7,6 +7,7 @@ import python_slackclient
 from python_slackclient.slackclient import SlackClient
 import shutil
 import re
+from unidecode import unidecode
 
 
 # Downloads file from slack channel into test2.png
@@ -68,27 +69,13 @@ def new_driver(sc, file_, token):
 	result = slackAPI_download_file(sc, file_["url_private_download"], token)
 
 	# cleans up the text using parseText
-	comment = parseText(str(result["OCRText"]))
+	comment = result["OCRText"][0][0]
 
 	# posts the comment in the channel
 	requests.get("https://slack.com/api/files.comments.add", params={
 		'token': token, 
 		'file': file_["id"], 
 		'comment': comment})
-			
-# RETURNS: cleaned up OCR Text
-def parseText(line):
-	words = re.split(r"[^A-Za-z]", line.strip())
-	final = []
-	for word in words:
-		if word:
-			final.append(word)
-			
-	finale = ""
-	unique_words = final
-	for worde in unique_words:
-	    finale = finale + " " + str(worde)
-	return finale
 
 
 # send "ping" messages to server to check for connectivity
