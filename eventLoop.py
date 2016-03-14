@@ -3,6 +3,7 @@ import time
 import center
 import sys
 import traceback
+import json
 from python_slackclient.slackclient import SlackClient
 
 EventLoopStopFlag = None
@@ -55,7 +56,7 @@ def event_loop(stop_flag):
 					client = SlackClient(token)
 
 					if not client.rtm_connect():
-						print "Slack client failed to connect for user ID: " + key + ", token: " + token
+						print "Slack client failed to connect for user ID: " + str(key) + ", token: " + token
 						continue
 
 					slack_clients[token] = client
@@ -66,6 +67,8 @@ def event_loop(stop_flag):
 				if len(r) > 0:
 					# check for 'file created'
 					print 'processing file for user ID: ' + key
+
+					print json.dumps(r)
 		except:
 			print "Unexpected error in event_loop:", sys.exc_info()[0]
 			print traceback.print_exc()
