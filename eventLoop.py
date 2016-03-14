@@ -66,8 +66,9 @@ def event_loop(stop_flag):
 
 				if len(r) > 0:
 					# check for 'file created'
-					print 'processing file for user ID: ' + key
-
+					print 'processing file for user ID: ' + str(key)
+					r
+					repr(r)
 					print json.dumps(r)
 		except:
 			print "Unexpected error in event_loop:", sys.exc_info()[0]
