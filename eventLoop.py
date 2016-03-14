@@ -40,10 +40,11 @@ def event_loop(stop_flag):
 			# get Users dict
 			users_dict = center.get_users()
 
+			print users_dict
+
 			# check for updates
 			for key, user in users_dict.iteritems():
 				print key
-				type(user)
 				print repr(user)
 
 		except:
