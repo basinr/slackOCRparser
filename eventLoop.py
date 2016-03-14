@@ -39,7 +39,7 @@ def event_loop(stop_flag):
 
 			# check for updates
 			for key, user in users_dict.iteritems():
-				print str(key) + ' ' + user.to_JSON()
+				print str(key) + ' ' + user
 
 			# sleep
 			time.sleep(1)
