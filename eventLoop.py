@@ -56,7 +56,7 @@ def event_loop(stop_flag):
 						continue
 
 					slack_clients[token] = client
-				else
+				else:
 					client = slack_clients[token]
 
 				# check for new event
