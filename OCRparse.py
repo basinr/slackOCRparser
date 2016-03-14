@@ -7,7 +7,7 @@ import python_slackclient
 from python_slackclient.slackclient import SlackClient
 import shutil
 import re
-from unidecode import unidecode
+# from unidecode import unidecode
 
 
 # Downloads file from slack channel into test2.png
