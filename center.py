@@ -24,7 +24,7 @@ class User(db.Model):
         self.access_token = access_token
 
     def __repr__(self):
-        '<access_token %r>' % self.access_token
+        "<user(access_token='%s')>" % self.access_token
 
 # add to global context for Jinja
 app.add_template_global(User, 'User')
@@ -36,7 +36,7 @@ def get_users():
 	rows = db.session.query(User).all()
 	for row in rows:
 		# ID is an integer; it's the row number in the database (0,1,2,3 etc.)
-		usersDict[row.id] = User(row.access_token)
+		usersDict[row.id] = row.User
 	return usersDict
 
 
