@@ -2,6 +2,7 @@ import threading
 import time
 import center
 import sys
+from python_slackclient.slackclient import SlackClient
 
 EventLoopStopFlag = None
 EventLoopThread = None
@@ -32,6 +33,8 @@ def stop_event_loop():
 
 
 def event_loop(stop_flag):
+	slack_clients = dict()
+
 	while not stop_flag.is_set():
 		try:
 			# sleep
@@ -42,9 +45,25 @@ def event_loop(stop_flag):
 
 			# check for updates
 			for key, user in users_dict.iteritems():
-				print key
-				print user.access_token
-				print repr(user)
+				token = user.access_token
 
+				client = slack_clients[token]
+
+				# create and connect slack client if doesn't exist
+				if not client
+					client = SlackClient(token)
+
+					if not client.rtm_connect():
+						print "Slack client failed to connect for user ID: " + key + ", token: " + token
+						continue
+
+					slack_clients[token] = client
+
+				# check for new event
+				r = client.rtm_read()
+
+				if len(r) > 0:
+					# check for 'file created'
+					print 'processing file for user ID: ' + key
 		except:
 			print "Unexpected error in event_loop:", sys.exc_info()[0]
