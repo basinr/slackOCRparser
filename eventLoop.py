@@ -50,7 +50,7 @@ def event_loop(stop_flag):
 				client = slack_clients[token]
 
 				# create and connect slack client if doesn't exist
-				if not client
+				if not client:
 					client = SlackClient(token)
 
 					if not client.rtm_connect():
