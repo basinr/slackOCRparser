@@ -34,14 +34,14 @@ def stop_event_loop():
 def event_loop(stop_flag):
 	while not stop_flag.is_set():
 		try:
+			# sleep
+			time.sleep(1)
+
 			# get Users dict
 			users_dict = center.get_users()
 
 			# check for updates
 			for key, user in users_dict.iteritems():
-				print str(key) + ' ' + user
-
-			# sleep
-			time.sleep(1)
+				print str(key) + ' ' + repr(user)
 		except:
 			print "Unexpected error in event_loop:", sys.exc_info()[0]
