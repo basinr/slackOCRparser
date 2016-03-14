@@ -45,6 +45,8 @@ def event_loop(stop_flag):
 			# get Users dict
 			users_dict = center.get_users()
 
+			timestamp = int(time.time())
+
 			# check for updates
 			for key, user in users_dict.iteritems():
 				token = user.access_token
@@ -65,11 +67,11 @@ def event_loop(stop_flag):
 				r = client.rtm_read()
 
 				if len(r) > 0:
-					print r[0]["type"]
+					msg_type = r[0]["type"]
 					print json.dumps(r)
 
 					# check for 'file created'
-					if r[0]["type"] == "file_created":
+					if msg_type == "file_created":
 						print 'processing file for user ID: ' + str(key)
 		except:
 			print "Unexpected error in event_loop:", sys.exc_info()[0]
