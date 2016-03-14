@@ -35,16 +35,15 @@ def event_loop(stop_flag):
 	while not stop_flag.is_set():
 		try:
 			# sleep
-			time.sleep(1)
+			time.sleep(10)
 
 			# get Users dict
 			users_dict = center.get_users()
 
-			print users_dict
-
 			# check for updates
 			for key, user in users_dict.iteritems():
 				print key
+				print user.access_token
 				print repr(user)
 
 		except:
