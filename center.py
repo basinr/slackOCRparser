@@ -36,7 +36,10 @@ def get_users():
 	rows = db.session.query(User).all()
 	for row in rows:
 		# ID is an integer; it's the row number in the database (0,1,2,3 etc.)
-		usersDict[row.id] = row.User
+		user = User(row.access_token)
+		user.id = row.id
+		print user
+		usersDict[row.id] = user
 	return usersDict
 
 
