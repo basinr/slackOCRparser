@@ -33,7 +33,7 @@ def stop_event_loop():
 
 
 def event_loop(stop_flag):
-	slack_clients = dict()
+	slack_clients = {}
 
 	while not stop_flag.is_set():
 		try:
@@ -47,10 +47,8 @@ def event_loop(stop_flag):
 			for key, user in users_dict.iteritems():
 				token = user.access_token
 
-				client = slack_clients[token]
-
 				# create and connect slack client if doesn't exist
-				if not client:
+				if not (token in slack_clients):
 					client = SlackClient(token)
 
 					if not client.rtm_connect():
@@ -58,6 +56,8 @@ def event_loop(stop_flag):
 						continue
 
 					slack_clients[token] = client
+				else
+					client = slack_clients[token]
 
 				# check for new event
 				r = client.rtm_read()
