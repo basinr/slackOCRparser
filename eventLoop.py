@@ -79,6 +79,7 @@ def event_loop(stop_flag):
 					if msg_type == "file_public":
 						print 'processing file for user ID: ' + str(key)
 						OCRparse.new_driver(client, r[0]["file"], token)
+						# TODO: can we have the comment sent from a bot name instead of the user's name?
 		except:
 			print "Unexpected error in event_loop:", sys.exc_info()[0]
 			print traceback.print_exc()
