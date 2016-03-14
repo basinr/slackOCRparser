@@ -4,6 +4,7 @@ import center
 import sys
 import traceback
 import json
+import OCRparse
 from python_slackclient.slackclient import SlackClient
 
 EventLoopStopFlag = None
@@ -71,8 +72,9 @@ def event_loop(stop_flag):
 					print json.dumps(r)
 
 					# check for 'file created'
-					if msg_type == "file_created":
+					if msg_type == "file_public":
 						print 'processing file for user ID: ' + str(key)
+						OCRparse.new_driver(client, r[0]["file"], token)
 		except:
 			print "Unexpected error in event_loop:", sys.exc_info()[0]
 			print traceback.print_exc()
