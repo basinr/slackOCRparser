@@ -65,10 +65,11 @@ def event_loop(stop_flag):
 				r = client.rtm_read()
 
 				if len(r) > 0:
+					print r[0]["type"]
 					print json.dumps(r)
 
 					# check for 'file created'
-					if r["type"] == "file_created":
+					if r[0]["type"] == "file_created":
 						print 'processing file for user ID: ' + str(key)
 		except:
 			print "Unexpected error in event_loop:", sys.exc_info()[0]
