@@ -124,7 +124,7 @@ def cpanel():
 			eventLoop.stop_event_loop()
 
 		users = get_users()
-		return render_template('cpanel.html', users=users)
+		return render_template('cpanel.html', users=users, service_status=eventLoop.is_service_active())
 	except:
 		print "Unexpected error in cpanel():", sys.exc_info()[0]
 		raise
