@@ -2,6 +2,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
+{% block javascript }
+    <script>
+        //strip cmd param if set, and reload page
+        cur_URL = top.location.href;
+
+        if (cur_URL.indexOf("cmd") > -1) {
+            short_URL = cur_URL.substring(0, top.location.href.indexOf('&cmd'));
+            top.location.href = short_URL;
+         }
+    </script>
+{% endblock % }
+
 <head>
 
     <meta charset="utf-8">
