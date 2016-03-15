@@ -10,6 +10,7 @@ from python_slackclient.slackclient import SlackClient
 EventLoopStopFlag = None
 EventLoopThread = None
 
+
 def is_service_active():
 	if EventLoopThread and not (EventLoopThread is None) and EventLoopThread.is_alive():
 		return True
@@ -20,7 +21,7 @@ def start_event_loop():
 	global EventLoopThread
 	global EventLoopStopFlag
 
-	if is_service_active()
+	if is_service_active():
 		print "Event loop already running"
 		stop_event_loop()
 
