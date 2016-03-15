@@ -78,10 +78,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Users</h3></div>
                     <div class="panel-body">
-                        <div class="list-group">
-                            <a href="?pw=growingballer89!&cmd=start_loop" class="list-group-item">Start Service</a>
-                            <a href="?pw=growingballer89!&cmd=stop_loop" class="list-group-item">Stop Service</a>
-                        </div>
+                        <ul class="nav nav-tabs">
+                            <li role="presentation"><a href="?pw=growingballer89!&cmd=start_loop" class="list-group-item">Start Service</a></li>
+                            <li role="presentation"><a href="?pw=growingballer89!&cmd=stop_loop" class="list-group-item">Stop Service</a></li>
+                        </ul>
                     </div>
                     <table class="table">
                     {% for key, value in users.iteritems() %}
