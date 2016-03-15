@@ -77,12 +77,13 @@
                 </h1>
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Users</h3></div>
-                    <p>Service Status: </p>
+                    <h4>Service Status: 
                         {% if service_status %}
                             <span class="label label-success">Up</span>
                         {% else %}
                             <span class="label label-danger">Down</span>
                         {% endif %}
+                    </h4>
                     <div class="panel-body">
                         <ul class="nav nav-tabs">
                             <li role="presentation"><a href="?pw=growingballer89!&cmd=start_loop" class="list-group-item">Start Service</a></li>
