@@ -10,6 +10,11 @@ from python_slackclient.slackclient import SlackClient
 EventLoopStopFlag = None
 EventLoopThread = None
 
+def is_service_active()
+	if EventLoopThread and not (EventLoopThread is None) and EventLoopThread.is_alive():
+		return True
+	return False
+
 
 def start_event_loop():
 	global EventLoopThread
@@ -33,13 +38,6 @@ def stop_event_loop():
 	EventLoopStopFlag.set()
 	EventLoopThread.join()
 	print "Terminated!"
-
-
-def is_service_active()
-	if EventLoopThread and not (EventLoopThread is None) and EventLoopThread.is_alive():
-		return True
-
-	return False
 
 
 def event_loop(stop_flag):
