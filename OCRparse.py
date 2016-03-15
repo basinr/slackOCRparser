@@ -31,12 +31,21 @@ def slackAPI_download_file(sc, url, token):
 def OCRclientcall(download_file):
 
 	# OCR logic using the web client
-	files = {'media': open(download_file, 'rb')}
 
-	ocr_web_url= "http://www.ocrwebservice.com/restservices/processDocument?language=english&pagerange=1&gettext=true&outputformat=doc"
+	payload = {'isOverlayRequired': 'False',
+	           'apikey': 'helloworld',
+	           'language': 'eng',
+	           }
 
-	r = requests.post(ocr_web_url, auth=('ronb','0354B8E7-BEB0-4904-8B62-3CBAD37E2251'), files = files)
+	with open(download_file, 'rb') as f:
+        r = requests.post('https://api.ocr.space/parse/image',
+                          files={download_file: f},
+                          data=payload,
+                          )
+
 	text = r.json()
+
+	text = text["ParsedResults"][0]["ParsedText"]
 
 	return text
 
@@ -69,7 +78,7 @@ def new_driver(sc, file_, token):
 	result = slackAPI_download_file(sc, file_["url_private_download"], token)
 
 	# cleans up the text using parseText
-	comment = result["OCRText"][0][0]
+	comment = result
 
 	# posts the comment in the channel
 	requests.get("https://slack.com/api/files.comments.add", params={
