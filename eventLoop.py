@@ -10,7 +10,7 @@ from python_slackclient.slackclient import SlackClient
 EventLoopStopFlag = None
 EventLoopThread = None
 
-def is_service_active()
+def is_service_active():
 	if EventLoopThread and not (EventLoopThread is None) and EventLoopThread.is_alive():
 		return True
 	return False
