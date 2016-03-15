@@ -26,7 +26,7 @@ def slackAPI_download_file(sc, url, token):
 	return result
 
 
-# Calls the OCR web api
+# Calls the OCR web api (https://ocr.space)
 # RETURNS: the text of the OCR'd image
 def OCRclientcall(download_file):
 
@@ -38,10 +38,9 @@ def OCRclientcall(download_file):
 	           }
 
 	with open(download_file, 'rb') as f:
-        r = requests.post('https://api.ocr.space/parse/image',
-                          files={download_file: f},
-                          data=payload,
-                          )
+		r = requests.post('https://api.ocr.space/parse/image', 
+			files={download_file: f}, 
+			data=payload,)
 
 	text = r.json()
 
