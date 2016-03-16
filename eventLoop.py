@@ -35,6 +35,10 @@ def stop_event_loop():
 	global EventLoopThread
 	global EventLoopStopFlag
 
+	if (EventLoopThread is None) or (EventLoopStopFlag is None):
+		print "Service already stopped!"
+		return
+
 	print "Terminating event loop..."
 	EventLoopStopFlag.set()
 	EventLoopThread.join()
