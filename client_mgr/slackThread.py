@@ -134,6 +134,7 @@ class SlackThreadManager:
 					# check if we haven't received a message in a while
 					if (int(time.time()) - slack_thread.get_last_msg_recv_time()) > self.CONNECTION_LOST_TIME_SECS:
 						# rebuild thread
+						print "Rebuilding lost SlackThread for user: " + slack_thread.get_user_id_str()
 						slack_thread.start()
 
 			except:
