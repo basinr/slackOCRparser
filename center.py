@@ -8,6 +8,7 @@ from flask.ext.heroku import Heroku
 import threading
 import json
 import sys
+import atexit
 
 app = Flask(__name__)
 heroku = Heroku(app)
@@ -138,10 +139,17 @@ def cpanel():
 		print "Unexpected error in cpanel():", sys.exc_info()[0]
 		raise
 
+
+# defining function to run on shutdown
+def on_exit():
+	print "exiting..."
+
+
 if __name__ == "__main__":
+	atexit.register(on_exit)
+
 	if slack_thread_mgr is None:
 		slack_thread_mgr = slackThread.SlackThreadManager()
 
 	port = int(os.environ.get("PORT", 5000))
 	app.run(host='0.0.0.0', port=port, threaded=True, debug=True)
-	slack_thread_mgr.kill()
