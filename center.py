@@ -12,7 +12,6 @@ import sys
 app = Flask(__name__)
 heroku = Heroku(app)
 db = SQLAlchemy(app)
-slack_thread_mgr = slackThread.SlackThreadManager()
 
 # Create our database model
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
@@ -112,6 +111,8 @@ def signup():
 			
 	return render_template('index.html')
 
+
+slack_thread_mgr = slackThread.SlackThreadManager()
 
 # Simple admin panel, create get request with pw=growingballer89!
 @app.route('/admin/')
