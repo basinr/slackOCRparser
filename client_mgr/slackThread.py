@@ -119,7 +119,7 @@ class SlackThreadManager:
 			try:
 				time.sleep(self.SLEEP_TIME_SECS)
 
-				# check SlackThread for each user
+				# check SlackThread for each User
 				users = center.get_users()
 
 				for key, user in users.iteritems():
