@@ -21,7 +21,7 @@ class SlackThread:
 		self._stop_flag = None
 		self._thread = None
 		self._slack_client = None
-		self._last_msg_recv_time = 0
+		self._last_msg_recv_time = int(time.time())
 		self.start()
 
 	def is_service_active(self):
@@ -109,6 +109,7 @@ class SlackThreadManager:
 	CONNECTION_LOST_TIME_SECS = 30
 
 	def __init__(self):
+		print "Starting SlackThreadManager..."
 		self._slack_thread_dict = {}
 		self._thread = threading.Thread(target=self.check_threads, args=())
 		self._thread.setDaemon(daemonic=True)
