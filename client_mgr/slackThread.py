@@ -87,7 +87,7 @@ class SlackThread:
 
 						self._last_msg_recv_time = int(time.time())
 						msg_type = r[0]["type"]
-						print "From user: " + self.get_user_id_str() + " -- " + json.dumps(r)
+						# print "From user: " + self.get_user_id_str() + " -- " + json.dumps(r)
 
 						# check for 'file created'
 						if msg_type == "file_public":

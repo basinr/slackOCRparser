@@ -32,6 +32,8 @@ class User(db.Model):
 		self.last_check_time = 0
 
 	def inc_processed_cnt(self):
+		db.session.query().filter(User.id == self.id).\
+			update({"processed_cnt": (User.processed_cnt  + 1)})
 		self.processed_cnt += 1
 		db.session.commit()
 
@@ -85,8 +87,8 @@ def start_scripts():
 	# grabs tokens from db (only in heroku server)
 	# lst = get_access_tokens()
 
-	#t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
-	#t1.start()
+	# t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
+	# t1.start()
 
 	return render_template('index.html')
 
