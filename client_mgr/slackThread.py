@@ -13,7 +13,7 @@ class SlackThread:
 	processing any file upload events with OCR
 	"""
 
-	SLEEP_TIME_SECS = 10
+	SLEEP_TIME_SECS = 1
 	PING_FREQ_SECS = 3
 
 	def __init__(self, user):
