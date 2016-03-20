@@ -6,7 +6,7 @@ from flask.ext.heroku import Heroku
 import threading
 import json
 import sys
-from client_mgr import slackThread
+import client_mgr
 
 app = Flask(__name__)
 heroku = Heroku(app)
@@ -139,7 +139,7 @@ def cpanel():
 
 if __name__ == "__main__":
 	if slack_thread_mgr is None:
-		slack_thread_mgr = slackThread.SlackThreadManager()
+		slack_thread_mgr = client_mgr.slackThread.SlackThreadManager()
 
 	port = int(os.environ.get("PORT", 5000))
 	app.run(host='0.0.0.0', port=port, threaded=True, debug=True, use_reloader=False)
