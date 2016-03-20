@@ -35,6 +35,7 @@ class User(db.Model):
 		db.session.query(User).filter(User.id == self.id).\
 			update({"processed_cnt": (User.processed_cnt + 1)})
 		self.processed_cnt += 1
+		# TODO: this aint workin, gets stuck at 1
 		db.session.commit()
 
 	def to_json(self):
