@@ -3,7 +3,6 @@ import OCRparse
 from flask import Flask, render_template, request
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
-import threading
 import json
 import sys
 import client_mgr
@@ -13,22 +12,22 @@ heroku = Heroku(app)
 db = SQLAlchemy(app)
 slack_thread_mgr = None
 
+
 # Create our database model
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
 class User(db.Model):
-    __tablename__ = "tokens"
-    id = db.Column(db.Integer, primary_key=True)
-    access_token = db.Column(db.String(120), unique=True)
+	__tablename__ = "tokens"
+	id = db.Column(db.Integer, primary_key=True)
+	access_token = db.Column(db.String(120), unique=True)
 
-    def __init__(self, access_token):
-        self.access_token = access_token
+	def __init__(self, access_token):
+		self.access_token = access_token
 
-	def to_JSON(self):
-			return json.dumps(self, default=lambda o: o.__dict__,
-				sort_keys=True, indent=4)
+	def to_json(self):
+		return json.dumps(self, default=lambda o: o.__dict__,  sort_keys=True, indent=4)
 
-    def __repr__(self):
-        "<user(access_token='%s')>" % self.access_token
+	def __repr__(self):
+		"<user(access_token='%s')>" % self.access_token
 
 # add to global context for Jinja
 app.add_template_global(User, 'User')
@@ -36,21 +35,12 @@ app.add_template_global(User, 'User')
 
 # get dictionary of Users table (keys are row IDs)
 def get_users():
-	usersDict = {}
+	users = {}
 	rows = db.session.query(User).all()
 	for row in rows:
 		# ID is an integer; it's the row number in the database (0,1,2,3 etc.)
-		usersDict[row.id] = row
-	return usersDict
-
-
-# takes the access_tokens from the database, and inserts them into a list that is then returned
-def get_access_tokens():
-	list = []
-	rows = db.session.query(User).all()
-	for row in rows:
-		list.append(row.access_token)
-	return list
+		users[row.id] = row
+	return users
 
 
 @app.context_processor
