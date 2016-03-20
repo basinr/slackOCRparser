@@ -12,11 +12,21 @@
 
     <title>OCR parse</title>
 
-    <!-- Bootstrap Core CSS -->
+    <!-- Bootstrap Core CSS 
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
+    Custom CSS 
     <link href="/static/css/landing-page.css" rel="stylesheet">
+
+    Pricing CSS 
+    <link href="/static/css/pricing.css" rel="stylesheet">
+    -->
+
+    <strong><link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"></strong>
+    <strong><link rel="stylesheet" href="{{ url_for('static', filename='css/landing-page.css') }}"></strong>
+    <strong><link rel="stylesheet" href="{{ url_for('static', filename='css/pricing.css') }}"></strong>
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
