@@ -96,6 +96,7 @@ class SlackThread:
 			except:
 				print traceback.print_exc()
 				print "Unexpected error in SlackThread for user: " + self.get_user_id_str()
+				time.sleep(self.SLEEP_TIME_SECS)
 
 
 class SlackThreadManager:
@@ -135,6 +136,7 @@ class SlackThreadManager:
 			except:
 				print traceback.print_exc()
 				print "SlackThreadManager exception!"
+				time.sleep(self.SLEEP_TIME_SECS)
 
 	def start_all(self):
 		for slack_thread in self._slack_thread_dict.itervalues():
