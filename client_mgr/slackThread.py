@@ -108,10 +108,10 @@ class SlackThreadManager:
 	CONNECTION_LOST_TIME_SECS = 10
 
 	def __init__(self):
+		self._slack_thread_dict = {}
 		self._thread = threading.Thread(target=self.check_threads(), args=())
 		self._thread.setDaemon(daemonic=True)
 		self._thread.start()
-		self._slack_thread_dict = {}
 
 	def check_threads(self):
 		while True:
