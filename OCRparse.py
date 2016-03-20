@@ -89,7 +89,7 @@ def new_driver(sc, file_, token):
 # send "ping" messages to server to check for connectivity
 def autoping(token, sc_obj):
 	try:
-		r = sc_list[0].server.send_to_websocket({
+		r = sc_obj.server.send_to_websocket({
 			'id': 1,
 			'type': 'ping',
 			'time': int(time.time())

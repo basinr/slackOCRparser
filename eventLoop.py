@@ -73,7 +73,7 @@ def event_loop(stop_flag):
 						continue
 
 					slack_clients[token] = client
-
+					
 				# TODO: ping each connection every few seconds
 
 				# TODO: check last message receive time for each connection, if too long ago then reconnect; need to store in User object, modify DB structure
