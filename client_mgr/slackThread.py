@@ -30,6 +30,7 @@ class SlackThread:
 		return False
 
 	def start(self):
+		print "Starting SlackThread for user: " + self.get_user_id_str() + "..."
 		if self.is_service_active():
 			print "SlackThread already running for user: " + self.get_user_id_str()
 			self.stop()
