@@ -12,7 +12,7 @@ import sys
 app = Flask(__name__)
 heroku = Heroku(app)
 db = SQLAlchemy(app)
-_slack_thread_mgr = None
+slack_thread_mgr = None
 
 # Create our database model
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
@@ -128,9 +128,9 @@ def cpanel():
 		cmd = request.args.get('cmd')
 
 		if cmd == "start_loop":
-			_slack_thread_mgr.start_all()
+			slack_thread_mgr.start_all()
 		elif cmd == "stop_loop":
-			_slack_thread_mgr.stop_all()
+			slack_thread_mgr.stop_all()
 
 		users = get_users()
 		return render_template('cpanel.html', users=users)
@@ -139,8 +139,8 @@ def cpanel():
 		raise
 
 if __name__ == "__main__":
-	if _slack_thread_mgr and _slack_thread_mgr is None:
-		_slack_thread_mgr = slackThread.SlackThreadManager()
+	if slack_thread_mgr is None:
+		slack_thread_mgr = slackThread.SlackThreadManager()
 
 	port = int(os.environ.get("PORT", 5000))
 	app.run(host='0.0.0.0', port=port, threaded=True, debug=True)
