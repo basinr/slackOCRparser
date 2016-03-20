@@ -110,13 +110,14 @@ class SlackThreadManager:
 
 	def __init__(self):
 		print "Starting SlackThreadManager..."
+		self._stop_flag = threading.Event()
 		self._slack_thread_dict = {}
 		self._thread = threading.Thread(target=self.check_threads, args=())
 		self._thread.setDaemon(daemonic=True)
 		self._thread.start()
 
 	def check_threads(self):
-		while True:
+		while not self._stop_flag.is_set:
 			try:
 				time.sleep(self.SLEEP_TIME_SECS)
 
@@ -156,3 +157,9 @@ class SlackThreadManager:
 		if user_key in self._slack_thread_dict:
 			return self._slack_thread_dict[user_key].is_service_active()
 		return False
+
+	def kill(self):
+		print "Stopping SlackThreadManager..."
+		self.stop_all()
+		self._stop_flag.set()
+		self._thread.join()
