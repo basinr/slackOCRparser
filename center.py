@@ -1,6 +1,7 @@
 import os
 import OCRparse
 import eventLoop
+from client_mgr import slackThread
 from flask import Flask, render_template, request
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
@@ -11,7 +12,7 @@ import sys
 app = Flask(__name__)
 heroku = Heroku(app)
 db = SQLAlchemy(app)
-
+slack_thread_mgr = slackThread.SlackThreadManager()
 
 # Create our database model
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
@@ -51,6 +52,14 @@ def get_access_tokens():
 	for row in rows:
 		list.append(row.access_token)
 	return list
+
+
+@app.context_processor
+def utility_processor():
+	def is_slack_thread_active(user_key):
+		return slack_thread_mgr.is_service_active(user_key)
+
+	return dict(is_slack_thread_active=is_slack_thread_active)
 
 
 @app.route('/')
@@ -119,12 +128,12 @@ def cpanel():
 		cmd = request.args.get('cmd')
 
 		if cmd == "start_loop":
-			eventLoop.start_event_loop()
+			slack_thread_mgr.start_all()
 		elif cmd == "stop_loop":
-			eventLoop.stop_event_loop()
+			slack_thread_mgr.stop_all()
 
 		users = get_users()
-		return render_template('cpanel.html', users=users, service_status=eventLoop.is_service_active())
+		return render_template('cpanel.html', users=users)
 	except:
 		print "Unexpected error in cpanel():", sys.exc_info()[0]
 		raise

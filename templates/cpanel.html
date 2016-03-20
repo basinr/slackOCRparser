@@ -91,7 +91,7 @@
                     <div class="panel-heading"><h3 class="panel-title">Service</h3></div>
                     <div class="panel-body">
                         <h4>Service Status:
-                            {% if service_status %}
+                            {% if False %}
                                 <span class="label label-success">Up</span>
                             {% else %}
                                 <span class="label label-danger">Down</span>
@@ -110,6 +110,7 @@
                        <tr>
                             <th> {{ key }} </th>
                             <td> {{ value.access_token }} </td>
+                            <td> {{ is_slack_thread_active(key) }} </td>
                        </tr>
                     {% endfor %}
                     </table>
