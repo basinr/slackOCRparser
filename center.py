@@ -1,6 +1,5 @@
 import os
 import OCRparse
-import eventLoop
 from client_mgr import slackThread
 from flask import Flask, render_template, request
 from flask.ext.sqlalchemy import SQLAlchemy

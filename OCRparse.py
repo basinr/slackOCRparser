@@ -79,86 +79,9 @@ def new_driver(sc, file_, token):
 	# cleans up the text using parseText
 	comment = result
 
+	# TODO: can we have the comment sent from a bot name instead of the user's name?
 	# posts the comment in the channel
 	requests.get("https://slack.com/api/files.comments.add", params={
 		'token': token, 
 		'file': file_["id"], 
 		'comment': comment})
-
-
-# send "ping" messages to server to check for connectivity
-def autoping(token, sc_obj):
-	try:
-		r = sc_obj.server.send_to_websocket({
-			'id': 1,
-			'type': 'ping',
-			'time': int(time.time())
-		})
-		print "clean"
-		return sc_obj
-	except:
-		print "websocket broken. reconnecting..."
-		return SlackClient(token)
-
-# Takes in a list of all user tokens, and cycles through printing OCR outputs
-# SHOULD ALWAYS BE RUNNING, IDEALLY
-def alt_start(token_list):
-
-	# A dictionary that maps the SC objects to its corresponding token
-	token_dict = {}
-
-	# A list of "SC" objects, using the python-slackclient library (github)
-
-	sc_list = []
-
-	# keeps track of token indexes for error output (see below)
-	
-	counter = 0
-
-	for token in token_list:
-		if token == 'error':
-			print token
-			print "error with token" + counter
-			return False
-
-		sc_list.append(SlackClient(token))
-
-		# takes the last element in sc_list, and sets its value as the token
-
-		token_dict[sc_list[-1]] = token
- 
-		# establish rtm connections with all tokens. This is a websocket that will always be open
-		# error checking to make sure this is open is optimal!
-
-		if not sc_list[counter].rtm_connect():
-			print "error with rtm connection: " + "token: " + token_list[0]
-		counter += 1
-
-	# used for websocket ping pong (autoping())
-	last_ping = 0
-
-	for num in range(200): # temp hack to exit the program after 200 loops
-		for connection in sc_list:
-			# now = int(time.time())
-
-			# if now > last_ping + 3:
-			# 	autoping(token_dict[connection], connection)
-			# 	last_ping = int(time.time())
-
-			r = connection.rtm_read()
-			# if r has content inside of it
-			if len(r) > 0:
-
-				# if the event is a "file created" 
-				# ISSUE 1: indexing at '0' might be wrong. Will need to look into this.(may need to thread for each token)
-				if r[0]["type"] == "file_created":
-					
-					print "start process"
-					# ISSUE 1
-					new_driver(connection,r[0]["file"],token_dict[connection])
-					
-					print "finished process"
-		time.sleep(.1) # sleeps after all tokens have been checked, then loop restarts
-	return
-
-

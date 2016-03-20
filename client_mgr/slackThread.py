@@ -93,7 +93,6 @@ class SlackThread:
 						if msg_type == "file_public":
 							print "Processing file for user: " + self.get_user_id_str()
 							OCRparse.new_driver(self._slack_client, r[0]["file"], token)
-							# TODO: can we have the comment sent from a bot name instead of the user's name?
 			except:
 				print traceback.print_exc()
 				print "Unexpected error in SlackThread for user: " + self.get_user_id_str()
@@ -129,7 +128,7 @@ class SlackThreadManager:
 						# create SlackThread for this user
 						slack_thread = SlackThread(user=user)
 						self._slack_thread_dict[key] = slack_thread
-						time.sleep(self.SLEEP_TIME_SECS)  # wait for thread to start
+						continue # check it next time we loop through
 
 					slack_thread = self._slack_thread_dict[key]
 
