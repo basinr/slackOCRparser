@@ -16,12 +16,24 @@ slack_thread_mgr = None
 # Create our database model
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
 class User(db.Model):
-	__tablename__ = "tokens"
+	__tablename__ = "users"
 	id = db.Column(db.Integer, primary_key=True)
 	access_token = db.Column(db.String(120), unique=True)
+	team_name = db.Column(db.String(120), unique=True)
+	processed_cnt = db.Column(db.Integer)
+	subscription_type = db.Column(db.Integer)
+	last_check_time = db.Column(db.Integer)
 
-	def __init__(self, access_token):
+	def __init__(self, access_token, team_name):
 		self.access_token = access_token
+		self.team_name = team_name
+		self.processed_cnt = 0
+		self.subscription_type = 0 # default, free
+		self.last_check_time = 0
+
+	def inc_processed_cnt(self):
+		self.processed_cnt += 1
+		db.session.commit()
 
 	def to_json(self):
 		return json.dumps(self, default=lambda o: o.__dict__,  sort_keys=True, indent=4)
@@ -79,7 +91,7 @@ def start_scripts():
 	return render_template('index.html')
 
 
-# For new users, use this route. This does oauth, and saves the access_token to the DB
+# For new users, use this route. This does oauth, and saves the access_token and team_name to the DB
 @app.route('/signup')
 def signup():
 	print len(request.args)
@@ -91,12 +103,15 @@ def signup():
 		# access_token that needs to be stored for each user
 		token = OCRparse.get_access_token(code)
 
-		# add token to db if does not exist
-		if not db.session.query(User).filter(User.access_token == token).count():
-			reg = User(token)
+		# get team name
+		team_name = OCRparse.get_team_name()
+
+		# add user to db if does not exist
+		if not db.session.query(User).filter(User.team_name == team_name).count():
+			reg = User(access_token=token, team_name=team_name)
 			db.session.add(reg)
 			db.session.commit()
-			print "token added to database"
+			print "User added to database: " + team_name
 		return render_template('success.html')
 			
 	return render_template('index.html')

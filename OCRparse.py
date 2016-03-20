@@ -62,6 +62,20 @@ def get_access_token(code):
 
 	return token
 
+
+def get_team_name(token):
+	r = requests.get("https://slack.com/api/team.info", params={
+		'token':  token
+	})
+
+	if r.status_code == 200 and r.json()["ok"]:
+		team_name = r.json()["team"]["name"]
+		return team_name
+
+	print "Failed to get team_name for token: " + token
+	return ""
+
+
 # Downloads file, OCRs content, posts file comment
 def new_driver(sc, file_, token):
 	
