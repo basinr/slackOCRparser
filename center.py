@@ -143,6 +143,7 @@ def cpanel():
 # defining function to run on shutdown
 def on_exit():
 	print "exiting..."
+	slack_thread_mgr.kill()
 
 
 if __name__ == "__main__":

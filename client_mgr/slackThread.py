@@ -117,7 +117,7 @@ class SlackThreadManager:
 		self._thread.start()
 
 	def check_threads(self):
-		while not self._stop_flag.is_set:
+		while not self._stop_flag.is_set():
 			try:
 				time.sleep(self.SLEEP_TIME_SECS)
 
