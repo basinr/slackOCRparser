@@ -110,7 +110,7 @@
                        <tr>
                             <th> {{ key }} </th>
                             <td> {{ value.access_token }} </td>
-                            <td> {% if { is_slack_thread_active(key) } %}
+                            <td> {% if  is_slack_thread_active(key)  %}
                                     <span class="label label-success">Up</span>
                                  {% else %}
                                     <span class="label label-danger">Down</span>
