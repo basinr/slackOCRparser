@@ -36,7 +36,7 @@ class SlackThread:
 			self.stop()
 
 		self._stop_flag = threading.Event()
-		self._thread = threading.Thread(target=self.event_loop, args=(self._stop_flag,))
+		self._thread = threading.Thread(target=self.event_loop, args=())
 		self._thread.setDaemon(daemonic=True)
 		self._thread.start()
 		print "SlackThread started for user: " + self.get_user_id_str()
