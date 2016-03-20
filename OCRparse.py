@@ -1,12 +1,4 @@
 import requests
-import json
-import httplib2
-import sys
-import time
-import python_slackclient
-from python_slackclient.slackclient import SlackClient
-import shutil
-import re
 # from unidecode import unidecode
 
 
