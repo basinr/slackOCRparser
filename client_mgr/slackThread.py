@@ -117,6 +117,8 @@ class SlackThreadManager:
 	def check_threads(self):
 		while True:
 			try:
+				time.sleep(self.SLEEP_TIME_SECS)
+
 				# check SlackThread for each user
 				users = center.get_users()
 
