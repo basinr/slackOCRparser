@@ -124,7 +124,7 @@ class SlackThreadManager:
 				users = center.get_users()
 
 				for key, user in users.iteritems():
-					if key not in self._slack_thread_dict.keys():
+					if key not in self._slack_thread_dict:
 						# create SlackThread for this user
 						slack_thread = SlackThread(user=user)
 						self._slack_thread_dict[key] = slack_thread
