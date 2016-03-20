@@ -83,8 +83,8 @@ def start_scripts():
 	# grabs tokens from db (only in heroku server)
 	# lst = get_access_tokens()
 
-	t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
-	t1.start()
+	#t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
+	#t1.start()
 
 	return render_template('index.html')
 
