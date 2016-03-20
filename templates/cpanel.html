@@ -102,14 +102,18 @@
                     <table class="table">
                     {% for key, value in users.iteritems() %}
                        <tr>
-                            <th> {{ key }} </th>
-                            <td> {{ value.access_token }} </td>
-                            <td> {% if  is_slack_thread_active(key)  %}
-                                    <span class="label label-success">Up</span>
-                                 {% else %}
-                                    <span class="label label-danger">Down</span>
-                                 {% endif %}
-                            </td>
+                           <th> {{ key }} </th>
+                           <td> {{ value.team_name }} </td>
+                           <td> {{ value.access_token }} </td>
+                           <td> {{ value.processed_cnt }} </td>
+                           <td> {{ value.subscription_type }} </td>
+                           <td> {{ value.last_check_time }} </td>
+                           <td> {% if  is_slack_thread_active(key)  %}
+                               <span class="label label-success">Up</span>
+                               {% else %}
+                               <span class="label label-danger">Down</span>
+                               {% endif %}
+                           </td>
                        </tr>
                     {% endfor %}
                     </table>
