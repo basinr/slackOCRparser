@@ -9,6 +9,7 @@ import threading
 import json
 import sys
 import atexit
+import signal
 
 app = Flask(__name__)
 heroku = Heroku(app)
@@ -142,12 +143,16 @@ def cpanel():
 
 # defining function to run on shutdown
 def on_exit():
-	print "exiting..."
 	slack_thread_mgr.kill()
 
 
+def signal_handler():
+	slack_thread_mgr.kill()
+
 if __name__ == "__main__":
 	atexit.register(on_exit)
+	signal.signal(signal.SIGINT, signal_handler())
+	signal.signal(signal.SIGTERM, signal_handler())
 
 	if slack_thread_mgr is None:
 		slack_thread_mgr = slackThread.SlackThreadManager()
