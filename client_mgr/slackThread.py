@@ -3,6 +3,7 @@ import traceback
 import OCRparse
 import time
 import json
+import center
 from python_slackclient.slackclient import SlackClient
 
 
@@ -13,12 +14,14 @@ class SlackThread:
 	"""
 
 	SLEEP_TIME_SECS = 10
+	PING_FREQ_SECS = 3
 
 	def __init__(self, user):
 		self._user = user
 		self._stop_flag = None
 		self._thread = None
 		self._slack_client = None
+		self._last_msg_recv_time = 0
 		self.start()
 
 	def is_service_active(self):
@@ -33,6 +36,7 @@ class SlackThread:
 
 		self._stop_flag = threading.Event()
 		self._thread = threading.Thread(target=self.event_loop(), args=(self._stop_flag,))
+		self._thread.setDaemon(daemonic=True)
 		self._thread.start()
 		print "SlackThread started for user: " + self.get_user_id_str()
 
@@ -49,6 +53,9 @@ class SlackThread:
 	def get_user_id_str(self):
 		return str(self._user.id)
 
+	def get_last_msg_recv_time(self):
+		return self._last_msg_recv_time
+
 	def event_loop(self):
 		while not self._stop_flag.is_set():
 			try:
@@ -56,8 +63,6 @@ class SlackThread:
 				time.sleep(self.SLEEP_TIME_SECS)
 
 				# check for updates
-				timestamp = int(time.time())
-
 				token = self._user.access_token
 
 				# lazy connect
@@ -68,7 +73,9 @@ class SlackThread:
 						print "Slack client failed to connect for user: " + self.get_user_id_str()
 						continue
 
-				# TODO: ping, check last message receive time and reocnnect if necessary
+				# send ping if PING_FREQ duration has elapsed
+				if (int(time.time()) - self._last_msg_recv_time) > self.PING_FREQ_SECS:
+					self._slack_client.server.ping()
 
 				# check for new events
 					while True:
@@ -77,6 +84,7 @@ class SlackThread:
 						if len(r) == 0:
 							break
 
+						self._last_msg_recv_time = int(time.time())
 						msg_type = r[0]["type"]
 						print "From user: " + self.get_user_id_str() + " -- " + json.dumps(r)
 
@@ -88,3 +96,55 @@ class SlackThread:
 			except:
 				print traceback.print_exc()
 				print "Unexpected error in SlackThread for user: " + self.get_user_id_str()
+
+
+class SlackThreadManager:
+	"""
+	Manages a SlackThread for each user
+	"""
+
+	SLEEP_TIME_SECS = 10
+	CONNECTION_LOST_TIME_SECS = 10
+
+	def __init__(self):
+		self._thread = threading.Thread(target=self.check_threads(), args=())
+		self._thread.setDaemon(daemonic=True)
+		self._thread.start()
+		self._slack_thread_dict = {}
+
+	def check_threads(self):
+		while True:
+			try:
+				# check SlackThread for each user
+				users = center.get_users()
+
+				for key, user in users.iteritems():
+					if key not in self._slack_thread_dict:
+						# create SlackThread for this user
+						slack_thread = SlackThread(user=user)
+						self._slack_thread_dict[key] = slack_thread
+						time.sleep(self.SLEEP_TIME_SECS)  # wait for thread to start
+
+					slack_thread = self._slack_thread_dict[key]
+
+					# check if we haven't received a message in a while
+					if (int(time.time()) - slack_thread.get_last_msg_recv_time()) > self.CONNECTION_LOST_TIME_SECS:
+						# rebuild thread
+						slack_thread.start()
+
+			except:
+				print traceback.print_exc()
+				print "SlackThreadManager exception!"
+
+	def start_all(self):
+		for slack_thread in self._slack_thread_dict.itervalues():
+			slack_thread.start()
+
+	def stop_all(self):
+		for slack_thread in self._slack_thread_dict.itervalues():
+			slack_thread.stop()
+
+	def is_service_active(self, user_key):
+		if user_key in self._slack_thread_dict:
+			return self._slack_thread_dict[user_key].is_service_active()
+		return False
