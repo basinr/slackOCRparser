@@ -103,8 +103,12 @@ def signup():
 		# access_token that needs to be stored for each user
 		token = OCRparse.get_access_token(code)
 
+		print "token: " + token
+
 		# get team name
 		team_name = OCRparse.get_team_name(token)
+
+		print "team: " + team_name
 
 		# add user to db if does not exist
 		if not db.session.query(User).filter(User.team_name == team_name).count():
