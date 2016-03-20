@@ -94,7 +94,7 @@ def start_scripts():
 # For new users, use this route. This does oauth, and saves the access_token and team_name to the DB
 @app.route('/signup/')
 def signup():
-	print len(request.args)
+
 	if len(request.args) == 2:
 
 		# Obtains code from initial oauth request. Only need to do this once per user

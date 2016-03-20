@@ -54,7 +54,7 @@ def get_access_token(code):
 		'redirect_uri': 'https://slackocrparse.herokuapp.com/signup'
 		})
 
-	print "get_access_token reply: " + r.json()
+	print "get_access_token reply: " + json.dumps(r.json())
 
 	if r.status_code == 200:
 		if (r.json()["ok"]):
