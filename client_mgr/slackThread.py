@@ -106,7 +106,7 @@ class SlackThreadManager:
 	"""
 
 	SLEEP_TIME_SECS = 10
-	CONNECTION_LOST_TIME_SECS = 10
+	CONNECTION_LOST_TIME_SECS = 30
 
 	def __init__(self):
 		self._slack_thread_dict = {}
