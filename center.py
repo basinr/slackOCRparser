@@ -143,18 +143,18 @@ def cpanel():
 
 # defining function to run on shutdown
 def on_exit():
-	if not slack_thread_mgr is None:
+	if slack_thread_mgr is not None:
 		slack_thread_mgr.kill()
 
 
 def signal_handler():
-	if not slack_thread_mgr is None:
+	if slack_thread_mgr is not None:
 		slack_thread_mgr.kill()
 
 if __name__ == "__main__":
 	atexit.register(on_exit)
-	signal.signal(signal.SIGINT, signal_handler())
-	signal.signal(signal.SIGTERM, signal_handler())
+	signal.signal(signal.SIGINT, signal_handler)
+	signal.signal(signal.SIGTERM, signal_handler)
 
 	if slack_thread_mgr is None:
 		slack_thread_mgr = slackThread.SlackThreadManager()
