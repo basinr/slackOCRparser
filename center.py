@@ -32,8 +32,8 @@ class User(db.Model):
 		self.last_check_time = 0
 
 	def inc_processed_cnt(self):
-		db.session.query().filter(User.id == self.id).\
-			update({"processed_cnt": (User.processed_cnt  + 1)})
+		db.session.query(User).filter(User.id == self.id).\
+			update({"processed_cnt": (User.processed_cnt + 1)})
 		self.processed_cnt += 1
 		db.session.commit()
 
