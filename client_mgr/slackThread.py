@@ -123,7 +123,7 @@ class SlackThreadManager:
 				users = center.get_users()
 
 				for key, user in users.iteritems():
-					if key not in self._slack_thread_dict:
+					if key not in self._slack_thread_dict.keys():
 						# create SlackThread for this user
 						slack_thread = SlackThread(user=user)
 						self._slack_thread_dict[key] = slack_thread
@@ -135,7 +135,7 @@ class SlackThreadManager:
 					if (int(time.time()) - slack_thread.get_last_msg_recv_time()) > self.CONNECTION_LOST_TIME_SECS:
 						# rebuild thread
 						print "Rebuilding lost SlackThread for user: " + slack_thread.get_user_id_str()
-						print int(time.time()) + " vs " + slack_thread.get_last_msg_recv_time()
+						print str(int(time.time())) + " vs " + str(slack_thread.get_last_msg_recv_time())
 						# slack_thread.start()
 
 			except:
