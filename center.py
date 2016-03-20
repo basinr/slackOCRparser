@@ -1,12 +1,12 @@
 import os
 import OCRparse
-from client_mgr import slackThread
 from flask import Flask, render_template, request
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
 import threading
 import json
 import sys
+from client_mgr import slackThread
 
 app = Flask(__name__)
 heroku = Heroku(app)
