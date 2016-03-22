@@ -37,6 +37,12 @@ class User(db.Model):
 		self.processed_cnt += 1
 		db.session.commit()
 
+	def update_last_check_time(self, time_secs):
+		db.session.query(User).filter(User.id == self.id).\
+			update({"last_check_time": time_secs})
+		self.last_check_time = time_secs
+		db.session.commit()
+
 	def to_json(self):
 		return json.dumps(self, default=lambda o: o.__dict__,  sort_keys=True, indent=4)
 

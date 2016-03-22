@@ -100,6 +100,17 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Users</h3></div>
                     <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Key</td>
+                                <td>Team Name</td>
+                                <td>Access Token</td>
+                                <td>Proc. Cnt</td>
+                                <td>Sub. Type</td>
+                                <td>Last Check Time</td>
+                                <td>Thread Active</td>
+                            </tr>
+                        </thead>
                     {% for key, value in users.iteritems() %}
                        <tr>
                            <th> {{ key }} </th>

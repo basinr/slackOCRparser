@@ -82,6 +82,8 @@ class SlackThread:
 					while True:
 						r = self._slack_client.rtm_read()
 
+						self._user.update_last_check_time(int(time.time()))
+
 						if len(r) == 0:
 							break
 
