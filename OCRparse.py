@@ -97,7 +97,7 @@ def new_driver(sc, file_, token):
 		'file': file_["id"], 
 		'comment': comment})
 
-	if r.status != 200:
+	if r.status_code != 200:
 		print "Error posting comment: " + str(r.status_code) + " " + str(r.reason)
 		return
 
