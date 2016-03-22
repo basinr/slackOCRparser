@@ -99,7 +99,7 @@ class SlackThread:
 			except:
 				print traceback.print_exc()
 				print "Unexpected error in SlackThread for user: " + self.get_user_id_str()
-				time.sleep(self.SLEEP_TIME_SECS)
+				break # allow SlackThreadManager to recreate this thread
 
 
 class SlackThreadManager:
