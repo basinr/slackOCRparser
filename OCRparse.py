@@ -58,7 +58,7 @@ def get_access_token(code):
 	print "get_access_token reply: " + json.dumps(r.json())
 
 	if r.status_code == 200:
-		if (r.json()["ok"]):
+		if r.json()["ok"]:
 			token = r.json()['access_token']
 	else:
 		print "invalid code (don't reuse, expires in 10 minutes, etc.)"
@@ -92,12 +92,14 @@ def new_driver(sc, file_, token):
 
 	# TODO: can we have the comment sent from a bot name instead of the user's name?
 	# posts the comment in the channel
-	r = requests.get("https://slack.com/api/files.comments.add", params={
+	r = requests.post("https://slack.com/api/files.comments.add", data={
 		'token': token, 
 		'file': file_["id"], 
 		'comment': comment})
 
-	print r.status_code
-	print r.raw
-	print r.reason
-	print r.json()
+	if r.status != 200:
+		print "Error posting comment: " + str(r.status_code) + " " + str(r.reason)
+		return
+
+	if not r.json()["ok"]:
+		print r.json("Error posting comment: " + json.dumps(r.json()))
