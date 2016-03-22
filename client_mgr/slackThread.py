@@ -89,7 +89,7 @@ class SlackThread:
 						msg_type = r[0]["type"]
 
 						# DEBUG LOGGING
-						# print "From user: " + self.get_user_id_str() + " -- " + json.dumps(r)
+						print "From user: " + self.get_user_id_str() + " -- " + json.dumps(r)
 
 						# check for 'file created'
 						if msg_type == "file_public":
@@ -140,7 +140,9 @@ class SlackThreadManager:
 						and not slack_thread._stop_flag.is_set():
 						# rebuild thread
 						print "Rebuilding lost SlackThread for user: " + slack_thread.get_user_id_str()
-						#print str(int(time.time())) + " vs " + str(slack_thread.get_last_msg_recv_time())
+						print str(int(time.time()) - slack_thread.get_last_msg_recv_time()) + \
+							" seconds since last msg received"
+
 						slack_thread.start()
 
 			except:

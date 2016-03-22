@@ -88,6 +88,8 @@ def new_driver(sc, file_, token):
 	# cleans up the text using parseText
 	comment = result
 
+	print "Posting comment for token: " + token
+
 	# TODO: can we have the comment sent from a bot name instead of the user's name?
 	# posts the comment in the channel
 	requests.get("https://slack.com/api/files.comments.add", params={
