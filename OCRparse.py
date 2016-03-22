@@ -92,7 +92,9 @@ def new_driver(sc, file_, token):
 
 	# TODO: can we have the comment sent from a bot name instead of the user's name?
 	# posts the comment in the channel
-	requests.get("https://slack.com/api/files.comments.add", params={
+	r = requests.get("https://slack.com/api/files.comments.add", params={
 		'token': token, 
 		'file': file_["id"], 
 		'comment': comment})
+
+	print r.status_code + " " + json.dumps(r.json())
