@@ -97,4 +97,4 @@ def new_driver(sc, file_, token):
 		'file': file_["id"], 
 		'comment': comment})
 
-	print r.status_code + " " + json.dumps(r.json())
+	print str(r.status_code) + " " + json.dumps(r.json())
