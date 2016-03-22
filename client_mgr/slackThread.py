@@ -79,25 +79,25 @@ class SlackThread:
 					self._slack_client.server.ping()
 
 				# check for new events
-					while True:
-						r = self._slack_client.rtm_read()
+				self._user.update_last_check_time(int(time.time()))
 
-						self._user.update_last_check_time(int(time.time()))
+				while True:
+					r = self._slack_client.rtm_read()
 
-						if len(r) == 0:
-							break
+					if len(r) == 0:
+						break
 
-						self._last_msg_recv_time = int(time.time())
-						msg_type = r[0]["type"]
+					self._last_msg_recv_time = int(time.time())
+					msg_type = r[0]["type"]
 
-						# DEBUG LOGGING
-						print "From user: " + self.get_user_id_str() + " -- " + json.dumps(r)
+					# DEBUG LOGGING
+					print "From user: " + self.get_user_id_str() + " -- " + json.dumps(r)
 
-						# check for 'file created'
-						if msg_type == "file_public":
-							print "Processing file for user: " + self.get_user_id_str()
-							OCRparse.new_driver(self._slack_client, r[0]["file"], token)
-							self._user.inc_processed_cnt()
+					# check for 'file created'
+					if msg_type == "file_public":
+						print "Processing file for user: " + self.get_user_id_str()
+						OCRparse.new_driver(self._slack_client, r[0]["file"], token)
+						self._user.inc_processed_cnt()
 			except:
 				print traceback.print_exc()
 				print "Unexpected error in SlackThread for user: " + self.get_user_id_str()
