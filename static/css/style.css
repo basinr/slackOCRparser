@@ -266,23 +266,25 @@ ul.navbar-nav {
     padding: 120px 0 170px 0;
 }
 
-.top-content .text {
+.top-content-yo.text {
 	color: #fff;
 }
 
-.top-content .text h1 { color: #fff; }
+.top-content-yo .text h1 { color: #fff; }
 
-.top-content .description {
+.top-content-yo .description {
 	margin: 20px 0 10px 0;
 }
 
-.top-content .description p { opacity: 0.8; }
+.top-content-yo .description p { 
+	color: #fff;
+	opacity: 0.8; }
 
-.top-content .top-big-link {
+.top-content-yo .top-big-link {
 	margin-top: 35px;
 }
 
-.top-content .top-arrow {
+.top-content-yo .top-arrow {
 	margin-top: 40px;
 	font-size: 50px;
 	line-height: 50px;
