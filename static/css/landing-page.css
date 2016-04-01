@@ -18,7 +18,7 @@ h4,
 h5,
 h6 {
     font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: 700;
+    font-weight: 1;
 }
 
 .topnav {
@@ -27,7 +27,7 @@ h6 {
 
 .lead {
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 100;
 }
 
 .intro-header {
@@ -43,6 +43,7 @@ h6 {
     position: relative;
     padding-top: 5%;
     padding-bottom: 5%;
+    font-family: "Cardo";
 }
 
 .intro-message > h1 {
@@ -59,6 +60,7 @@ h6 {
 }
 
 .intro-message > h3 {
+    font-family: "Cardo";
     text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
 }
 

@@ -88,7 +88,7 @@
                 <div class="col-lg-12">
                     <div class="intro-message">
                         <h1 class="section-heading">Pixi</h1>
-                        <h3>For Slack.</h3>
+                        <h4>For Slack.</h4>
                         <!--<h3>Makes images posted in slack chat channels searchable.</h3>-->
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
@@ -118,9 +118,9 @@
 
             <div class="row">
             <div>
-                <h1 class="section-heading">
+                <h3 class="section-heading">
                     Pixi - For Slack
-                </h1>
+                </h3>
                 <p class="lead"> Make the text in images posted in slack channels completely searchable
                 Search through uploaded images in any public channel using Slack's powerful search. Just upload a screenshot or text image, and Pixi will post a comment following the upload into the channel. Pixi uses cutting edge Optical Character Recognition technology to make your content available when you need it. 
                 </p>
@@ -151,7 +151,9 @@
                     </p>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                    <img class="img-responsive image"  src="/static/img/phones2.png" alt="">
+                    <a href="#" data-image-id="" data-toggle="modal" data-title="Im so nice" data-caption="And if there is money left, my girlfriend will receive this car" data-image="" data-target="#image-gallery-2">
+                        <img class="img-responsive image"  src="/static/img/phones2.png" alt="">
+                    </a>
                 </div>
             </div>
         </div>
@@ -170,13 +172,15 @@
                 <div class="col-lg-5 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <h2 class="section-heading">Search. </h2>
+                    <h2 class="section-heading">Search</h2>
                     <p class="lead">
                         Now you can search the text of files, including images, instantly.
                     </p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    <img class="img-responsive image" src="/static/img/phones.png" alt="">
+                    <a href="#" data-image-id="" data-toggle="modal" data-title="Im so nice" data-caption="And if there is money left, my girlfriend will receive this car" data-image="" data-target="#image-gallery">
+                        <img class="img-responsive image" src="/static/img/phones.png" alt="">
+                    </a>
                 </div>
             </div>
 
@@ -208,7 +212,7 @@
                             <li class="list-group-item"><i class="icon-ok text-danger"></i>27/7 support</li>
                         </ul>
                         <div class="panel-footer">
-                            <a class="btn btn-lg btn-block btn-info" href="http://www.jquery2dotnet.com">BUY NOW!</a>
+                            <a class="btn btn-lg btn-block btn-info" href="">BUY NOW!</a>
                         </div>
                     </div>
                 </div>
@@ -228,7 +232,7 @@
                             <li class="list-group-item"><i class="icon-ok text-danger"></i>27/7 support</li>
                         </ul>
                         <div class="panel-footer">
-                            <a class="btn btn-lg btn-block btn-success" href="http://www.jquery2dotnet.com">BUY
+                            <a class="btn btn-lg btn-block btn-success" href="">BUY
                                 NOW!</a>
                         </div>
                     </div>
@@ -249,7 +253,7 @@
                             <li class="list-group-item"><i class="icon-ok text-danger"></i>27/7 support</li>
                         </ul>
                         <div class="panel-footer">
-                            <a class="btn btn-lg btn-block btn-default" href="http://www.jquery2dotnet.com">BUY
+                            <a class="btn btn-lg btn-block btn-default" href="">BUY
                                 NOW!</a>
                         </div>
                     </div>
@@ -314,11 +318,45 @@
         </div>
     </footer>
 
+    <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="image-gallery-title"></h4>
+            </div>
+            <div class="modal-body">
+                <img id="image-gallery-image" class="img-responsive" src="/static/img/phones.png">
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="modal fade" id="image-gallery-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="image-gallery-title"></h4>
+            </div>
+            <div class="modal-body">
+                <img id="image-gallery-image" class="img-responsive" src="/static/img/phones2.png">
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+    </div>
+
 
     <!-- javascript -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <!--<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>-->
 
 
 </body>
