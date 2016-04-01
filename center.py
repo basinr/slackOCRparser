@@ -75,7 +75,7 @@ def utility_processor():
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+	return render_template('index_old.html')
 
 
 @app.route('/go/')
@@ -98,7 +98,7 @@ def start_scripts():
 	# t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
 	# t1.start()
 
-	return render_template('index.html')
+	return render_template('index_old.html')
 
 
 # For new users, use this route. This does oauth, and saves the access_token and team_name to the DB
@@ -128,7 +128,7 @@ def signup():
 			print "User added to database: " + team_name
 		return render_template('success.html')
 			
-	return render_template('index.html')
+	return render_template('index_old.html')
 
 
 # Simple admin panel, create get request with pw=growingballer89!

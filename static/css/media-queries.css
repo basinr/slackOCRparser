@@ -54,8 +54,6 @@
 	.navbar-inverse ul.navbar-nav li a.btn-link-2:active, 
 	.navbar-inverse ul.navbar-nav li a.btn-link-2:active:focus { outline: 0; opacity: 0.6; background: rgba(0, 0, 0, 0.3); border: 1px solid #fff; color: #fff; }
 	
-	.inner-bg { padding: 100px 0 70px 0; }
-	.top-content .text { padding-top: 0; padding-bottom: 60px; }
 	.top-content .top-big-link { margin-top: 25px; }
 	.top-content .top-big-link a.btn { margin-top: 10px; }
 	.form-bottom form .form-links { display: block; width: auto; margin-top: 15px; }

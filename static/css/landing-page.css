@@ -41,14 +41,15 @@ h6 {
 
 .intro-message {
     position: relative;
-    padding-top: 20%;
-    padding-bottom: 20%;
+    padding-top: 5%;
+    padding-bottom: 5%;
 }
 
 .intro-message > h1 {
     margin: 0;
+    font-family: "Cardo";
     text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-    font-size: 5em;
+    font-size: 13em;
 }
 
 .intro-divider {
@@ -66,8 +67,8 @@ h6 {
         padding-bottom: 15%;
     }
 
-    .intro-message > h1 {
-        font-size: 3em;
+    .intro-message h1 {
+        font-size: 20em;
     }
 
     ul.intro-social-buttons > li {
@@ -133,6 +134,10 @@ h6 {
 .banner-social-buttons {
     float: right;
     margin-top: 0;
+}
+
+.image{
+    border: 10px solid orange;
 }
 
 @media(max-width:1199px) {
