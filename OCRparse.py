@@ -13,7 +13,9 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
 	if r.status_code == 200:
 		with open(path, 'wb') as f:
 			f.write(r._content)
-
+	if r.status_code != 200:
+		print "Error posting comment: " + str(r.status_code) + " " + str(r.reason)
+		return False
 	result = OCRclientcall(path)
 	return result
 
