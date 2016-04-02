@@ -21,6 +21,7 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
 # Calls the OCR web api (https://ocr.space)
 # RETURNS: the text of the OCR'd image
 def OCRclientcall(download_file):
+
 	# OCR logic using the web client
 
 	payload = {'isOverlayRequired': 'False',
@@ -34,7 +35,6 @@ def OCRclientcall(download_file):
 			data=payload,)
 
 	text = r.json()
-
 
 	# TODO: Take out newline characters after 5 or so
 	text = text["ParsedResults"][0]["ParsedText"]
@@ -58,16 +58,26 @@ def get_access_token(code):
 
 	print "get_access_token reply: " + json.dumps(r.json())
 
+	a_tokens = {}
+
 	if r.status_code == 200:
 		if r.json()["ok"]:
-			token = r.json()['access_token']
+
+			access_token = r.json()['access_token']
 			bot_access_token = r.json()["bot"]["bot_access_token"]
 			bot_user_id = r.json()["bot"]["bot_user_id"]
+
+			a_tokens["access_token"] = access_token
+			a_tokens["bot_access_token"] = bot_access_token
+			a_tokens["bot_user_id"] = bot_user_id
 
 	else:
 		print "invalid code (don't reuse, expires in 10 minutes, etc.)"
 
-	return token
+	# for test purposes. will return just token if fails
+
+
+	return a_tokens
 
 
 def get_team_name(token):
@@ -85,23 +95,24 @@ def get_team_name(token):
 
 # Downloads file, OCRs content, posts file comment
 def ocr_file(sc, file_, user):
-	token = user.access_token
+	access_token = user.access_token
+	bot_access_token = user.bot_access_token
 
 	# passes in the private url download link
-	result = slack_download_and_ocr(sc, file_["url_private_download"], token, 'temp2')
+	result = slack_download_and_ocr(sc, file_["url_private_download"], access_token, 'temp2')
 
 	# cleans up the text using parseText
 	comment = result
 
 	if not comment:
-		print "No text found in uploaded file for token: " + token
+		print "No text found in uploaded file for token: " + access_token
 		return False
 
-	print "Posting comment for token: " + token
+	print "Posting comment for boat access token: " + bot_access_token
 
 	# posts the comment in the channel
 	r = requests.post("https://slack.com/api/files.comments.add", data={
-		'token': token, 
+		'token': bot_access_token, 
 		'file': file_["id"], 
 		'comment': comment})
 

@@ -85,30 +85,6 @@ def utility_processor():
 def index():
 	return render_template('index_old.html')
 
-
-@app.route('/go/')
-def start_scripts():
-	lst = []
-
-	# start testing purposes only #
-
-	token1 = 'xoxp-13657523393-23584016902-23864788196-fed69d1b0a' #(garybasin) 
-	token2 = 'xoxp-24674298112-24672378661-24674834576-80d28c0be8'  #(ronbasin) 
-	
-	lst.append(token1)
-	lst.append(token2)
-
-	# end testing purposes only #
-
-	# grabs tokens from db (only in heroku server)
-	# lst = get_access_tokens()
-
-	# t1 = threading.Thread(target=OCRparse.alt_start, args=(lst,))
-	# t1.start()
-
-	return render_template('index_old.html')
-
-
 # For new users, use this route. This does oauth, and saves the access_token and team_name to the DB
 @app.route('/signup/')
 def signup():
@@ -119,18 +95,26 @@ def signup():
 		code = request.args['code']
 
 		# access_token that needs to be stored for each user
-		token = OCRparse.get_access_token(code)
+		token_dict = OCRparse.get_access_token(code)
 
-		print "token: " + token
+		access_token = token_dict["access_token"]
+		bot_access_token = token_dict["bot_access_token"]
+		bot_user_id = token_dict["bot_user_id"]
+
+
+		print "access token: " + access_token
+		print "bot access token: " + bot_access_token
+		print "bot user id: " + bot_user_id
 
 		# get team name
-		team_name = OCRparse.get_team_name(token)
+		team_name = OCRparse.get_team_name(bot_access_token)
 
 		print "team: " + team_name
 
 		# add user to db if does not exist
 		if not db.session.query(User).filter(User.team_name == team_name).count():
-			reg = User(access_token=token, team_name=team_name)
+			reg = User(access_token=access_token, team_name=team_name, 
+				bot_access_token=bot_access_token, bot_user_id=bot_user_id)
 			db.session.add(reg)
 			db.session.commit()
 			print "User added to database: " + team_name
@@ -144,9 +128,6 @@ def signup():
 def cpanel():
 	try:
 		pw = request.args.get('pw')
-
-		# local testing 
-		# pw = request.args.getlist('pw')[0]
 
 		if pw != 'growingballer89!':
 			return index()
