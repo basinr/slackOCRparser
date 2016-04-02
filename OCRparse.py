@@ -88,7 +88,7 @@ def new_driver(sc, file_, token):
 	# cleans up the text using parseText
 	comment = result
 
-	if not comment
+	if not comment:
 		print "No text found in uploaded file for token: " + token
 		return
 
