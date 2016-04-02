@@ -20,6 +20,8 @@ class User(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	access_token = db.Column(db.String(120), unique=True)
 	team_name = db.Column(db.String(120), unique=True)
+	bot_access_token = db.Column(db.String(120))
+	bot_user_id = db.Column(db.String(120))
 	processed_cnt = db.Column(db.Integer)
 	subscription_type = db.Column(db.Integer)
 	last_check_time = db.Column(db.Integer)
@@ -30,6 +32,8 @@ class User(db.Model):
 		self.processed_cnt = 0
 		self.subscription_type = 0 # default, free
 		self.last_check_time = 0
+		self.bot_access_token = ""
+		self.bot_user_id = ""
 
 	def inc_processed_cnt(self):
 		db.session.query(User).filter(User.id == self.id).\
