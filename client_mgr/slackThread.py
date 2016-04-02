@@ -91,7 +91,7 @@ class SlackThread:
 					msg_type = r[0]["type"]
 
 					# DEBUG LOGGING
-					print "Msg received at " + self._last_msg_recv_time + " From user: " \
+					print "Msg received at " + str(self._last_msg_recv_time) + " From user: " \
 						+ self.get_user_id_str() + " -- " + json.dumps(r)
 
 					# check for 'file created'
