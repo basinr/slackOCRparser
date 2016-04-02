@@ -135,7 +135,7 @@
                                <span class="label label-danger">Down</span>
                                {% endif %}
                            </td>
-                           <td> <a href="{{ ''.join(['?pw=growingballer89!&cmd=delete_user&id=', key]) }}">
+                           <td> <a href="{{ ''.join(['?pw=growingballer89!&cmd=delete_user&id=', key|string()]) }}">
                                <span class="label label-danger">Delete</span>
                            </a></td>
                        </tr>
