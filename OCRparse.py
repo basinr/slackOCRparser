@@ -99,7 +99,8 @@ def ocr_file(sc, file_, user):
 	bot_access_token = user.bot_access_token
 
 	# passes in the private url download link
-	result = slack_download_and_ocr(sc, file_["url_private_download"], access_token, 'temp2')
+	temp_file = 'temp_' + user.id
+	result = slack_download_and_ocr(sc, file_["url_private_download"], token=access_token, temp_file_name=temp_file)
 
 	# cleans up the text using parseText
 	comment = result
