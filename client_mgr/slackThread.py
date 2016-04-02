@@ -104,8 +104,6 @@ class SlackThread:
 							print "Count inc for user: " + self.get_user_id_str()
 						else:
 							print "OCR parse failed"
-
-						print "file processed, continuining..."
 			except:
 				print traceback.print_exc()
 				print "Unexpected error in SlackThread for user: " + self.get_user_id_str()
