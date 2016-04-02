@@ -147,7 +147,7 @@ class SlackThreadManager:
 						print "Rebuilding lost SlackThread for user: " + slack_thread.get_user_id_str()
 						print str(timeNow - slackThreadLastMsgTime) + \
 							" seconds since last msg received (now=" + timeNow + ", lastMsgTime=" \
-							+ slackThreadLastMsgTime + ")"
+							+ str(slackThreadLastMsgTime) + ")"
 
 						slack_thread.start()
 
