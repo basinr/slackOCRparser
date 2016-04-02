@@ -98,7 +98,7 @@ def new_driver(sc, file_, token):
 
 	if not comment:
 		print "No text found in uploaded file for token: " + token
-		return
+		return False
 
 	print "Posting comment for token: " + token
 
@@ -110,8 +110,10 @@ def new_driver(sc, file_, token):
 
 	if r.status_code != 200:
 		print "Error posting comment: " + str(r.status_code) + " " + str(r.reason)
-		return
+		return False
 
 	if not r.json()["ok"]:
 		print "Error posting comment: " + json.dumps(r.json())
-		return
+		return False
+
+	return True
