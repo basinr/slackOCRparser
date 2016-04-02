@@ -28,7 +28,7 @@ class User(db.Model):
 	subscription_type = db.Column(db.Integer)
 	last_check_time = db.Column(db.Integer)
 
-	def __init__(self, access_token, team_name):
+	def __init__(self, access_token, bot_access_token, bot_user_id, team_name):
 		self.access_token = access_token
 		self.team_name = team_name
 		self.processed_cnt = 0
@@ -113,8 +113,8 @@ def signup():
 
 		# add user to db if does not exist
 		if not db.session.query(User).filter(User.team_name == team_name).count():
-			reg = User(access_token=access_token, team_name=team_name, 
-				bot_access_token=bot_access_token, bot_user_id=bot_user_id)
+			reg = User(access_token=access_token, bot_access_token=bot_access_token, 
+				bot_user_id=bot_user_id, team_name=team_name)
 			db.session.add(reg)
 			db.session.commit()
 			print "User added to database: " + team_name
