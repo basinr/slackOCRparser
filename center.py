@@ -17,12 +17,14 @@ slack_thread_mgr = None
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
 class User(db.Model):
 	__tablename__ = "users"
+
 	id = db.Column(db.Integer, primary_key=True)
 	access_token = db.Column(db.String(120), unique=True)
 	team_name = db.Column(db.String(120), unique=True)
 	bot_access_token = db.Column(db.String(120))
 	bot_user_id = db.Column(db.String(120))
 	processed_cnt = db.Column(db.Integer)
+	proc_cnt_since_last_rollover = db.Column(db.Integer)
 	subscription_type = db.Column(db.Integer)
 	last_check_time = db.Column(db.Integer)
 
@@ -30,16 +32,18 @@ class User(db.Model):
 		self.access_token = access_token
 		self.team_name = team_name
 		self.processed_cnt = 0
+		self.proc_cnt_since_last_rollover = 0
 		self.subscription_type = 0 # default, free
 		self.last_check_time = 0
 		self.bot_access_token = ""
 		self.bot_user_id = ""
 
 	def inc_processed_cnt(self):
-		db.session.query(User).filter(User.id == self.id).\
-			update({"processed_cnt": (User.processed_cnt + 1)})
+		user = db.session.query(User).filter(User.id == self.id).first()
+		user.update({"processed_cnt": (User.processed_cnt + 1)})
 		self.processed_cnt += 1
 		db.session.commit()
+		print str(self is user)
 
 	def update_last_check_time(self, time_secs):
 		'''db.session.query(User).filter(User.id == self.id).\
