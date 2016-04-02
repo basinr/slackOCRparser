@@ -78,16 +78,13 @@ def utility_processor():
 	def is_slack_thread_active(user_key):
 		return slack_thread_mgr.is_service_active(user_key)
 
-	def delete_user(user_key):
-		User.query.filter_by(id=user_key).delete()
-		db.session.commit()
-
-	return dict(is_slack_thread_active=is_slack_thread_active, delete_user=delete_user)
+	return dict(is_slack_thread_active=is_slack_thread_active)
 
 
 @app.route('/')
 def index():
 	return render_template('index_old.html')
+
 
 # For new users, use this route. This does oauth, and saves the access_token and team_name to the DB
 @app.route('/signup/')
@@ -142,6 +139,17 @@ def cpanel():
 			slack_thread_mgr.start_all()
 		elif cmd == "stop_loop":
 			slack_thread_mgr.stop_all()
+		elif cmd == "rebuild_tables":
+			print "admin rebuilding tables..."
+			slack_thread_mgr.stop_all()
+			db.drop_all()
+			db.create_all()
+			slack_thread_mgr.start_all()
+		elif cmd == "delete_user":
+			print "admin deleting user " + request.args.get('id')
+			user_id = request.args.get('id')
+			User.query.filter_by(id=user_id).delete()
+			db.session.commit()
 
 		users = get_users()
 		return render_template('cpanel.html', users=users)

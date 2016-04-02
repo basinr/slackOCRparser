@@ -95,6 +95,11 @@
                             <li role="presentation"><a href="?pw=growingballer89!&cmd=start_loop" class="list-group-item list-group-item-success">Start Service</a></li>
                             <li role="presentation"><a href="?pw=growingballer89!&cmd=stop_loop" class="list-group-item list-group-item-danger">Stop Service</a></li>
                         </ul>
+                        <h4>Database Control</h4>
+                        <ul class="nav nav-tabs">
+                            <li role="presentation"><a href="?pw=growingballer89!&cmd=rebuild_tables" class="list-group-item list-group-item-danger">Clean DB</a></li>
+                        </ul>
+                        </h4>
                     </div>
                 </div>
                 <div class="panel panel-default">
@@ -110,7 +115,8 @@
                                 <td>Proc. Cnt</td>
                                 <td>Sub. Type</td>
                                 <td>Last Check Time</td>
-                                <td>Thread Active</td>
+                                <td>Thread</td>
+                                <td>Admin</td>
                             </tr>
                         </thead>
                     {% for key, value in users.iteritems() %}
@@ -129,6 +135,9 @@
                                <span class="label label-danger">Down</span>
                                {% endif %}
                            </td>
+                           <td> <a href="{{ ''.join(['?pw=growingballer89!&cmd=delete_user&id=', key]) }}">
+                               <span class="label label-danger">Delete</span>
+                           </a></td>
                        </tr>
                     {% endfor %}
                     </table>
