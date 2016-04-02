@@ -99,10 +99,13 @@ class SlackThread:
 						print "Processing file for user: " + self.get_user_id_str()
 						OCRparse.new_driver(self._slack_client, r[0]["file"], token)
 						self._user.inc_processed_cnt()
+						print "Count inc for user: " + self.get_user_id_str()
 			except:
 				print traceback.print_exc()
 				print "Unexpected error in SlackThread for user: " + self.get_user_id_str()
 				break  # allow SlackThreadManager to recreate this thread
+
+		print "Thread exited for user: " +  self.get_user_id_str()
 
 
 class SlackThreadManager:
