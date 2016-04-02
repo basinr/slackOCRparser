@@ -68,8 +68,6 @@ def get_access_token(code):
 			bot_access_token = r.json()["bot"]["bot_access_token"]
 			bot_user_id = r.json()["bot"]["bot_user_id"]
 
-			print bot_user_id
-			print bot_access_token
 	else:
 		print "invalid code (don't reuse, expires in 10 minutes, etc.)"
 
