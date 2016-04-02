@@ -106,3 +106,4 @@ def new_driver(sc, file_, token):
 
 	if not r.json()["ok"]:
 		print "Error posting comment: " + json.dumps(r.json())
+		return
