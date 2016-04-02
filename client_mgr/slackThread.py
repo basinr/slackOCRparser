@@ -178,9 +178,10 @@ class SlackThreadManager:
 			return self._slack_thread_dict[user_key].is_service_active()
 		return False
 
-	def kill_user_thread(self, user_key):
+	def remove_user(self, user_key):
 		if user_key in self._slack_thread_dict:
 			self._slack_thread_dict[user_key].stop()
+			del self._slack_thread_dict[user_key]
 
 	def kill(self):
 		print "Stopping SlackThreadManager..."
