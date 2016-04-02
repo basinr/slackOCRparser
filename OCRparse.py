@@ -37,6 +37,8 @@ def OCRclientcall(download_file):
 
 	text = r.json()
 
+
+	# TODO: Take out newline characters after 5 or so
 	text = text["ParsedResults"][0]["ParsedText"]
 
 	return text
@@ -48,6 +50,7 @@ def OCRclientcall(download_file):
 def get_access_token(code):
 
 	token = 'error'
+
 	r = requests.get("https://slack.com/api/oauth.access", 
 		params={'client_id': '13657523393.23587667329', 
 		'client_secret': 'daa51f4cbf84779d2c01f8eafe59cd1f',
