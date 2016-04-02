@@ -91,7 +91,8 @@ class SlackThread:
 					msg_type = r[0]["type"]
 
 					# DEBUG LOGGING
-					print "From user: " + self.get_user_id_str() + " -- " + json.dumps(r)
+					print "Msg received at " + self._last_msg_recv_time + " From user: " \
+						+ self.get_user_id_str() + " -- " + json.dumps(r)
 
 					# check for 'file created'
 					if msg_type == "file_public":
@@ -138,12 +139,15 @@ class SlackThreadManager:
 					slack_thread = self._slack_thread_dict[key]
 
 					# check if we haven't received a message in a while
-					if (int(time.time()) - slack_thread.get_last_msg_recv_time()) > self.CONNECTION_LOST_TIME_SECS \
+					timeNow = int(time.time())
+					slackThreadLastMsgTime = slack_thread.get_last_msg_recv_time()
+					if (timeNow - slackThreadLastMsgTime) > self.CONNECTION_LOST_TIME_SECS \
 						and not slack_thread._stop_flag.is_set():
 						# rebuild thread
 						print "Rebuilding lost SlackThread for user: " + slack_thread.get_user_id_str()
-						print str(int(time.time()) - slack_thread.get_last_msg_recv_time()) + \
-							" seconds since last msg received"
+						print str(timeNow - slackThreadLastMsgTime) + \
+							" seconds since last msg received (now=" + timeNow + ", lastMsgTime=" \
+							+ slackThreadLastMsgTime + ")"
 
 						slack_thread.start()
 
