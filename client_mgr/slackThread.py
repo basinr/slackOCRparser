@@ -65,10 +65,11 @@ class SlackThread:
 
 				# check for updates
 				access_token = self._user.access_token
+				bot_access_token = self._user.bot_access_token
 
 				# lazy connect
 				if self._slack_client is None:
-					self._slack_client = SlackClient(access_token)
+					self._slack_client = SlackClient(bot_access_token)
 
 					if not self._slack_client.rtm_connect():
 						print "Slack client failed to connect for user: " + self.get_user_id_str()
