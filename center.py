@@ -43,7 +43,7 @@ class User(db.Model):
 		user.processed_cnt += 1
 		self.processed_cnt += 1
 		db.session.commit()
-		print str(self is user)
+		print str(self is user) # return false, not sure why....
 
 	def update_last_check_time(self, time_secs):
 		'''db.session.query(User).filter(User.id == self.id).\
@@ -150,7 +150,7 @@ def cpanel():
 			user_id = request.args.get('id')
 			User.query.filter_by(id=user_id).delete()
 			db.session.commit()
-			slack_thread_mgr.remove_user(int(user_id))
+			slack_thread_mgr.kill_user_thread(int(user_id))
 
 		users = get_users()
 		return render_template('cpanel.html', users=users)
