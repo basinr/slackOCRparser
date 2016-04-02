@@ -109,7 +109,7 @@ def ocr_file(sc, file_, user):
 		print "No text found in uploaded file for token: " + access_token
 		return False
 
-	print "Posting comment for boat access token: " + bot_access_token
+	print "Posting comment for bot access token: " + bot_access_token
 
 	# posts the comment in the channel
 	r = requests.post("https://slack.com/api/files.comments.add", data={

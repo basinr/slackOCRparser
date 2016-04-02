@@ -35,8 +35,8 @@ class User(db.Model):
 		self.proc_cnt_since_last_rollover = 0
 		self.subscription_type = 0 # default, free
 		self.last_check_time = 0
-		self.bot_access_token = ""
-		self.bot_user_id = ""
+		self.bot_access_token = bot_access_token
+		self.bot_user_id = bot_user_id
 
 	def inc_processed_cnt(self):
 		user = db.session.query(User).filter(User.id == self.id).first()
