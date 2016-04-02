@@ -97,7 +97,7 @@ class SlackThread:
 
 					# check for 'file created'
 					if msg_type == "message":
-						if r[0]["sub_type"] == "file_share":
+						if r[0]["subtype"] == "file_share":
 							print "Processing file for user: " + self.get_user_id_str()
 							success = OCRparse.ocr_file(self._slack_client, r[0]["file"], self._user)
 
