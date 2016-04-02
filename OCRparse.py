@@ -95,7 +95,7 @@ def new_driver(sc, file_, token):
 		print "No text found in uploaded file for token: " + token
 		return
 
-	print "Posting comment for token: " + token + ": \n" + comment
+	print "Posting comment for token: " + token
 
 	# posts the comment in the channel
 	r = requests.post("https://slack.com/api/files.comments.add", data={
