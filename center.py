@@ -142,6 +142,7 @@ def cpanel():
 		elif cmd == "rebuild_tables":
 			print "admin rebuilding tables..."
 			slack_thread_mgr.stop_all()
+			db.session.commit() # hack from http://stackoverflow.com/questions/24289808/drop-all-freezes-in-flask-with-sqlalchemy
 			db.drop_all()
 			db.create_all()
 			slack_thread_mgr.start_all()
