@@ -151,7 +151,7 @@ def cpanel():
 			user_id = request.args.get('id')
 			User.query.filter_by(id=user_id).delete()
 			db.session.commit()
-			slack_thread_mgr.kill_user_thread(int(user_id))
+			slack_thread_mgr.kill_user_thread(user_id)
 
 		users = get_users()
 		return render_template('cpanel.html', users=users)
