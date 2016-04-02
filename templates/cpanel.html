@@ -123,7 +123,7 @@
                            <td> {{ value.processed_cnt }} </td>
                            <td> {{ value.subscription_type }} </td>
                            <td> {{ value.last_check_time }} </td>
-                           <td> {% if  is_slack_thread_active(key)  %}
+                           <td> {% if is_slack_thread_active(key)  %}
                                <span class="label label-success">Up</span>
                                {% else %}
                                <span class="label label-danger">Down</span>

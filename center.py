@@ -78,7 +78,11 @@ def utility_processor():
 	def is_slack_thread_active(user_key):
 		return slack_thread_mgr.is_service_active(user_key)
 
-	return dict(is_slack_thread_active=is_slack_thread_active)
+	def delete_user(user_key):
+		User.query.filter_by(id=user_key).delete()
+		db.session.commit()
+
+	return dict(is_slack_thread_active=is_slack_thread_active, delete_user=delete_user)
 
 
 @app.route('/')
