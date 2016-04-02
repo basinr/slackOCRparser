@@ -40,7 +40,7 @@ class User(db.Model):
 
 	def inc_processed_cnt(self):
 		user = db.session.query(User).filter(User.id == self.id).first()
-		user.update({"processed_cnt": (User.processed_cnt + 1)})
+		user.processed_cnt += 1
 		self.processed_cnt += 1
 		db.session.commit()
 		print str(self is user)
