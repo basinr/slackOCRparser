@@ -96,15 +96,16 @@ class SlackThread:
 						+ self.get_user_id_str() + " -- " + json.dumps(r)
 
 					# check for 'file created'
-					if msg_type == "file_public":
-						print "Processing file for user: " + self.get_user_id_str()
-						success = OCRparse.ocr_file(self._slack_client, r[0]["file"], self._user)
+					if msg_type == "message":
+						if r[0]["sub_type"] == "file_share":
+							print "Processing file for user: " + self.get_user_id_str()
+							success = OCRparse.ocr_file(self._slack_client, r[0]["file"], self._user)
 
-						if success:
-							self._user.inc_processed_cnt()
-							print "Count inc for user: " + self.get_user_id_str()
-						else:
-							print "OCR parse failed"
+							if success:
+								self._user.inc_processed_cnt()
+								print "Count inc for user: " + self.get_user_id_str()
+							else:
+								print "OCR parse failed"
 			except:
 				print traceback.print_exc()
 				print "Unexpected error in SlackThread for user: " + self.get_user_id_str()
