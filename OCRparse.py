@@ -1,18 +1,17 @@
 import requests
 import json
-# from unidecode import unidecode
 
 
-# Downloads file from slack channel into test2.png
+# Downloads file from slack channel into temp file
 # RETURNS: the OCR text of the downloaded file
-def slackAPI_download_file(sc, url, token):
+def slack_download_and_ocr(sc, url, token, temp_file_name):
 
 	download_url = url
-	headers = {"Authorization" : "Bearer " + token}
+	headers = {"Authorization": "Bearer " + token}
 	r = requests.get(download_url, headers=headers)
-	path = 'test2.png'
+	path = temp_file_name + '.png'
 	if r.status_code == 200:
-	    with open('test2.png', 'wb') as f:
+		with open(path, 'wb') as f:
 			f.write(r._content)
 
 	result = OCRclientcall(path)
@@ -22,9 +21,6 @@ def slackAPI_download_file(sc, url, token):
 # Calls the OCR web api (https://ocr.space)
 # RETURNS: the text of the OCR'd image
 def OCRclientcall(download_file):
-
-
-
 	# OCR logic using the web client
 
 	payload = {'isOverlayRequired': 'False',
@@ -88,10 +84,11 @@ def get_team_name(token):
 
 
 # Downloads file, OCRs content, posts file comment
-def new_driver(sc, file_, token):
-	
+def ocr_file(sc, file_, user):
+	token = user.access_token
+
 	# passes in the private url download link
-	result = slackAPI_download_file(sc, file_["url_private_download"], token)
+	result = slack_download_and_ocr(sc, file_["url_private_download"], token, 'temp2')
 
 	# cleans up the text using parseText
 	comment = result

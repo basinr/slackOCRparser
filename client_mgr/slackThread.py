@@ -97,7 +97,7 @@ class SlackThread:
 					# check for 'file created'
 					if msg_type == "file_public":
 						print "Processing file for user: " + self.get_user_id_str()
-						success = OCRparse.new_driver(self._slack_client, r[0]["file"], token)
+						success = OCRparse.ocr_file(self._slack_client, r[0]["file"], self._user)
 
 						if success:
 							self._user.inc_processed_cnt()
