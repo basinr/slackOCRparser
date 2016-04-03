@@ -120,10 +120,10 @@ class User(db.Model):
 	def account_info_str(self):
 		user_obj = self.get_obj()
 		txt = "\n Team Name = " + user_obj.team_name
-		txt += "\n Subscription Type = " + user_obj.subscription_type
-		txt += "\n Total Processed = " + user_obj.processed_cnt
-		txt += "\n Processed This Month = " + user_obj.proc_cnt_since_last_rollover
-		txt += "\n OCR Enabled  =  " + user_obj.enabled
+		txt += "\n Subscription Type = " + str(user_obj.subscription_type)
+		txt += "\n Total Processed = " + str(user_obj.processed_cnt)
+		txt += "\n Processed This Month = " + str(user_obj.proc_cnt_since_last_rollover)
+		txt += "\n OCR Enabled  =  " + str(user_obj.enabled)
 		return txt
 
 	def to_json(self):
