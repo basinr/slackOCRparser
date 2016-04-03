@@ -111,7 +111,8 @@ class SlackThread:
 								print "OCR parse failed"
 						elif not subtype:
 							# probably a regular message
-							reply = bot.process(r[0]["text"])
+							text = r[0]["text"]
+							reply = bot.process(text)
 							channel = r[0]["channel"]
 
 							if reply:
