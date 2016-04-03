@@ -13,6 +13,9 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
 	r = requests.get(download_url, headers=headers)
 	path = temp_file_name + '.png'
 
+	# creates file if doesn't exist
+	touch_file = open(path, 'a');
+
 	# resizes if too large, otherwise does nothing
 	resize_image(path)
 
@@ -133,10 +136,3 @@ def ocr_file(sc, file_, user):
 	# posts the comment in the channel
 	return user.post_comment(comment, file_["id"])
 
-
-def main():
-    resize_image('4kfile.png')
-    return
-
-if __name__ == "__main__":
-    main()
