@@ -204,23 +204,24 @@ def charge():
 		source=token,
 		description="Example customer"
 		)
+ #    # may want to save customer id, credentials in db for future use
+ #    print "Stripe token: "
+ #    print token
+ #    print "Customer id: "
+ #    print customer.id
 
-	# may want to save customer id, credentials in db for future use
-	print "Stripe token: "
-	print token
-	print "Customer id: "
-	print customer.id
+	# try:
+	# 	charge = stripe.Charge.create(
+	# 		email=request.POST['stripeEmail'],
+	# 		source=token,
+	# 		plan='PixiBot'
+	# )
 
-	try:
-		charge = stripe.Charge.create(
-			email=request.POST['stripeEmail'],
-			source=token,
-			plan='PixiBot'
-		)
-	except stripe.error.CardError, e:
-		# Card has been declined
-		print "Credit Card has been declined"
-		return False
+
+	# except stripe.error.CardError, e:
+	# 	# Card has been declined
+	# 	print "Credit Card has been declined"
+	# 	return False
 
 	# TODO: Change to new payment success page
 
