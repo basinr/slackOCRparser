@@ -3,13 +3,13 @@ def process(bot_user_id, text):
 	if bot_user_id not in text:
 		return False
 
-	if text == "help":
+	if "help" in text:
 		return help_menu()
-	elif text == "start":
+	elif "start" in text:
 		return "OCR enabled!"
-	elif text == "stop":
+	elif "stop" in text:
 		return "OCR disabled!"
-	elif text == "account":
+	elif "account" in text:
 		return "account info TODO"
 
 
