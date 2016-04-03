@@ -59,13 +59,8 @@ class User(db.Model):
 			'channel': channel,
 			'text': text})
 
-		if r.status_code != 200:
-			print "Error posting message: " + str(r.status_code) + " " + str(r.reason)
-			return False
-
-		if not r.json()["ok"]:
-			print "Error posting message: " + json.dumps(r.json())
-			return False
+		if not User.error_check(r):
+			return False;
 
 		return True
 
@@ -75,15 +70,20 @@ class User(db.Model):
 			'file': file_id,
 			'comment': text})
 
-		if r.status_code != 200:
-			print "Error posting comment: " + str(r.status_code) + " " + str(r.reason)
-			return False
-
-		if not r.json()["ok"]:
-			print "Error posting comment: " + json.dumps(r.json())
-			return False
+		if not User.error_check(r):
+			return False;
 
 		return True
+
+	@staticmethod
+	def error_check(response):
+		if response.status_code != 200:
+			print "Error making slack call: " + str(response.status_code) + " " + str(response.reason)
+			return False
+
+		if not response.json()["ok"]:
+			print "Error making slack call: " + json.dumps(response.json())
+			return False
 
 	def to_json(self):
 		return json.dumps(self, default=lambda o: o.__dict__,  sort_keys=True, indent=4)
