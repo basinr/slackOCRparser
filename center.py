@@ -67,15 +67,12 @@ class User(db.Model):
 
 	def inc_processed_cnt(self):
 		user = db.session.query(User).filter(User.id == self.id).first()
+		print str(self is user)  # returns false, not sure why....
 		user.processed_cnt += 1
 		# self.processed_cnt += 1
 		db.session.commit()
-		try:
-			print(self.repr())
-			print(user.repr())
-		except:
-			print "fail"
-		print str(self is user)  # returns false, not sure why....
+		print str(user.processed_cnt) + " " + str(self.processed_cnt)
+		print str(type(self)) + " " + str(type(user))
 
 	def update_last_check_time(self, time_secs):
 		'''db.session.query(User).filter(User.id == self.id).\
