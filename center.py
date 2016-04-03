@@ -187,9 +187,7 @@ def cpanel():
 			slack_thread_mgr.stop_all()
 		elif cmd == "rebuild_tables":  # currently not working, 30 sec timeout. should be quicker, though...
 			slack_thread_mgr.stop_all()
-			thread = threading.Thread(target=rebuild_tables, args=())
-			thread.start()
-			return render_template('cpanel.html', users={})
+			rebuild_tables()
 		elif cmd == "delete_user":
 			print "admin deleting user " + request.args.get('id')
 			user_id = request.args.get('id')
@@ -207,9 +205,10 @@ def rebuild_tables():
 	print "admin rebuilding tables..."
 	# hack from http://stackoverflow.com/questions/24289808/drop-all-freezes-in-flask-with-sqlalchemy
 	db.session.commit()
-	print "1"
+
+	db.reflect()
 	db.drop_all()
-	print "2"
+	print "creating.."
 	db.create_all()
 	print "rebuild_tables() completed"
 	slack_thread_mgr.start_all()
