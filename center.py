@@ -13,6 +13,7 @@ heroku = Heroku(app)
 db = SQLAlchemy(app)
 slack_thread_mgr = None
 
+
 # Create our database model
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
 class User(db.Model):
@@ -37,6 +38,30 @@ class User(db.Model):
 		self.last_check_time = 0
 		self.bot_access_token = bot_access_token
 		self.bot_user_id = bot_user_id
+
+	@staticmethod
+	def add_new_user(access_token, bot_access_token, bot_user_id, team_name):
+		if not db.session.query(User).filter(User.team_name == team_name).count():
+			reg = User(access_token=access_token, bot_access_token=bot_access_token,
+					   bot_user_id=bot_user_id, team_name=team_name)
+			db.session.add(reg)
+			db.session.commit()
+			print "User added to database: " + team_name
+
+	@staticmethod
+	def get_users():
+		# get dictionary of Users table (keys are row IDs)
+		users = {}
+		rows = db.session.query(User).all()
+		for row in rows:
+			# ID is an integer; it's the row number in the database (0,1,2,3 etc.)
+			users[row.id] = row
+		return users
+
+	@staticmethod
+	def delete_user(user_id):
+		User.query.filter_by(id=user_id).delete()
+		db.session.commit()
 
 	def inc_processed_cnt(self):
 		user = db.session.query(User).filter(User.id == self.id).first()
@@ -97,16 +122,6 @@ class User(db.Model):
 app.add_template_global(User, 'User')
 
 
-# get dictionary of Users table (keys are row IDs)
-def get_users():
-	users = {}
-	rows = db.session.query(User).all()
-	for row in rows:
-		# ID is an integer; it's the row number in the database (0,1,2,3 etc.)
-		users[row.id] = row
-	return users
-
-
 @app.context_processor
 def utility_processor():
 	def is_slack_thread_active(user_key):
@@ -146,14 +161,9 @@ def signup():
 		print "team: " + team_name
 
 		# add user to db if does not exist
-		if not db.session.query(User).filter(User.team_name == team_name).count():
-			reg = User(access_token=access_token, bot_access_token=bot_access_token, 
-				bot_user_id=bot_user_id, team_name=team_name)
-			db.session.add(reg)
-			db.session.commit()
-			print "User added to database: " + team_name
+		User.add_new_user(access_token, bot_access_token, bot_user_id, team_name)
 		return render_template('success.html')
-			
+
 	return render_template('index_old.html')
 
 
@@ -185,11 +195,10 @@ def cpanel():
 		elif cmd == "delete_user":
 			print "admin deleting user " + request.args.get('id')
 			user_id = request.args.get('id')
-			User.query.filter_by(id=user_id).delete()
-			db.session.commit()
+			User.delete_user(user_id)
 			slack_thread_mgr.kill_user_thread(int(user_id))
 
-		users = get_users()
+		users = User.get_users()
 		return render_template('cpanel.html', users=users)
 	except:
 		print "Unexpected error in cpanel():", sys.exc_info()[0]

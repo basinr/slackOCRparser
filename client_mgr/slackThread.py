@@ -146,7 +146,7 @@ class SlackThreadManager:
 				time.sleep(self.SLEEP_TIME_SECS)
 
 				# check SlackThread for each User
-				users = center.get_users()
+				users = center.User.get_users()
 
 				for key, user in users.iteritems():
 					if key not in self._slack_thread_dict:
