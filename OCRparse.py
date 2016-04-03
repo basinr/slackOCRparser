@@ -26,6 +26,7 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
 
 	return result
 
+
 # Calls the OCR web api (https://ocr.space)
 # RETURNS: the text of the OCR'd image
 def OCRclientcall(download_file):
@@ -36,11 +37,11 @@ def OCRclientcall(download_file):
 	           'language': 'eng',
 	           }
 
-	resize_image(download_file);
+	resize_image(download_file)
 
 	with open(download_file, 'rb') as f:
-		r = requests.post('https://api.ocr.space/parse/image', 
-			files={download_file: f}, 
+		r = requests.post('https://api.ocr.space/parse/image',
+			files={download_file: f},
 			data=payload,)
 
 	text = r.json()
@@ -50,9 +51,9 @@ def OCRclientcall(download_file):
 
 	return text
 
-# resize image if necessary before sendign to OCR Space API
-def resize_image(path):
 
+# resize image if necessary before sending to OCR Space API
+def resize_image(path):
 	im = Image.open(path)
 
 	if im.size[0] > 2600 or im.size[1] > 2600:
@@ -61,6 +62,7 @@ def resize_image(path):
 		im.save(path)
 	else:
 		return
+
 
 # Used with "Add to Slack" Button
 # Does the second step of the oauth process, found here: https://api.slack.com/docs/oauth

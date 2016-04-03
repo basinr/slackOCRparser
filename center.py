@@ -28,16 +28,18 @@ class User(db.Model):
 	proc_cnt_since_last_rollover = db.Column(db.Integer)
 	subscription_type = db.Column(db.Integer)
 	last_check_time = db.Column(db.Integer)
+	enabled = db.Column(db.Boolean)
 
 	def __init__(self, access_token, bot_access_token, bot_user_id, team_name):
 		self.access_token = access_token
 		self.team_name = team_name
 		self.processed_cnt = 0
 		self.proc_cnt_since_last_rollover = 0
-		self.subscription_type = 0 # default, free
+		self.subscription_type = 0  # default, free
 		self.last_check_time = 0
 		self.bot_access_token = bot_access_token
 		self.bot_user_id = bot_user_id
+		self.enabled = True
 
 	@staticmethod
 	def add_new_user(access_token, bot_access_token, bot_user_id, team_name):
@@ -66,9 +68,9 @@ class User(db.Model):
 	def inc_processed_cnt(self):
 		user = db.session.query(User).filter(User.id == self.id).first()
 		user.processed_cnt += 1
-		self.processed_cnt += 1
+		# self.processed_cnt += 1
 		db.session.commit()
-		print str(self is user) # return false, not sure why....
+		print str(self is user)  # returns false, not sure why....
 
 	def update_last_check_time(self, time_secs):
 		'''db.session.query(User).filter(User.id == self.id).\

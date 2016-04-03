@@ -116,6 +116,7 @@
                                 <td>Sub. Type</td>
                                 <td>Last Check Time</td>
                                 <td>Thread</td>
+                                <td>Enabled</td>
                                 <td>Admin</td>
                             </tr>
                         </thead>
@@ -135,6 +136,7 @@
                                <span class="label label-danger">Down</span>
                                {% endif %}
                            </td>
+                           <td> {{ value.enabled }} </td>
                            <td> <a href="{{ ''.join(['?pw=growingballer89!&cmd=delete_user&id=', key|string()]) }}">
                                <span class="label label-danger">Delete</span>
                            </a></td>
