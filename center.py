@@ -7,7 +7,6 @@ import json
 import sys
 import client_mgr
 import requests
-import threading
 
 app = Flask(__name__)
 heroku = Heroku(app)
@@ -71,6 +70,8 @@ class User(db.Model):
 		user.processed_cnt += 1
 		# self.processed_cnt += 1
 		db.session.commit()
+		print(self)
+		print(user)
 		print str(self is user)  # returns false, not sure why....
 
 	def update_last_check_time(self, time_secs):
@@ -84,6 +85,7 @@ class User(db.Model):
 	def post_message(self, text, channel):
 		r = requests.post("https://slack.com/api/chat.postMessage", data={
 			'token': self.bot_access_token,
+			'username': 'pixibot',
 			'channel': channel,
 			'text': text})
 
@@ -185,9 +187,9 @@ def cpanel():
 			slack_thread_mgr.start_all()
 		elif cmd == "stop_loop":
 			slack_thread_mgr.stop_all()
-		elif cmd == "rebuild_tables":  # currently not working, 30 sec timeout. should be quicker, though...
-			slack_thread_mgr.stop_all()
-			rebuild_tables()
+		# elif cmd == "rebuild_tables":  # currently not working, 30 sec timeout. should be quicker, though...
+		# 	slack_thread_mgr.stop_all()
+		# 	rebuild_tables()
 		elif cmd == "delete_user":
 			print "admin deleting user " + request.args.get('id')
 			user_id = request.args.get('id')
@@ -202,6 +204,7 @@ def cpanel():
 
 
 def rebuild_tables():
+	# borked
 	print "admin rebuilding tables..."
 	# hack from http://stackoverflow.com/questions/24289808/drop-all-freezes-in-flask-with-sqlalchemy
 	db.session.commit()
