@@ -69,9 +69,10 @@ class User(db.Model):
 		return db.session.query(User).filter(User.id == self.id).first()
 
 	def inc_processed_cnt(self):
-		user = self.get_obj()
-		user.processed_cnt += 1
-		user.proc_cnt_since_last_rollover += 1
+		#user = self.get_obj()
+		#user.processed_cnt += 1
+		#user.proc_cnt_since_last_rollover += 1
+		self.processed_cnt += 1
 		db.session.commit()
 
 	def update_last_check_time(self, time_secs):
