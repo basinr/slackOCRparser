@@ -61,7 +61,7 @@ def resize_image(path):
 	if im.size[0] > 2600 or im.size[1] > 2600:
 		size = 2600, 2600
 		im.thumbnail(size, Image.ANTIALIAS)
-		im.save(file_name)
+		im.save(path)
 	else:
 		return
 
