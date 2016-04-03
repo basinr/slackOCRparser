@@ -113,6 +113,7 @@
                                 <td>Bot Access Token</td>
                                 <td>Bot User ID</td>
                                 <td>Proc. Cnt</td>
+                                <td>Proc. Cnt This Cycle</td>
                                 <td>Sub. Type</td>
                                 <td>Last Check Time</td>
                                 <td>Thread</td>
@@ -128,6 +129,7 @@
                            <td> {{ value.bot_access_token }} </td>
                            <td> {{ value.bot_user_id }} </td>
                            <td> {{ value.processed_cnt }} </td>
+                           <td> {{ value.proc_cnt_since_last_rollover }} </td>
                            <td> {{ value.subscription_type }} </td>
                            <td> {{ value.last_check_time }} </td>
                            <td> {% if is_slack_thread_active(key)  %}
