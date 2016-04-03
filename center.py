@@ -198,12 +198,12 @@ def charge():
 
 	stripe.api_key = "sk_test_h0YstkTQo5EoOYfdVJlZy6FK"
 
-	# token = request.POST['stripeToken']
+	token = requests.POST['stripeToken']
 
 	# customer = stripe.Customer.create(
 	# 	source=token,
 	# 	description="Example customer"
-		)
+		#)
  #    # may want to save customer id, credentials in db for future use
  #    print "Stripe token: "
  #    print token
