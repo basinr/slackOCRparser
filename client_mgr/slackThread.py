@@ -116,7 +116,7 @@ class SlackThread:
 
 							if proc_cnt_relative_to_limit == 0:
 								# display alert, don't OCR
-								self._user.port_message("You have reached your monthly OCR limit! "
+								self._user.post_message("You have reached your monthly OCR limit! "
 														"Message `@pixibot account` for more info!", channel)
 							elif proc_cnt_relative_to_limit > 0:
 								# already alerted
