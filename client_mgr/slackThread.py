@@ -98,9 +98,15 @@ class SlackThread:
 
 					# check for 'file created'
 					if msg_type == "message":
-						subtype = r[0]["subtype"]
+						if "subtype" not in r[0]:
+							# probably a regular message
+							text = r[0]["text"]
+							reply = bot.process(text)
+							channel = r[0]["channel"]
 
-						if subtype == "file_share":
+							if reply:
+								self._user.post_message(reply, channel)
+						elif r[0]["subtype"] == "file_share":
 							print "Processing file for user: " + self.get_user_id_str()
 							success = OCRparse.ocr_file(self._slack_client, r[0]["file"], self._user)
 
@@ -109,14 +115,6 @@ class SlackThread:
 								print "Count inc for user: " + self.get_user_id_str()
 							else:
 								print "OCR parse failed"
-						elif not subtype:
-							# probably a regular message
-							text = r[0]["text"]
-							reply = bot.process(text)
-							channel = r[0]["channel"]
-
-							if reply:
-								self._user.post_message(reply, channel)
 
 			except:
 				print traceback.print_exc()
