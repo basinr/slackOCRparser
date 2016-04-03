@@ -189,13 +189,13 @@ def cpanel():
 			slack_thread_mgr.stop_all()
 			thread = threading.Thread(target=rebuild_tables, args=())
 			thread.start()
+			return render_template('cpanel.html', users={})
 		elif cmd == "delete_user":
 			print "admin deleting user " + request.args.get('id')
 			user_id = request.args.get('id')
 			User.delete_user(user_id)
 			slack_thread_mgr.kill_user_thread(int(user_id))
 
-		print "ok"
 		users = User.get_users()
 		return render_template('cpanel.html', users=users)
 	except:
