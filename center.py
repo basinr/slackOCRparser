@@ -73,6 +73,7 @@ class User(db.Model):
 		db.session.commit()
 		print str(user.processed_cnt) + " " + str(self.processed_cnt)
 		print str(type(self)) + " " + str(type(user))
+		print str(id(self)) + " " + str(id(user))
 
 	def update_last_check_time(self, time_secs):
 		'''db.session.query(User).filter(User.id == self.id).\
