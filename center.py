@@ -195,6 +195,7 @@ def cpanel():
 			User.delete_user(user_id)
 			slack_thread_mgr.kill_user_thread(int(user_id))
 
+		print "ok"
 		users = User.get_users()
 		return render_template('cpanel.html', users=users)
 	except:
