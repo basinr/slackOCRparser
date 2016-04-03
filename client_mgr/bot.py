@@ -6,8 +6,10 @@ def process(user, text):
 	if "help" in text:
 		return help_menu()
 	elif "start" in text:
+		user.set_enabled(True)
 		return "OCR enabled!"
 	elif "stop" in text:
+		user.set_enabled(False)
 		return "OCR disabled!"
 	elif "account" in text:
 		return account_info(user)

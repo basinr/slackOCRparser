@@ -71,6 +71,11 @@ class User(db.Model):
 	def is_enabled(self):
 		return self.get_obj().enabled
 
+	def set_enabled(self, enabled):
+		user = self.get_obj()
+		user.enabled = enabled
+		db.session.commit()
+
 	def inc_processed_cnt(self):
 		user = self.get_obj()
 		user.processed_cnt += 1
