@@ -186,9 +186,8 @@ def cpanel():
 		elif cmd == "stop_loop":
 			slack_thread_mgr.stop_all()
 		elif cmd == "rebuild_tables":  # currently not working, 30 sec timeout. should be quicker, though...
-			print "admin rebuilding tables..."
 			slack_thread_mgr.stop_all()
-			thread = threading.Thread(target=rebuild_tables(), args=())
+			thread = threading.Thread(target=rebuild_tables, args=())
 			thread.start()
 		elif cmd == "delete_user":
 			print "admin deleting user " + request.args.get('id')
@@ -204,6 +203,7 @@ def cpanel():
 
 
 def rebuild_tables():
+	print "admin rebuilding tables..."
 	# hack from http://stackoverflow.com/questions/24289808/drop-all-freezes-in-flask-with-sqlalchemy
 	db.session.commit()
 
