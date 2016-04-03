@@ -1,5 +1,7 @@
 import requests
 import json
+import PIL
+from PIL import Image
 
 
 # Downloads file from slack channel into temp file
@@ -10,15 +12,33 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
 	headers = {"Authorization": "Bearer " + token}
 	r = requests.get(download_url, headers=headers)
 	path = temp_file_name + '.png'
+
+	# resizes if too large, otherwise does nothing
+	resize_image(path)
+
 	if r.status_code == 200:
 		with open(path, 'wb') as f:
 			f.write(r._content)
+
 	if r.status_code != 200:
 		print "Error posting comment: " + str(r.status_code) + " " + str(r.reason)
 		return False
+
 	result = OCRclientcall(path)
+
 	return result
 
+# resize image if necessary before sendign to OCR Space API
+def resize_image(file_name):
+
+	im = Image.open(file_name)
+
+	if im.size[0] > 2400 or im.size[1] > 2400:
+		size = 2400, 2400
+		im.thumbnail(size, Image.ANTIALIAS)
+		im.save(file_name)
+	else:
+		return
 
 # Calls the OCR web api (https://ocr.space)
 # RETURNS: the text of the OCR'd image
@@ -128,3 +148,11 @@ def ocr_file(sc, file_, user):
 		return False
 
 	return True
+
+
+def main():
+    resize_image('4kfile.png')
+    return
+
+if __name__ == "__main__":
+    main()
