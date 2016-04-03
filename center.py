@@ -124,6 +124,7 @@ class User(db.Model):
 		txt += "\n Total Processed = " + str(user_obj.processed_cnt)
 		txt += "\n Processed This Month = " + str(user_obj.proc_cnt_since_last_rollover)
 		txt += "\n OCR Enabled  =  " + str(user_obj.enabled)
+		txt += "\n Manage Subscription = <link goes here>"
 		return txt
 
 	def to_json(self):
