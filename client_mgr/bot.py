@@ -1,6 +1,6 @@
 
-def process(bot_user_id, text):
-	if bot_user_id not in text:
+def process(user, text):
+	if user.bot_user_id not in text:
 		return False
 
 	if "help" in text:
@@ -10,7 +10,7 @@ def process(bot_user_id, text):
 	elif "stop" in text:
 		return "OCR disabled!"
 	elif "account" in text:
-		return "account info TODO"
+		return account_info(user)
 
 
 def help_menu():
@@ -19,3 +19,7 @@ def help_menu():
 		+ "\n `account` to see account info"
 
 	return menu
+
+
+def account_info(user):
+	return user.account_info_str()

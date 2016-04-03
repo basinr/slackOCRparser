@@ -65,15 +65,14 @@ class User(db.Model):
 		User.query.filter_by(id=user_id).delete()
 		db.session.commit()
 
+	def get_obj(self):
+		return db.session.query(User).filter(User.id == self.id).first()
+
 	def inc_processed_cnt(self):
-		user = db.session.query(User).filter(User.id == self.id).first()
-		print str(self is user)  # returns false, not sure why....
+		user = self.get_obj()
 		user.processed_cnt += 1
-		# self.processed_cnt += 1
+		user.proc_cnt_since_last_rollover += 1
 		db.session.commit()
-		print str(user.processed_cnt) + " " + str(self.processed_cnt)
-		print str(type(self)) + " " + str(type(user))
-		print str(id(self)) + " " + str(id(user))
 
 	def update_last_check_time(self, time_secs):
 		'''db.session.query(User).filter(User.id == self.id).\
@@ -117,6 +116,15 @@ class User(db.Model):
 			return False
 
 		return True
+
+	def account_info_str(self):
+		user_obj = self.get_obj()
+		txt = "\n Team Name = " + user_obj.team_name
+		txt += "\n Subscription Type = " + user_obj.subscription_type
+		txt += "\n Total Processed = " + user_obj.processed_cnt
+		txt += "\n Processed This Month = " + user_obj.proc_cnt_since_last_rollover
+		txt += "\n OCR Enabled  =  " + user_obj.enabled
+		return txt
 
 	def to_json(self):
 		return json.dumps(self, default=lambda o: o.__dict__,  sort_keys=True, indent=4)
