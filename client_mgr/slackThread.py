@@ -98,18 +98,31 @@ class SlackThread:
 
 					# check for 'file created'
 					if msg_type == "message":
+						channel = r[0]["channel"]
+
 						if "subtype" not in r[0]:
 							# probably a regular message
 							text = r[0]["text"]
 							reply = bot.process(self._user, text)
-							channel = r[0]["channel"]
 
 							if reply:
 								self._user.post_message(reply, channel)
 						elif r[0]["subtype"] == "file_share":
-							if not self._user.is_enabled() or not self._user.is_within_usage_limit():
+							if not self._user.is_enabled():
 								break
 
+							# check usage limits
+							proc_cnt_relative_to_limit = self._user.get_usage_relative_to_limit()
+
+							if proc_cnt_relative_to_limit == 0:
+								# display alert, don't OCR
+								self._user.port_message("You have reached your monthly OCR limit! "
+														"Message `@pixibot account` for more info!", channel)
+							elif proc_cnt_relative_to_limit > 0:
+								# already alerted
+								break
+
+							# process file
 							print "Processing file for user: " + self.get_user_id_str()
 							success = OCRparse.ocr_file(self._slack_client, r[0]["file"], self._user)
 
