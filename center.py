@@ -206,8 +206,9 @@ def rebuild_tables():
 	print "admin rebuilding tables..."
 	# hack from http://stackoverflow.com/questions/24289808/drop-all-freezes-in-flask-with-sqlalchemy
 	db.session.commit()
-
+	print "1"
 	db.drop_all()
+	print "2"
 	db.create_all()
 	print "rebuild_tables() completed"
 	slack_thread_mgr.start_all()
