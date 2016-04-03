@@ -7,6 +7,7 @@ import json
 import sys
 import client_mgr
 import requests
+import threading
 
 app = Flask(__name__)
 heroku = Heroku(app)
@@ -187,8 +188,8 @@ def cpanel():
 		elif cmd == "rebuild_tables":  # currently not working, 30 sec timeout. should be quicker, though...
 			print "admin rebuilding tables..."
 			slack_thread_mgr.stop_all()
-			rebuild_tables()
-			slack_thread_mgr.start_all()
+			thread = threading.Thread(target=rebuild_tables(), args=())
+			thread.start()
 		elif cmd == "delete_user":
 			print "admin deleting user " + request.args.get('id')
 			user_id = request.args.get('id')
@@ -208,6 +209,8 @@ def rebuild_tables():
 
 	db.drop_all()
 	db.create_all()
+	print "rebuild_tables() completed"
+	slack_thread_mgr.start_all()
 
 if __name__ == "__main__":
 	if slack_thread_mgr is None:
