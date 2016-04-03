@@ -106,6 +106,17 @@ h6 {
     border-bottom: 1px solid #e7e7e7;
 }
 
+.content-section-b .col-md-4 {
+    float:center;
+    display:inline-block;
+    width:40%;
+}
+
+.row .pricing{
+    text-align:center;
+    display:inline-block;
+}
+
 .section-heading {
     margin-bottom: 30px;
 }

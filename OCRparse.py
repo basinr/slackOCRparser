@@ -1,22 +1,24 @@
-import requests
+
 import json
+
 from PIL import Image
+
+import requests
 
 
 # Downloads file from slack channel into temp file
 # RETURNS: the OCR text of the downloaded file
 def slack_download_and_ocr(sc, url, token, temp_file_name):
-	download_url = url
-	headers = {"Authorization": "Bearer " + token}
-	r = requests.get(download_url, headers=headers)
-	path = temp_file_name + '.png'
+    download_url = url
+    headers = {"Authorization": "Bearer " + token}
+    r = requests.get(download_url, headers=headers)
+    path = temp_file_name + '.png'
+    # creates file if doesn't exist
+    touch_file = open(path, 'a')
 
-	# creates file if doesn't exist
-	touch_file = open(path, 'a');
-
-	if r.status_code == 200:
-		with open(path, 'wb') as f:
-			f.write(r._content)
+    if r.status_code == 200:
+    	with open(path, 'wb') as f:
+    		f.write(r._content)
 
 	if r.status_code != 200:
 		print "Error posting comment: " + str(r.status_code) + " " + str(r.reason)
