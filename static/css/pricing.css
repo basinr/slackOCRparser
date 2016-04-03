@@ -77,6 +77,20 @@ button{
     text-transform: uppercase;
     margin: 20px auto 35px;
 }
+
+.stripe-button{
+    text-align: center;
+    display:block;
+    margin: 100px auto;
+    width:50%;
+}
+.panel-footer{
+    text-align: center;
+    display:block;
+    margin: 0 auto;
+    width:50%;
+}
+
 .alpha button{
     background: rgb(245, 166, 35);
 }
