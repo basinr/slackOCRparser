@@ -107,7 +107,7 @@ class SlackThread:
 							if reply:
 								self._user.post_message(reply, channel)
 						elif r[0]["subtype"] == "file_share":
-							if not self._user.is_enabled():
+							if not self._user.is_enabled() or not self._user.is_within_usage_limit():
 								break
 
 							print "Processing file for user: " + self.get_user_id_str()

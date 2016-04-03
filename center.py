@@ -14,6 +14,7 @@ heroku = Heroku(app)
 db = SQLAlchemy(app)
 slack_thread_mgr = None
 
+
 # Create our database model
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
 class User(db.Model):
@@ -76,6 +77,14 @@ class User(db.Model):
 		user.enabled = enabled
 		db.session.commit()
 
+	def is_within_usage_limit(self):
+		user = self.get_obj()
+
+		if user.proc_cnt_since_last_rollover < User.get_usage_limit_for_sub_type(user.subscription_type):
+			return True
+		else:
+			return False
+
 	def inc_processed_cnt(self):
 		user = self.get_obj()
 		user.processed_cnt += 1
@@ -124,6 +133,13 @@ class User(db.Model):
 			return False
 
 		return True
+
+	@staticmethod
+	def get_usage_limit_for_sub_type(sub_type):
+		if sub_type == 0:
+			return 100
+		else:
+			return 999999999
 
 	def account_info_str(self):
 		user_obj = self.get_obj()
