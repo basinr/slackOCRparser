@@ -7,12 +7,12 @@ import json
 import sys
 import client_mgr
 import requests
+import stripe
 
 app = Flask(__name__)
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 slack_thread_mgr = None
-
 
 # Create our database model
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
@@ -180,6 +180,42 @@ def signup():
 		return render_template('success.html')
 
 	return render_template('index_old.html')
+
+@app.route('/charge')
+def charge():
+	    # Amount in cents
+    amount = 900
+
+	stripe.api_key = "sk_test_h0YstkTQo5EoOYfdVJlZy6FK"
+
+	token = request.POST['stripeToken']
+
+	customer = stripe.Customer.create(
+    source=token,
+    description="Example customer")
+
+    # may want to save customer id, credentials in db for future use
+
+    print "Stripe token: "
+    print token
+
+    print "Customer id: "
+    print customer.id
+
+	try:
+		charge = stripe.Charge.create(
+			email=request.POST['stripeEmail'],
+			source=token,
+			plan='PixiBot')
+
+
+	except stripe.error.CardError, e:
+		# Card has been declined
+		print "Credit Card has been declined"
+		return False
+
+    # TODO: Change to new payment success page
+    return render_template('success.html')
 
 
 # Simple admin panel, create get request with pw=growingballer89!
