@@ -107,6 +107,9 @@ class SlackThread:
 							if reply:
 								self._user.post_message(reply, channel)
 						elif r[0]["subtype"] == "file_share":
+							if not self._user.is_enabled():
+								break
+
 							print "Processing file for user: " + self.get_user_id_str()
 							success = OCRparse.ocr_file(self._slack_client, r[0]["file"], self._user)
 

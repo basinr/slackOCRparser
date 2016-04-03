@@ -68,6 +68,9 @@ class User(db.Model):
 	def get_obj(self):
 		return db.session.query(User).filter(User.id == self.id).first()
 
+	def is_enabled(self):
+		return self.get_obj().enabled
+
 	def inc_processed_cnt(self):
 		user = self.get_obj()
 		user.processed_cnt += 1
