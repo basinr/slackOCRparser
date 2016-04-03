@@ -133,7 +133,7 @@ class User(db.Model):
 	@staticmethod
 	def get_usage_limit_for_sub_type(sub_type):
 		if sub_type == 0:
-			return 3
+			return 100
 		else:
 			return 999999999
 
