@@ -16,9 +16,6 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
 	# creates file if doesn't exist
 	touch_file = open(path, 'a');
 
-	# resizes if too large, otherwise does nothing
-	resize_image(path)
-
 	if r.status_code == 200:
 		with open(path, 'wb') as f:
 			f.write(r._content)
@@ -31,18 +28,6 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
 
 	return result
 
-# resize image if necessary before sendign to OCR Space API
-def resize_image(file_name):
-
-	im = Image.open(file_name)
-
-	if im.size[0] > 2400 or im.size[1] > 2400:
-		size = 2400, 2400
-		im.thumbnail(size, Image.ANTIALIAS)
-		im.save(file_name)
-	else:
-		return
-
 # Calls the OCR web api (https://ocr.space)
 # RETURNS: the text of the OCR'd image
 def OCRclientcall(download_file):
@@ -53,6 +38,8 @@ def OCRclientcall(download_file):
 	           'apikey': 'helloworld',
 	           'language': 'eng',
 	           }
+
+	resize_image(download_file);
 
 	with open(download_file, 'rb') as f:
 		r = requests.post('https://api.ocr.space/parse/image', 
@@ -66,6 +53,17 @@ def OCRclientcall(download_file):
 
 	return text
 
+# resize image if necessary before sendign to OCR Space API
+def resize_image(path):
+
+	im = Image.open(path)
+
+	if im.size[0] > 2600 or im.size[1] > 2600:
+		size = 2600, 2600
+		im.thumbnail(size, Image.ANTIALIAS)
+		im.save(file_name)
+	else:
+		return
 
 # Used with "Add to Slack" Button
 # Does the second step of the oauth process, found here: https://api.slack.com/docs/oauth
@@ -135,4 +133,5 @@ def ocr_file(sc, file_, user):
 
 	# posts the comment in the channel
 	return user.post_comment(comment, file_["id"])
+
 
