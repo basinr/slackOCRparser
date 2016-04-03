@@ -60,7 +60,7 @@ class User(db.Model):
 			'text': text})
 
 		if not User.error_check(r):
-			return False;
+			return False
 
 		return True
 
@@ -71,7 +71,7 @@ class User(db.Model):
 			'comment': text})
 
 		if not User.error_check(r):
-			return False;
+			return False
 
 		return True
 
@@ -84,6 +84,8 @@ class User(db.Model):
 		if not response.json()["ok"]:
 			print "Error making slack call: " + json.dumps(response.json())
 			return False
+
+		return True
 
 	def to_json(self):
 		return json.dumps(self, default=lambda o: o.__dict__,  sort_keys=True, indent=4)

@@ -101,7 +101,7 @@ class SlackThread:
 						if "subtype" not in r[0]:
 							# probably a regular message
 							text = r[0]["text"]
-							reply = bot.process(text)
+							reply = bot.process(self._user.bot_user_id, text)
 							channel = r[0]["channel"]
 
 							if reply:

@@ -1,9 +1,6 @@
 
-BOT_NAME = "pixibot"
-
-
-def process(text):
-	if BOT_NAME not in text:
+def process(bot_user_id, text):
+	if bot_user_id not in text:
 		return False
 
 	return "123"

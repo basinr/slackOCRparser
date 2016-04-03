@@ -1,13 +1,11 @@
 import requests
 import json
-import PIL
 from PIL import Image
 
 
 # Downloads file from slack channel into temp file
 # RETURNS: the OCR text of the downloaded file
 def slack_download_and_ocr(sc, url, token, temp_file_name):
-
 	download_url = url
 	headers = {"Authorization": "Bearer " + token}
 	r = requests.get(download_url, headers=headers)
@@ -31,7 +29,6 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
 # Calls the OCR web api (https://ocr.space)
 # RETURNS: the text of the OCR'd image
 def OCRclientcall(download_file):
-
 	# OCR logic using the web client
 
 	payload = {'isOverlayRequired': 'False',
@@ -133,5 +130,3 @@ def ocr_file(sc, file_, user):
 
 	# posts the comment in the channel
 	return user.post_comment(comment, file_["id"])
-
-
