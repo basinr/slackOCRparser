@@ -70,7 +70,7 @@ class User(db.Model):
 		user.processed_cnt += 1
 		# self.processed_cnt += 1
 		db.session.commit()
-		print(self)
+		print(self.__repr__())
 		print(user)
 		print str(self is user)  # returns false, not sure why....
 
