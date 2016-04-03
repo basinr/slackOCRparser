@@ -43,14 +43,12 @@ def OCRclientcall(download_file):
 
 	return text
 
+
 # Used with "Add to Slack" Button
 # Does the second step of the oauth process, found here: https://api.slack.com/docs/oauth
 # code comes from center.py's signup() function
 # RETURNS: access_token to be added to db in signup()
 def get_access_token(code):
-
-	token = 'error'
-
 	r = requests.get("https://slack.com/api/oauth.access", 
 		params={'client_id': '13657523393.23587667329', 
 		'client_secret': 'daa51f4cbf84779d2c01f8eafe59cd1f',
@@ -77,7 +75,6 @@ def get_access_token(code):
 		print "invalid code (don't reuse, expires in 10 minutes, etc.)"
 
 	# for test purposes. will return just token if fails
-
 
 	return a_tokens
 
@@ -114,17 +111,4 @@ def ocr_file(sc, file_, user):
 	print "Posting comment for bot access token: " + bot_access_token
 
 	# posts the comment in the channel
-	r = requests.post("https://slack.com/api/files.comments.add", data={
-		'token': bot_access_token, 
-		'file': file_["id"], 
-		'comment': comment})
-
-	if r.status_code != 200:
-		print "Error posting comment: " + str(r.status_code) + " " + str(r.reason)
-		return False
-
-	if not r.json()["ok"]:
-		print "Error posting comment: " + json.dumps(r.json())
-		return False
-
-	return True
+	return user.post_comment(comment, file_["id"])

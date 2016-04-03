@@ -6,12 +6,12 @@ from flask.ext.heroku import Heroku
 import json
 import sys
 import client_mgr
+import requests
 
 app = Flask(__name__)
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 slack_thread_mgr = None
-
 
 # Create our database model
 # Stolen from a tutorial: http://blog.sahildiwan.com/posts/flask-and-postgresql-app-deployed-on-heroku/
@@ -52,6 +52,38 @@ class User(db.Model):
 		db.session.commit()'''
 		# causing some kaka, seems to update occasionally though
 		return
+
+	def post_message(self, text, channel):
+		r = requests.post("https://slack.com/api/chat.postMessage", data={
+			'token': self.bot_access_token,
+			'channel': channel,
+			'text': text})
+
+		if r.status_code != 200:
+			print "Error posting message: " + str(r.status_code) + " " + str(r.reason)
+			return False
+
+		if not r.json()["ok"]:
+			print "Error posting message: " + json.dumps(r.json())
+			return False
+
+		return True
+
+	def post_comment(self, text, file_id):
+		r = requests.post("https://slack.com/api/files.comments.add", data={
+			'token': self.bot_access_token,
+			'file': file_id,
+			'comment': text})
+
+		if r.status_code != 200:
+			print "Error posting comment: " + str(r.status_code) + " " + str(r.reason)
+			return False
+
+		if not r.json()["ok"]:
+			print "Error posting comment: " + json.dumps(r.json())
+			return False
+
+		return True
 
 	def to_json(self):
 		return json.dumps(self, default=lambda o: o.__dict__,  sort_keys=True, indent=4)
@@ -102,7 +134,6 @@ def signup():
 		bot_access_token = token_dict["bot_access_token"]
 		bot_user_id = token_dict["bot_user_id"]
 
-
 		print "access token: " + access_token
 		print "bot access token: " + bot_access_token
 		print "bot user id: " + bot_user_id
@@ -139,10 +170,13 @@ def cpanel():
 			slack_thread_mgr.start_all()
 		elif cmd == "stop_loop":
 			slack_thread_mgr.stop_all()
-		elif cmd == "rebuild_tables": # currently not working, 30 sec timeout. should be quicker, though...
+		elif cmd == "rebuild_tables":  # currently not working, 30 sec timeout. should be quicker, though...
 			print "admin rebuilding tables..."
 			slack_thread_mgr.stop_all()
-			db.session.commit() # hack from http://stackoverflow.com/questions/24289808/drop-all-freezes-in-flask-with-sqlalchemy
+
+			# hack from http://stackoverflow.com/questions/24289808/drop-all-freezes-in-flask-with-sqlalchemy
+			db.session.commit()
+
 			db.drop_all()
 			db.create_all()
 			slack_thread_mgr.start_all()

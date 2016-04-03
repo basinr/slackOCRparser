@@ -4,6 +4,7 @@ import OCRparse
 import time
 import json
 import center
+import bot
 from python_slackclient.slackclient import SlackClient
 
 
@@ -97,7 +98,9 @@ class SlackThread:
 
 					# check for 'file created'
 					if msg_type == "message":
-						if r[0]["subtype"] == "file_share":
+						subtype = r[0]["subtype"]
+
+						if subtype == "file_share":
 							print "Processing file for user: " + self.get_user_id_str()
 							success = OCRparse.ocr_file(self._slack_client, r[0]["file"], self._user)
 
@@ -106,6 +109,14 @@ class SlackThread:
 								print "Count inc for user: " + self.get_user_id_str()
 							else:
 								print "OCR parse failed"
+						elif not subtype:
+							# probably a regular message
+							reply = bot.process(r[0]["text"])
+							channel = r[0]["channel"]
+
+							if reply:
+								self._user.post_message(reply, channel)
+
 			except:
 				print traceback.print_exc()
 				print "Unexpected error in SlackThread for user: " + self.get_user_id_str()
@@ -148,15 +159,15 @@ class SlackThreadManager:
 					slack_thread = self._slack_thread_dict[key]
 
 					# check if we haven't received a message in a while
-					timeNow = int(time.time())
-					slackThreadLastMsgTime = slack_thread.get_last_msg_recv_time()
-					if (timeNow - slackThreadLastMsgTime) > self.CONNECTION_LOST_TIME_SECS \
+					time_now = int(time.time())
+					slack_thread_last_msg_time = slack_thread.get_last_msg_recv_time()
+					if (time_now - slack_thread_last_msg_time) > self.CONNECTION_LOST_TIME_SECS \
 						and not slack_thread._stop_flag.is_set():
 						# rebuild thread
 						print "Rebuilding lost SlackThread for user: " + slack_thread.get_user_id_str()
-						print str(timeNow - slackThreadLastMsgTime) + \
-							" seconds since last msg received (now=" + str(timeNow) + ", lastMsgTime=" \
-							+ str(slackThreadLastMsgTime) + ")"
+						print str(time_now - slack_thread_last_msg_time) + \
+							" seconds since last msg received (now=" + str(time_now) + ", lastMsgTime=" \
+							+ str(slack_thread_last_msg_time) + ")"
 
 						slack_thread.start()
 
