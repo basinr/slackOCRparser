@@ -189,17 +189,16 @@ def charge():
 
     stripe.api_key = "sk_test_h0YstkTQo5EoOYfdVJlZy6FK"
 
-	token = request.POST['stripeToken']
+    token = request.POST['stripeToken']
 	
 	customer = stripe.Customer.create(
-    source=token,
-    description="Example customer")
+		source=token,
+		description="Example customer"
+		)
 
     # may want to save customer id, credentials in db for future use
-
     print "Stripe token: "
     print token
-
     print "Customer id: "
     print customer.id
 
@@ -207,7 +206,8 @@ def charge():
 		charge = stripe.Charge.create(
 			email=request.POST['stripeEmail'],
 			source=token,
-			plan='PixiBot')
+			plan='PixiBot'
+	)
 
 
 	except stripe.error.CardError, e:
