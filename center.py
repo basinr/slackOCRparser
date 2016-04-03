@@ -187,10 +187,10 @@ def charge():
 	    # Amount in cents
     amount = 900
 
-	stripe.api_key = "sk_test_h0YstkTQo5EoOYfdVJlZy6FK"
+    stripe.api_key = "sk_test_h0YstkTQo5EoOYfdVJlZy6FK"
 
 	token = request.POST['stripeToken']
-
+	
 	customer = stripe.Customer.create(
     source=token,
     description="Example customer")
