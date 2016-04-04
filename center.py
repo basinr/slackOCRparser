@@ -202,15 +202,18 @@ def signup():
 	return render_template('index_old.html')
 
 
-@app.route('/charge/')
+@app.route('/charge/', method=['POST'])
 def charge():
 	# Amount in cents
 
 	amount = 900
 
-	# stripe.api_key = "sk_test_h0YstkTQo5EoOYfdVJlZy6FK"
+	stripe.api_key = "sk_test_h0YstkTQo5EoOYfdVJlZy6FK"
 
-	# token = requests.POST['stripeToken']
+	token = requests.POST['stripeToken']
+
+	print "STRIPE TOKEN: "
+	print token
 
 	# customer = stripe.Customer.create(
 	# 	source=token,
