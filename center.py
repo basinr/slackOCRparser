@@ -202,25 +202,26 @@ def signup():
 	return render_template('index_old.html')
 
 
-@app.route('/charge')
+@app.route('/charge/')
 def charge():
 	# Amount in cents
 
 	amount = 900
 
-	stripe.api_key = "sk_test_h0YstkTQo5EoOYfdVJlZy6FK"
+	# stripe.api_key = "sk_test_h0YstkTQo5EoOYfdVJlZy6FK"
 
 	# token = requests.POST['stripeToken']
 
 	# customer = stripe.Customer.create(
 	# 	source=token,
-	# 	description="Example customer"
-		#)
- #    # may want to save customer id, credentials in db for future use
- #    print "Stripe token: "
- #    print token
- #    print "Customer id: "
- #    print customer.id
+	# 	description="Example customer")
+
+	# may want to save customer id, credentials in db for future use
+
+    # print "Stripe token: "
+    # print token
+    # print "Customer id: "
+    # print customer.id
 
 	# try:
 	# 	charge = stripe.Charge.create(
@@ -237,7 +238,7 @@ def charge():
 
 	# TODO: Change to new payment success page
 
-	return render_template('success.html')
+	return render_template('index_old.html')
 
 
 # Simple admin panel, create get request with pw=growingballer89!
