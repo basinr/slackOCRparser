@@ -202,7 +202,7 @@ def signup():
 	return render_template('index_old.html')
 
 
-@app.route('/charge', methods=['POST'])
+@app.route('/charge/', methods=['POST'])
 def charge():
 	# Amount in cents
 
