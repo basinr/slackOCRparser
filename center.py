@@ -204,12 +204,8 @@ def signup():
 
 @app.route('/charge/', methods=['POST'])
 def charge():
-	# Amount in cents
-
-	amount = 900
 
 	stripe.api_key = "sk_test_h0YstkTQo5EoOYfdVJlZy6FK"
-
 
 	token = request.form['stripeToken']
 
@@ -218,15 +214,14 @@ def charge():
 
 	customer = stripe.Customer.create(
 		source=token,
-		description="Example customer")
+		description="Example customer"
+	)
 
 	# may want to save customer id, credentials in db for future use
-
-    print "Stripe token: "
+	print "Stripe token: "
 	print token
 	print "Customer id: "
 	print customer.id
-
 
 	try:
 		charge = stripe.Charge.create(
@@ -235,7 +230,6 @@ def charge():
 			plan='PixiBot'
 		)
 		print "Successfully added to subscription"
-
 
 	except stripe.error.CardError, e:
 		# Card has been declined
