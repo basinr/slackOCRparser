@@ -227,7 +227,7 @@ def charge():
 		charge = stripe.Charge.create(
 			email=request.form['stripeEmail'],
 			source=token,
-			plan='PixiBot'
+			plan='pixibot'
 		)
 		print "Successfully added to subscription"
 
