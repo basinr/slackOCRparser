@@ -211,7 +211,7 @@ def charge():
 	stripe.api_key = "sk_test_h0YstkTQo5EoOYfdVJlZy6FK"
 
 
-	token = request.POST['stripeToken']
+	token = request.form['stripeToken']
 
 	print "STRIPE TOKEN: "
 	print token
