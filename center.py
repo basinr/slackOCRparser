@@ -213,32 +213,33 @@ def charge():
 
 	token = request.form['stripeToken']
 
-	print "STRIPE TOKEN: "
-	print token
+	# print "STRIPE TOKEN: "
+	# print token
 
-	# customer = stripe.Customer.create(
-	# 	source=token,
-	# 	description="Example customer")
+	customer = stripe.Customer.create(
+		source=token,
+		description="Example customer")
 
 	# may want to save customer id, credentials in db for future use
 
-    # print "Stripe token: "
-    # print token
-    # print "Customer id: "
-    # print customer.id
-
-	# try:
-	# 	charge = stripe.Charge.create(
-	# 		email=request.POST['stripeEmail'],
-	# 		source=token,
-	# 		plan='PixiBot'
-	# )
+    print "Stripe token: "
+	print token
+	print "Customer id: "
+	print customer.id
 
 
-	# except stripe.error.CardError, e:
-	# 	# Card has been declined
-	# 	print "Credit Card has been declined"
-	# 	return False
+	try:
+		charge = stripe.Charge.create(
+			email=request.form['stripeEmail'],
+			source=token,
+			plan='PixiBot'
+		)
+		print "Successfully added to subscription"
+
+
+	except stripe.error.CardError, e:
+		# Card has been declined
+		print "Credit Card has been declined"
 
 	# TODO: Change to new payment success page
 
@@ -246,6 +247,7 @@ def charge():
 
 
 # Simple admin panel, create get request with pw=growingballer89!
+
 @app.route('/admin/')
 def cpanel():
 	try:
