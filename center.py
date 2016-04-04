@@ -214,7 +214,9 @@ def charge():
 
 	customer = stripe.Customer.create(
 		source=token,
-		description="Example customer"
+		description="Example customer",
+		email=request.form['stripeEmail'],
+		plan='pixibot'
 	)
 
 	# may want to save customer id, credentials in db for future use
@@ -223,17 +225,17 @@ def charge():
 	print "Customer id: "
 	print customer.id
 
-	try:
-		charge = stripe.Charge.create(
-			email=request.form['stripeEmail'],
-			source=token,
-			plan='pixibot'
-		)
-		print "Successfully added to subscription"
-
-	except stripe.error.CardError, e:
-		# Card has been declined
-		print "Credit Card has been declined"
+	# try:
+	# 	charge = stripe.Charge.create(
+	# 		email=request.form['stripeEmail'],
+	# 		source=token,
+	# 		plan='pixibot'
+	# 	)
+	# 	print "Successfully added to subscription"
+	#
+	# except stripe.error.CardError, e:
+	# 	# Card has been declined
+	# 	print "Credit Card has been declined"
 
 	# TODO: Change to new payment success page
 
