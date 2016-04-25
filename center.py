@@ -186,8 +186,7 @@ def index():
 		print len(request.args)
 		print request.args
 		print request.args['teamname']
-		
-		return render_template('index_old.html', team=request.args['teamname'])
+		teamname = request.args['teamname']
 	return render_template('index_old.html', team=teamname)
 
 
@@ -230,11 +229,7 @@ def plan_registration():
 
 	token = request.form['stripeToken']
 	
-	
-	print request.form
-	
-	# print "STRIPE TOKEN: "
-	# print token
+	team_name = request.form['teamname']	
 
 	customer = stripe.Customer.create(
 		source=token,
@@ -244,11 +239,19 @@ def plan_registration():
 	)
 	
 	print "Team_name: " 
-	# print team_name
+	print team_name
 	print "Stripe token: "
 	print token
 	print "Customer id: "
 	print customer.id
+	
+	# '''db.session.query(User).filter(User.team_name == team_name).\
+	# 		update({"last_check_time": time_secs})
+	# 	self.last_check_time = time_secs
+	# db.session.commit()'''
+	
+	user = db.session.query(User).filter(User.team_name == team_name)
+	print user
 	
 	# may want to save customer id, credentials in db for future User
 	# TODO: Change to new payment success page
