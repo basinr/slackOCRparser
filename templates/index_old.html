@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
+    
 <head>
 
     <meta charset="utf-8">
@@ -229,7 +229,8 @@
                             <li class="list-group-item"><i class="icon-ok text-danger"></i>Unlimited uploads</li>
                         </ul>
                         <div class="panel-footer">
-                            <form action="/charge/" method="POST">
+                            <form action="/plan_registration/" method="POST">
+                                <input type="hidden" name="teamname" value = '{{ team }}'>
                               <script
                                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                                 data-key="pk_test_Xistr2wwJSjm9Ko3h5iMWGG0"

@@ -25,6 +25,8 @@ class User(db.Model):
 	team_name = db.Column(db.String(120), unique=True)
 	bot_access_token = db.Column(db.String(120))
 	bot_user_id = db.Column(db.String(120))
+	stripe_customer_id = db.Column(db.String(120))
+	stripe_customer_email = db.Column(db.String(120))
 	processed_cnt = db.Column(db.Integer)
 	proc_cnt_since_last_rollover = db.Column(db.Integer)
 	subscription_type = db.Column(db.Integer)
@@ -40,6 +42,8 @@ class User(db.Model):
 		self.last_check_time = 0
 		self.bot_access_token = bot_access_token
 		self.bot_user_id = bot_user_id
+		self.stripe_customer_id = ""
+		self.stripe_customer_email = ""
 		self.enabled = True
 
 	@staticmethod
@@ -118,6 +122,16 @@ class User(db.Model):
 
 		return True
 
+	#
+	# def add_subscription(self, customer_id, customer_email):
+	# 	user = self.get_obj()
+	# 	user.stripe_customer_id = customer_id
+	# 	user.stripe_customer_email = customer_email
+	#
+	# 	# premium version
+	# 	user.subscription_type = 1
+	# 	db.session.commit()
+
 	@staticmethod
 	def error_check(response):
 		if response.status_code != 200:
@@ -167,7 +181,14 @@ def utility_processor():
 
 @app.route('/')
 def index():
-	return render_template('index_old.html')
+	teamname = ""
+	if len(request.args) == 1:
+		print len(request.args)
+		print request.args
+		print request.args['teamname']
+		
+		return render_template('index_old.html', team=request.args['teamname'])
+	return render_template('index_old.html', team=teamname)
 
 
 # For new users, use this route. This does oauth, and saves the access_token and team_name to the DB
@@ -202,13 +223,16 @@ def signup():
 	return render_template('index_old.html')
 
 
-@app.route('/charge/', methods=['POST'])
-def charge():
+@app.route('/plan_registration/', methods=['POST'])
+def plan_registration():
 
 	stripe.api_key = "sk_test_h0YstkTQo5EoOYfdVJlZy6FK"
 
 	token = request.form['stripeToken']
-
+	
+	
+	print request.form
+	
 	# print "STRIPE TOKEN: "
 	# print token
 
@@ -218,25 +242,15 @@ def charge():
 		email=request.form['stripeEmail'],
 		plan='pixibot'
 	)
-
-	# may want to save customer id, credentials in db for future use
+	
+	print "Team_name: " 
+	# print team_name
 	print "Stripe token: "
 	print token
 	print "Customer id: "
 	print customer.id
-
-	# try:
-	# 	charge = stripe.Charge.create(
-	# 		email=request.form['stripeEmail'],
-	# 		source=token,
-	# 		plan='pixibot'
-	# 	)
-	# 	print "Successfully added to subscription"
-	#
-	# except stripe.error.CardError, e:
-	# 	# Card has been declined
-	# 	print "Credit Card has been declined"
-
+	
+	# may want to save customer id, credentials in db for future User
 	# TODO: Change to new payment success page
 
 	return render_template('index_old.html')
@@ -272,7 +286,6 @@ def cpanel():
 	except:
 		print "Unexpected error in cpanel():", sys.exc_info()[0]
 		raise
-
 
 def rebuild_tables():
 	# borked
