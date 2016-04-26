@@ -230,6 +230,8 @@ def plan_registration():
 	token = request.form['stripeToken']
 	
 	team_name = request.form['teamname']	
+	
+	email = request.form['stripeEmail']
 
 	customer = stripe.Customer.create(
 		source=token,
@@ -245,19 +247,10 @@ def plan_registration():
 	print "Customer id: "
 	print customer.id
 	
-	# '''db.session.query(User).filter(User.team_name == team_name).\
-	# 		update({"last_check_time": time_secs})
-	# 	self.last_check_time = time_secs
-	# db.session.commit()'''
-	
-	users = db.session.query(User).filter(User.team_name == team_name)
-	for user in users:
-		print user.id
-		print user.team_name
-		print access_token
-	
-	
-	# may want to save customer id, credentials in db for future User
+	user = db.session.query(User).filter(User.team_name == team_name)
+	user.stripe_customer_id = customer.id
+	user.stripe_customer_email = email
+	db.session.commit()	
 	# TODO: Change to new payment success page
 
 	return render_template('index_old.html')
