@@ -250,12 +250,11 @@ def plan_registration():
 	# 	self.last_check_time = time_secs
 	# db.session.commit()'''
 	
-	user = db.session.query(User).filter(User.team_name == team_name)
+	users = db.session.query(User).filter(User.team_name == team_name)
 	for user in users:
 		print user.id
 		print user.team_name
 		print access_token
-	# print "#######$$$$&&&&&"
 	
 	
 	# may want to save customer id, credentials in db for future User
@@ -303,7 +302,7 @@ def rebuild_tables():
 
 	db.reflect()
 	db.drop_all()
-	print "creating.."
+	print "creating..."
 	db.create_all()
 	print "rebuild_tables() completed"
 	slack_thread_mgr.start_all()
