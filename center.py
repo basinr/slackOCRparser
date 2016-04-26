@@ -249,12 +249,13 @@ def plan_registration():
 	
 	user = db.session.query(User).filter(User.team_name == team_name)
 	
-	print user.access_token
-	print user.bot_access_token
-	
-	user.stripe_customer_id = customer.id
-	user.stripe_customer_email = email
-	db.session.commit()	
+	if user:
+		# print user.access_token
+		print user.bot_access_token
+		print user
+		user.stripe_customer_id = customer.id
+		user.stripe_customer_email = email
+		db.session.commit()	
 	# TODO: Change to new payment success page
 
 	return render_template('index_old.html')
