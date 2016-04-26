@@ -251,7 +251,10 @@ def plan_registration():
 	# db.session.commit()'''
 	
 	user = db.session.query(User).filter(User.team_name == team_name)
-	print user
+	for user in users:
+		print user.id
+		print user.team_name
+		print access_token
 	# print "#######$$$$&&&&&"
 	
 	
