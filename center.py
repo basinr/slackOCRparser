@@ -250,8 +250,9 @@ def plan_registration():
 	# 	self.last_check_time = time_secs
 	# db.session.commit()'''
 	
-	user = db.session.query(User).filter(User.team_name == team_name)
-	print user
+	# user = db.session.query(User).filter(User.team_name == team_name)
+	# print user
+	
 	
 	# may want to save customer id, credentials in db for future User
 	# TODO: Change to new payment success page
