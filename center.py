@@ -248,6 +248,10 @@ def plan_registration():
 	print customer.id
 	
 	user = db.session.query(User).filter(User.team_name == team_name)
+	
+	print user.access_token
+	print user.bot_access_token
+	
 	user.stripe_customer_id = customer.id
 	user.stripe_customer_email = email
 	db.session.commit()	
