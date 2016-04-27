@@ -252,8 +252,8 @@ def plan_registration():
 	for user in users:
 		# print user.access_token
 		
-		print user
 		print user.id
+		print user.access_token
 		user.stripe_customer_id = customer.id
 		user.stripe_customer_email = email
 		db.session.commit()	
