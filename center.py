@@ -122,15 +122,13 @@ class User(db.Model):
 
 		return True
 
-	#
-	# def add_subscription(self, customer_id, customer_email):
-	# 	user = self.get_obj()
-	# 	user.stripe_customer_id = customer_id
-	# 	user.stripe_customer_email = customer_email
-	#
-	# 	# premium version
-	# 	user.subscription_type = 1
-	# 	db.session.commit()
+
+	def generate_subscription_url(self):
+		user = self.get_obj()
+		url = "\n Visit our pricing page through this url to subscribe: "
+		url += "https://slackocrparse.herokuapp.com/?teamname=" 
+		url += str(user.team_name)
+		return url
 
 	@staticmethod
 	def error_check(response):
@@ -226,13 +224,13 @@ def signup():
 def plan_registration():
 
 	stripe.api_key = "sk_test_h0YstkTQo5EoOYfdVJlZy6FK"
-
+	
 	token = request.form['stripeToken']
 	
 	team_name = request.form['teamname']	
 	
 	email = request.form['stripeEmail']
-
+	
 	customer = stripe.Customer.create(
 		source=token,
 		description="Example customer",
@@ -240,20 +238,11 @@ def plan_registration():
 		plan='pixibot'
 	)
 	
-	print "Team_name: " 
-	print team_name
-	print "Stripe token: "
-	print token
-	print "Customer id: "
-	print customer.id
-	
+	# should only return one user object
 	users = db.session.query(User).filter(User.team_name == team_name)
 	
-	for user in users:
-		# print user.access_token
-		
-		print user.id
-		print user.access_token
+	# save stripe info with associated team & user
+	for user in users:	
 		user.stripe_customer_id = customer.id
 		user.stripe_customer_email = email
 		db.session.commit()	
