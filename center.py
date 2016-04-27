@@ -247,9 +247,9 @@ def plan_registration():
 	print "Customer id: "
 	print customer.id
 	
-	user = db.session.query(User).filter(User.team_name == team_name)
+	users = db.session.query(User).filter(User.team_name == team_name)
 	
-	if user:
+	for user in users:
 		# print user.access_token
 		
 		print user
