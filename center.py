@@ -128,6 +128,7 @@ class User(db.Model):
 		url = "\n Visit our pricing page through this url to subscribe: "
 		url += "https://slackocrparse.herokuapp.com/?teamname=" 
 		url += str(user.team_name)
+		url += "#pricing"
 		return url
 
 	@staticmethod
@@ -245,6 +246,7 @@ def plan_registration():
 	for user in users:	
 		user.stripe_customer_id = customer.id
 		user.stripe_customer_email = email
+		user.subscription_type = 1
 		db.session.commit()	
 	# TODO: Change to new payment success page
 
