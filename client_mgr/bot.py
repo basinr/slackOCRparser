@@ -14,7 +14,7 @@ def process(user, text):
 	elif "account" in text:
 		return account_info(user)
 	elif "upgrade" in text:
-		return generate_url_subscribe(user)
+		return subscribe_url(user)
 
 
 def help_menu():
@@ -29,6 +29,6 @@ def help_menu():
 def account_info(user):
 	return user.account_info_str()
 
-def generate_url(user):
+def subscribe_url(user):
 	return user.generate_subscription_url()
 	
