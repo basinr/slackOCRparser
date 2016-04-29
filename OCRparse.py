@@ -48,8 +48,12 @@ def OCRclientcall(download_file):
 
 	text = r.json()
 
-	# TODO: Take out newline characters after 5 or so
+
 	text = text["ParsedResults"][0]["ParsedText"]
+	
+	# remove newline characters if more than 10 in string
+	if text.count('\n') > 10:
+		text = text.replace('\n', ' ')
 
 	return text
 
@@ -57,7 +61,12 @@ def OCRclientcall(download_file):
 # resize image if necessary before sending to OCR Space API
 def resize_image(path):
 	im = Image.open(path)
-
+	
+	print "Image size dimensions: "
+	print im.size[0]
+	print ", " 
+	print im.size[1]
+	
 	if im.size[0] > 2600 or im.size[1] > 2600:
 		size = 2600, 2600
 		im.thumbnail(size, Image.ANTIALIAS)
