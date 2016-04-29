@@ -48,9 +48,6 @@ def OCRclientcall(download_file):
 
 	text = r.json()
 	
-	# debug
-	print text 
-	
 	text = text["ParsedResults"][0]["ParsedText"]
 	
 	# remove newline characters if more than 10 in string
@@ -70,6 +67,10 @@ def resize_image(path):
 	print im.size[1]
 	
 	if im.size[0] > 2600 or im.size[1] > 2600:
+		size = 2600, 2600
+		im.thumbnail(size, Image.ANTIALIAS)
+		im.save(path)
+	elif (im.size[0] * im.size[1]) > 1000000:
 		size = 2600, 2600
 		im.thumbnail(size, Image.ANTIALIAS)
 		im.save(path)
