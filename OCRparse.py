@@ -65,13 +65,13 @@ def resize_image(path):
 	print im.size[0]
 	print ", " 
 	print im.size[1]
-	
-	if im.size[0] > 2600 or im.size[1] > 2600:
-		size = 2600, 2600
+
+	if (im.size[0] * im.size[1]) > 1000000:
+		size = 2500, 399
 		im.thumbnail(size, Image.ANTIALIAS)
-		im.save(path)
-	elif (im.size[0] * im.size[1]) > 1000000:
-		size = 2600, 2600
+		im.save(path)	
+	elif im.size[0] > 2600 or im.size[1] > 2600:
+		size = 2500, 399
 		im.thumbnail(size, Image.ANTIALIAS)
 		im.save(path)
 	else:
