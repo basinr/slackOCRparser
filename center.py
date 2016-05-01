@@ -122,7 +122,6 @@ class User(db.Model):
 
 		return True
 
-
 	def generate_subscription_url(self):
 		user = self.get_obj()
 		url = "\n Visit our pricing page through this url to subscribe: "
@@ -218,7 +217,8 @@ def signup():
 		User.add_new_user(access_token, bot_access_token, bot_user_id, team_name)
 		return render_template('success.html')
 
-	return render_template('index_old.html')
+	# testing html page
+	return render_template('success.html')
 
 
 @app.route('/plan_registration/', methods=['POST'])
@@ -283,6 +283,7 @@ def cpanel():
 	except:
 		print "Unexpected error in cpanel():", sys.exc_info()[0]
 		raise
+
 
 def rebuild_tables():
 	# borked
