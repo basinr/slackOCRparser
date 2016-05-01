@@ -8,6 +8,10 @@ import requests
 # Downloads file from slack channel into temp file
 # RETURNS: the OCR text of the downloaded file
 def slack_download_and_ocr(sc, url, token, temp_file_name):
+	"""
+
+	:rtype: string
+	"""
 	download_url = url
 	headers = {"Authorization": "Bearer " + token}
 	r = requests.get(download_url, headers=headers)
@@ -24,9 +28,6 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
 		return False
 
 	result = OCRclientcall(path)
-
-	print "test"
-	print result
 
 	return result
 
