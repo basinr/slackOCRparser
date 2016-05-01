@@ -13,10 +13,11 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
     headers = {"Authorization": "Bearer " + token}
     r = requests.get(download_url, headers=headers)
     path = temp_file_name + '.png'
-    # creates file if doesn't exist
-    touch_file = open(path, 'a')
 
-    if r.status_code == 200: 
+    # creates file if doesn't exist
+	touch_file = open(path, 'a')
+
+	if r.status_code == 200:
 		with open(path, 'wb') as f:
 			f.write(r._content)
 	else:
@@ -28,8 +29,8 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
 	return result
 
 
-# Calls the OCR web api (https://ocr.space)
 # RETURNS: the text of the OCR'd image
+
 def OCRclientcall(download_file):
 	# OCR logic using the web client
 
@@ -60,9 +61,7 @@ def OCRclientcall(download_file):
 	print_text = temp_text 
 	
 	print print_text
-	
-	booty
-	
+
 	temp_text = temp_text.replace('\r', ' ')
 	
 	print_text = temp_text 
