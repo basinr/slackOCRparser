@@ -15,7 +15,7 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
     path = temp_file_name + '.png'
 
     # creates file if doesn't exist
-	touch_file = open(path, 'a')
+    touch_file = open(path, 'a')
 
 	if r.status_code == 200:
 		with open(path, 'wb') as f:
