@@ -52,7 +52,7 @@ def OCRclientcall(download_file):
 		text = text["ParsedResults"][0]["ParsedText"].replace('\n', ' ')
 	else:	
 		text = text["ParsedResults"][0]["ParsedText"]	
-	return texts
+	return text
 
 
 # resize image if necessary before sending to OCR Space API
