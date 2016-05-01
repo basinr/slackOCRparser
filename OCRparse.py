@@ -48,6 +48,9 @@ def OCRclientcall(download_file):
 
 	text = r.json()
 	
+	print "newline count here" 
+	print text["ParsedResults"][0]["ParsedText"].count('\n')
+	
 	text = text["ParsedResults"][0]["ParsedText"]
 	
 	# remove newline characters if more than 10 in string
