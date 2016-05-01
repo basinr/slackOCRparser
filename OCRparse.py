@@ -1,4 +1,3 @@
-
 import json
 
 from PIL import Image
@@ -9,13 +8,13 @@ import requests
 # Downloads file from slack channel into temp file
 # RETURNS: the OCR text of the downloaded file
 def slack_download_and_ocr(sc, url, token, temp_file_name):
-    download_url = url
-    headers = {"Authorization": "Bearer " + token}
-    r = requests.get(download_url, headers=headers)
-    path = temp_file_name + '.png'
+	download_url = url
+	headers = {"Authorization": "Bearer " + token}
+	r = requests.get(download_url, headers=headers)
+	path = temp_file_name + '.png'
 
-    # creates file if doesn't exist
-    touch_file = open(path, 'a')
+	# creates file if doesn't exist
+	touch_file = open(path, 'a')
 
 	if r.status_code == 200:
 		with open(path, 'wb') as f:
@@ -34,37 +33,34 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
 def OCRclientcall(download_file):
 	# OCR logic using the web client
 
-	payload = {'isOverlayRequired': 'False',
-	           'apikey': 'helloworld',
-	           'language': 'eng',
-	           }
+	payload = dict(isOverlayRequired='False', apikey='helloworld', language='eng')
 
 	resize_image(download_file)
 
 	with open(download_file, 'rb') as f:
 		r = requests.post('https://api.ocr.space/parse/image',
-			files={download_file: f},
-			data=payload,)
+		                  files={download_file: f},
+		                  data=payload, )
 
 	text = r.json()
-	
+
 	print text
-	
+
 	temp_text = text["ParsedResults"][0]["ParsedText"]
-	
-	print "temp_text" 
-	print_text = temp_text 
-	print print_text 
-	
+
+	print "temp_text"
+	print_text = temp_text
+	print print_text
+
 	temp_text = temp_text.replace('\n', '')
-	
-	print_text = temp_text 
-	
+
+	print_text = temp_text
+
 	print print_text
 
 	temp_text = temp_text.replace('\r', ' ')
-	
-	print_text = temp_text 
+
+	print_text = temp_text
 
 	print print_text
 	# if text["ParsedResults"][0]["ParsedText"].count('\n') > 10:
@@ -75,25 +71,25 @@ def OCRclientcall(download_file):
 	# 	print text
 	# else:	
 	# 	text = text["ParsedResults"][0]["ParsedText"]
-		
-	text = temp_text	
-	
+
+	text = temp_text
+
 	return text
 
 
 # resize image if necessary before sending to OCR Space API
 def resize_image(path):
 	im = Image.open(path)
-	
+
 	print "Image size dimensions: "
 	print im.size[0]
-	print ", " 
+	print ", "
 	print im.size[1]
 
 	if (im.size[0] * im.size[1]) > 1000000:
 		size = 2500, 399
 		im.thumbnail(size, Image.ANTIALIAS)
-		im.save(path)	
+		im.save(path)
 	elif im.size[0] > 2600 or im.size[1] > 2600:
 		size = 2500, 399
 		im.thumbnail(size, Image.ANTIALIAS)
@@ -107,12 +103,12 @@ def resize_image(path):
 # code comes from center.py's signup() function
 # RETURNS: access_token to be added to db in signup()
 def get_access_token(code):
-	r = requests.get("https://slack.com/api/oauth.access", 
-		params={'client_id': '13657523393.23587667329', 
-		'client_secret': 'daa51f4cbf84779d2c01f8eafe59cd1f',
-		'code': code,
-		'redirect_uri': 'https://slackocrparse.herokuapp.com/signup/'
-		})
+	r = requests.get("https://slack.com/api/oauth.access",
+	                 params={'client_id': '13657523393.23587667329',
+	                         'client_secret': 'daa51f4cbf84779d2c01f8eafe59cd1f',
+	                         'code': code,
+	                         'redirect_uri': 'https://slackocrparse.herokuapp.com/signup/'
+	                         })
 
 	print "get_access_token reply: " + json.dumps(r.json())
 
@@ -120,7 +116,6 @@ def get_access_token(code):
 
 	if r.status_code == 200:
 		if r.json()["ok"]:
-
 			access_token = r.json()['access_token']
 			bot_access_token = r.json()["bot"]["bot_access_token"]
 			bot_user_id = r.json()["bot"]["bot_user_id"]
@@ -139,7 +134,7 @@ def get_access_token(code):
 
 def get_team_name(token):
 	r = requests.get("https://slack.com/api/team.info", params={
-		'token':  token
+		'token': token
 	})
 
 	if r.status_code == 200 and r.json()["ok"]:
@@ -157,8 +152,9 @@ def ocr_file(sc, file_, user):
 
 	# passes in the private url download link
 	temp_file = 'temp_' + str(user.id)
-	result = slack_download_and_ocr(sc, file_["url_private_download"], 
-		token=bot_access_token, temp_file_name=temp_file)
+	result = slack_download_and_ocr(sc, file_["url_private_download"],
+	                                token=bot_access_token,
+	                                temp_file_name=temp_file)
 
 	# cleans up the text using parseText
 	comment = result
