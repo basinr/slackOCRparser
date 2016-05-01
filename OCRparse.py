@@ -16,11 +16,10 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
     # creates file if doesn't exist
     touch_file = open(path, 'a')
 
-    if r.status_code == 200:
-    	with open(path, 'wb') as f:
-    		f.write(r._content)
-
-	if r.status_code != 200:
+    if r.status_code == 200: 
+		with open(path, 'wb') as f:
+			f.write(r._content)
+	else:
 		print "Error posting comment: " + str(r.status_code) + " " + str(r.reason)
 		return False
 
@@ -53,16 +52,22 @@ def OCRclientcall(download_file):
 	temp_text = text["ParsedResults"][0]["ParsedText"]
 	
 	print "temp_text" 
-	print temp_text 
+	print_text = temp_text 
+	print print_text 
 	
 	temp_text = temp_text.replace('\n', '')
 	
-	print temp_text
+	print_text = temp_text 
+	
+	print print_text
+	
+	booty
 	
 	temp_text = temp_text.replace('\r', ' ')
-
-	print temp_text
 	
+	print_text = temp_text 
+
+	print print_text
 	# if text["ParsedResults"][0]["ParsedText"].count('\n') > 10:
 	# 	print "newline count" 
 	# 	print temp_text.count('\n')
