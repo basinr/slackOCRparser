@@ -63,15 +63,17 @@ def OCRclientcall(download_file):
 
 	print temp_text
 	
-	if text["ParsedResults"][0]["ParsedText"].count('\n') > 10:
-		print "newline count" 
-		print temp_text.count('\n')
-		temp_text = 
-		text = text["ParsedResults"][0]["ParsedText"].replace('\n', ' ')
-		print "updated"
-		print text
-	else:	
-		text = text["ParsedResults"][0]["ParsedText"]	
+	# if text["ParsedResults"][0]["ParsedText"].count('\n') > 10:
+	# 	print "newline count" 
+	# 	print temp_text.count('\n')
+	# 	text = text["ParsedResults"][0]["ParsedText"].replace('\n', ' ')
+	# 	print "updated"
+	# 	print text
+	# else:	
+	# 	text = text["ParsedResults"][0]["ParsedText"]
+		
+	text = temp_text	
+	
 	return text
 
 
