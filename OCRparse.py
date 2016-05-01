@@ -48,18 +48,11 @@ def OCRclientcall(download_file):
 
 	text = r.json()
 	
-	if text["ParsedResults"][0]["ParsedText"].count('\n') > 10: 
-		print "newline count: " + text["ParsedResults"][0]["ParsedText"].count('\n')
+	if text["ParsedResults"][0]["ParsedText"].count('\n') > 10:
 		text = text["ParsedResults"][0]["ParsedText"].replace('\n', ' ')
-	
-	else: 
-		text = text["ParsedResults"][0]["ParsedText"]
-	
-	# remove newline characters if more than 10 in string
-	if text.count('\n') > 10:
-		text = text.replace('\n', ' ')
-
-	return text
+	else:	
+		text = text["ParsedResults"][0]["ParsedText"]	
+	return texts
 
 
 # resize image if necessary before sending to OCR Space API
