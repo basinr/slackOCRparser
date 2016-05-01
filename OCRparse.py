@@ -25,6 +25,9 @@ def slack_download_and_ocr(sc, url, token, temp_file_name):
 
 	result = OCRclientcall(path)
 
+	print "test"
+	print result
+
 	return result
 
 
@@ -44,25 +47,15 @@ def OCRclientcall(download_file):
 
 	text = r.json()
 
+	print "r.json() output"
 	print text
 
 	temp_text = text["ParsedResults"][0]["ParsedText"]
 
-	print "temp_text"
-	print_text = temp_text
-	print print_text
+	temp_text = temp_text.replace('\n', ' ')
 
-	temp_text = temp_text.replace('\n', '')
+	temp_text = temp_text.replace('\r', '')
 
-	print_text = temp_text
-
-	print print_text
-
-	temp_text = temp_text.replace('\r', ' ')
-
-	print_text = temp_text
-
-	print print_text
 	# if text["ParsedResults"][0]["ParsedText"].count('\n') > 10:
 	# 	print "newline count" 
 	# 	print temp_text.count('\n')
