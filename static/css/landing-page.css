@@ -150,7 +150,7 @@ h6 {
 }
 
 .image{
-    border: 10px solid orange;
+    border: 3px solid orange;
 }
 
 @media(max-width:1199px) {
