@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Pixibot</title>
+    <link rel='shortcut icon' href='static/ico/main.ico' type='image/x-icon'>
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/static/css/landing-page.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+        <!-- jQuery -->
+    <script src="/static/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand topnav" href="/">Pixibot</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">About</a>
+                    </li>
+                    <li>
+                        <a href="/#pricing">Pricing</a>
+                    </li>
+                    <li>
+                        <a href="/privacy">Privacy</a>
+                    </li>
+                    <li>
+                        <button type="button" class="btn btn-primary navbar-btn" data-toggle="modal" data-target="#exampleModal2">Contact</button>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- /.intro-header -->
+
+    <!-- Page Content -->
+
+    <!-- /.content-section-a -->
+
+    <div class="content-section-b">
+
+        <div class="container">
+
+            <div>
+                <h2 class="section-heading">
+                    Successfully added application!
+                </h2>
+            </div>
+        <div class="container">
+            <div class="row pricing">
+                <h4>
+                    Subscribe for unlimited use:
+                </h4>
+
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="text-center">
+                                PREMIUM PLAN</h4>
+                        </div>
+                        <div class="panel-body text-center">
+                            <p class="lead">
+                                <strong>$9 / month per Slack team</strong></p>
+                        </div>
+                        <ul class="list-group list-group-flush text-center">
+                            <li class="list-group-item"><i class="icon-ok text-danger"></i>Personal or Business use</li>
+                            <li class="list-group-item"><i class="icon-ok text-danger"></i>Unlimited uploads</li>
+                        </ul>
+                        <div class="panel-footer">
+                            <script src="https://checkout.stripe.com/checkout.js"></script>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="">Purchase</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div>
+                 <p class="lead">Otherwise, you are currently on the free version. Visit the <a href="/#guide">Quick Start Guide</a> to get started!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Enter Slack Team Name</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Team Name:</label>
+            <input type="text" class="form-control" name = "team_name" id="recipient-name">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+          <button id="customButton" data-dismiss="modal" type="button" class="btn btn-success">Purchase with Stripe</button>
+
+          <script>
+                data = {};
+                console.log("data 1: ");
+                console.log(data.team_name);
+                $('#exampleModal').on('show.bs.modal', function (event) {
+                  var button = $(event.relatedTarget) // Button that triggered the modal
+                  var recipient = button.data('whatever') // Extract info from data-* attributes
+                  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                  var modal = $(this)
+                  modal.find('.modal-title').text('Enter Slack Team Name');
+                  data.team_name = recipient;
+                  modal.find('.modal-body input').val(recipient)
+                })
+                var handler = StripeCheckout.configure({
+                  key: 'pk_live_RoMfmcIYyFiSDNPtiLhWiQ2r',
+                  image: '/static/img/main.png',
+                  locale: 'auto',
+                  token: function(token) {
+                    // You can access the token ID with `token.id`.
+                    // Get the token ID to your server-side code for use.
+                    team_name = data.team_name;
+                    console.log("vagina");
+                    console.log(team_name);
+                    $.ajax({
+                        type : "POST",
+                        url : "/plan_registration",
+                        data: JSON.stringify({token_id: token.id, email: token.email, team_name: team_name}),
+                        contentType: 'application/json;charset=UTF-8',
+                        success: function(result) {
+                            console.log(result);
+                        }
+                    });
+                   }
+                });
+                document.getElementById('customButton').addEventListener('click', function(e) {
+                  // Open Checkout with further options:
+                  console.log(data.team_name);
+                  data.team_name = $("#exampleModal #recipient-name").val().trim();
+                  handler.open({
+                    name: 'Pixibot',
+                    description: 'Premium Subscription',
+                    zipCode: true,
+                    amount: 900,
+                  });
+                  e.preventDefault();
+                });
+                // Close Checkout on page navigation:
+                window.addEventListener('popstate', function() {
+                  handler.close();
+                });
+          </script>
+      </div>
+    </div>
+  </div>
+</div>
+
+   <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel2">Contact Form</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="sender-name" class="control-label">Name:</label>
+            <input type="text" class="form-control" name = "name" id="sender-name">
+          </div>
+        </form>
+          <form>
+          <div class="form-group">
+            <label for="sender-email" class="control-label">Email:</label>
+            <input type="text" class="form-control" name = "email" id="sender-email">
+          </div>
+        </form>
+          <form>
+          <div class="form-group">
+            <label for="sender-msg" class="control-label">Message:</label>
+            <textarea class="form-control" rows="5" name="email" id="sender-msg"></textarea>
+          </div>
+        </form>
+      </div>
+        <div class="modal-footer">
+        <button type="button" data-dismiss="modal" type="submit" id="email_submit" class="btn btn-primary">Send Email</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <script>
+
+    document.getElementById('email_submit').addEventListener('click', function(e) {
+          name = $("#exampleModal2 #sender-name").val().trim();
+          sender_email = $("#exampleModal2 #sender-email").val().trim();
+          message = $("#exampleModal2 #sender-msg").val().trim();
+          $.ajax({
+                type : "POST",
+                url : "/contact_form",
+                data: JSON.stringify({name: name, email: sender_email, message: message}),
+                contentType: 'application/json;charset=UTF-8',
+            });
+          e.preventDefault();
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="/">About</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="/#pricing">Pricing</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="/privacy">Privacy</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#contact"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">Contact</button></a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted small">Copyright &copy; Pixibot 2017. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <div class="modal fade" id="image-gallery-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="image-gallery-title"></h4>
+            </div>
+            <div class="modal-body">
+                <img id="image-gallery-image" class="img-responsive" src="/static/img/success_img.png">
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+</body>
+
+</html>

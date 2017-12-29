@@ -1,0 +1,8 @@
+venv
+*.pyc
+.DS_Store
+.idea
+Thumbs.db
+.vscode/launch.json
+.env
+.vscode/settings.json

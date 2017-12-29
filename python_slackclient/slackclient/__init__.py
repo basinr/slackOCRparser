@@ -1,0 +1,1 @@
+from python_slackclient.slackclient._client import SlackClient

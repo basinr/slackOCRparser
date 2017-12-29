@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+{% block javascript %}
+    <script>
+        //strip cmd param if set, and reload page
+        cur_URL = top.location.href;
+
+        if (cur_URL.indexOf("cmd") > -1) {
+            short_URL = cur_URL.substring(0, top.location.href.indexOf('&cmd'));
+            top.location.href = short_URL;
+         }
+    </script>
+{% endblock %}
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>OCR parse</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/static/css/landing-page.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand topnav" href="templates/index_old.html">OCRbot</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+                    <li>
+                        <a href="#services">Services</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+
+    <div class="content-section-a">
+
+        <div class="container">
+
+            <div>
+                <h1 class="section-heading">
+                    Admin Control Panel
+                </h1>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">Service</h3></div>
+                    <div class="panel-body">
+                        <!--<h4>Service Control</h4>-->
+                        <!--<ul class="nav nav-tabs">-->
+                            <!--<li role="presentation"><a href="?pw=growingballer89!&cmd=start_loop" class="list-group-item list-group-item-success">Start Service</a></li>-->
+                            <!--<li role="presentation"><a href="?pw=growingballer89!&cmd=stop_loop" class="list-group-item list-group-item-danger">Stop Service</a></li>-->
+                        <!--</ul>-->
+                        <!--<h4>Database Control</h4>-->
+                        <!--<ul class="nav nav-tabs">-->
+                            <!--<li role="presentation"><a href="?pw=growingballer89!&cmd=rebuild_tables" class="list-group-item list-group-item-danger">Clean DB [broken]</a></li>-->
+                        <!--</ul>-->
+                        <!--</h4>-->
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">Customers</h3></div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Key</td>
+                                <td>Team Name</td>
+                                <td>Team Email</td>
+                                <td>Team Domain</td>
+                            </tr>
+                        </thead>
+                    {% for key, value in domains.iteritems() %}
+                       <tr>
+                           <th> {{ key }} </th>
+                           <td> {{ value.name }} </td>
+                           <td> {{ value.email }} </td>
+                           <td> {{ value.domain}} </td>
+                       </tr>
+                    {% endfor %}
+                    </table>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">Text OCR'd</h3></div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <!--<td>Key</td>-->
+                                <td>Team Name</td>
+                                <!--<td>Team Email</td>-->
+                                <!--<td>Team Domain</td>-->
+                                <td>Text</td>
+                            </tr>
+                        </thead>
+                    {% for key, value in team_info.iteritems() %}
+                       <tr>
+                           <!--<th> {{ key }} </th>-->
+                           <td> {{ value.team_name }} </td>
+                           <!--<td> {{ value.email_domain }} </td>-->
+                           <!--<td> {{ value.domain}} </td>-->
+                           <td> {{ value.text}} </td>
+                       </tr>
+                    {% endfor %}
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="/templates/index.html">Home</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#about">About</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#services">Services</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted small">Copyright &copy; Your Company 2014. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- jQuery -->
+    <script src="/static/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
