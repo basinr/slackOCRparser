@@ -12,7 +12,7 @@ Jinja2==2.8
 macholib==1.5.1
 MarkupSafe==0.23
 modulegraph==0.10.4
-nltk==3.1
+nltk==3.4.5
 psycopg2==2.6.1
 Pillow==2.3.0
 py==1.4.31
