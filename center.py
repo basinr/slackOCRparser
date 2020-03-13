@@ -357,8 +357,7 @@ def new_user():
 @app.route('/plan_registration', methods=['POST'])
 def plan_registration():
 
-	# sk_live_68U3GTILIBijBYW3eF6phodO
-	stripe.api_key = "sk_live_68U3GTILIBijBYW3eF6phodO"
+	stripe.api_key = ""
 
 	data = json.loads(request.data)
 
