@@ -17,7 +17,7 @@ psycopg2==2.6.1
 Pillow==2.3.0
 py==1.4.31
 py2app==0.7.3
-pyOpenSSL==0.13.1
+pyOpenSSL==17.5.0
 pyparsing==2.0.1
 pytest==2.8.7
 python-dateutil==1.5
