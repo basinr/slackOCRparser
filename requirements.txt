@@ -6,7 +6,7 @@ flask-heroku==0.1.9
 Flask-SQLAlchemy==2.1
 future==0.15.2
 gunicorn==19.4.5
-httplib2==0.9.2
+httplib2==0.19.0
 itsdangerous==0.24
 Jinja2==2.8
 macholib==1.5.1
