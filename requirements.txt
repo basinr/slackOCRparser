@@ -15,7 +15,7 @@ modulegraph==0.10.4
 nltk==3.1
 psycopg2==2.6.1
 Pillow==2.3.0
-py==1.4.31
+py==1.10.0
 py2app==0.7.3
 pyOpenSSL==0.13.1
 pyparsing==2.0.1
