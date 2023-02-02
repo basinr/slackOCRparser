@@ -30,6 +30,6 @@ SQLAlchemy==1.0.12
 textblob==0.11.1
 virtualenv==14.0.6
 websocket-client==0.35.0
-Werkzeug==0.11.4
+Werkzeug==0.15.5
 xattr==0.6.4
 zope.interface==4.1.1
